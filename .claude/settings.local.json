@@ -9,7 +9,8 @@
       "Bash(mvnw clean compile:*)",
       "Bash(./mvnw.cmd clean compile:*)",
       "Bash(./mvnw.cmd clean package:*)",
-      "Bash(java -version:*)"
+      "Bash(java -version:*)",
+      "Read(//d/**)"
     ],
     "deny": [],
     "ask": []

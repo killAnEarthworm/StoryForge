@@ -27,4 +27,14 @@ public interface SceneRepository extends JpaRepository<Scene, UUID> {
      * Find scenes by location type
      */
     List<Scene> findByLocationType(String locationType);
+
+    /**
+     * Count scenes by project ID
+     */
+    long countByProjectId(UUID projectId);
+
+    /**
+     * Check if a scene exists by name and project ID
+     */
+    boolean existsByNameAndProjectId(String name, UUID projectId);
 }

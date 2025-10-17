@@ -22,4 +22,14 @@ public interface WorldviewRepository extends JpaRepository<Worldview, UUID> {
      * Find worldview by name and project ID
      */
     Worldview findByNameAndProjectId(String name, UUID projectId);
+
+    /**
+     * Count worldviews by project ID
+     */
+    long countByProjectId(UUID projectId);
+
+    /**
+     * Check if a worldview exists by name and project ID
+     */
+    boolean existsByNameAndProjectId(String name, UUID projectId);
 }
