@@ -5,7 +5,11 @@
       "Bash(tree:*)",
       "Bash(dir:*)",
       "Bash(cat:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(mvnw clean compile:*)",
+      "Bash(./mvnw.cmd clean compile:*)",
+      "Bash(./mvnw.cmd clean package:*)",
+      "Bash(java -version:*)"
     ],
     "deny": [],
     "ask": []

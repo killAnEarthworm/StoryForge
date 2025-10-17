@@ -1,4 +1,3 @@
-# StoryForge API Structure
 
 ## Project Architecture
 

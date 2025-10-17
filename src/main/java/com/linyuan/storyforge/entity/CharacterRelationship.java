@@ -1,14 +1,12 @@
 package com.linyuan.storyforge.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import javax.persistence.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +18,6 @@ import java.util.Map;
 @Entity
 @Table(name = "character_relationships",
        uniqueConstraints = @UniqueConstraint(columnNames = {"character_a_id", "character_b_id"}))
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,7 +43,7 @@ public class CharacterRelationship extends BaseEntity {
     @Column(name = "shared_history", columnDefinition = "TEXT")
     private String sharedHistory;
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "dynamic_state", columnDefinition = "jsonb")
     private Map<String, Object> dynamicState; // 关系动态变化
 }

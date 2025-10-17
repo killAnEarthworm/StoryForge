@@ -1,14 +1,12 @@
 package com.linyuan.storyforge.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import javax.persistence.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +18,6 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "story_chapters")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -63,7 +60,7 @@ public class StoryChapter extends BaseEntity {
     @Column(name = "generated_content", columnDefinition = "TEXT")
     private String generatedContent;
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "generation_params", columnDefinition = "jsonb")
     private Map<String, Object> generationParams;
 

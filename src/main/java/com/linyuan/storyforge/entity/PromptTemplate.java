@@ -1,8 +1,7 @@
 package com.linyuan.storyforge.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-
-import javax.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

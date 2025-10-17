@@ -1,14 +1,12 @@
 package com.linyuan.storyforge.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import javax.persistence.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = "characters")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,7 +52,7 @@ public class Character extends BaseEntity {
     @Column(name = "childhood_experience", columnDefinition = "TEXT")
     private String childhoodExperience;
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "important_experiences", columnDefinition = "jsonb")
     private List<Map<String, Object>> importantExperiences; // [{time, event, impact}]
 
@@ -82,11 +79,11 @@ public class Character extends BaseEntity {
     private List<String> catchphrases; // 口癖
 
     // 动态属性
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "emotional_state", columnDefinition = "jsonb")
     private Map<String, Object> emotionalState; // 当前情绪状态
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> relationships; // 与其他角色的关系
 

@@ -3,9 +3,8 @@ package com.linyuan.storyforge.controller;
 import com.linyuan.storyforge.common.ApiResponse;
 import com.linyuan.storyforge.dto.ProjectDTO;
 import com.linyuan.storyforge.service.ProjectService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

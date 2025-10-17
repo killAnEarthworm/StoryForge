@@ -1,14 +1,12 @@
 package com.linyuan.storyforge.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import javax.persistence.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = "scenes")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -56,14 +53,14 @@ public class Scene extends BaseEntity {
     private String lighting;
 
     // 环境元素
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "available_props", columnDefinition = "jsonb")
     private Map<String, Object> availableProps; // 可用道具
 
     @Column(name = "environmental_elements", columnDefinition = "text[]")
     private List<String> environmentalElements; // 环境元素
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "sensory_details", columnDefinition = "jsonb")
     private Map<String, Object> sensoryDetails; // 感官细节
 

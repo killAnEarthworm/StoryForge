@@ -1,14 +1,12 @@
 package com.linyuan.storyforge.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-
-import javax.persistence.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,6 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = "worldviews")
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,23 +30,23 @@ public class Worldview extends BaseEntity {
     private String name;
 
     // 世界观层次结构
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "universe_laws", columnDefinition = "jsonb")
     private Map<String, Object> universeLaws; // 宇宙法则
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "social_structure", columnDefinition = "jsonb")
     private Map<String, Object> socialStructure; // 社会结构
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> geography; // 地理环境
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(name = "history_background", columnDefinition = "jsonb")
     private Map<String, Object> historyBackground; // 历史背景
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> terminology; // 专有名词词典
 
