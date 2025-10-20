@@ -66,11 +66,13 @@
             <h3 class="section-title">核心动机</h3>
             <p class="motivation-text">{{ characterData.motivation || '尚未设定' }}</p>
           </div>
+          <div class="ai-generate-wrapper">
+            <a-button type="dashed" block size="large" class="ai-generate-btn" @click="showAIModal">
+              <template #icon><robot-outlined /></template>
+              AI辅助生成
+            </a-button>
+          </div>
 
-          <a-button type="dashed" block size="large" class="ai-generate-btn" @click="showAIModal">
-            <template #icon><robot-outlined /></template>
-            AI辅助生成
-          </a-button>
         </a-card>
       </a-col>
 
@@ -127,12 +129,12 @@
                         {{ trait }}
                       </a-tag>
                     </a-space>
-                    <a-input-group compact style="margin-top: 8px">
+                    <a-input-group compact style="margin-top: 8px;">
                       <a-input
                         v-model:value="newTrait"
                         placeholder="添加性格特征关键词"
                         @press-enter="addTrait"
-                        style="width: calc(100% - 80px)"
+                        style="width: calc(100% - 200px)"
                       />
                       <a-button type="primary" @click="addTrait">
                         <template #icon><plus-outlined /></template>
@@ -391,7 +393,8 @@ const addRelationship = () => {
   top: 88px;
 }
 
-:deep(.ant-card-body) {
+/* 只对预览卡片的body取消padding */
+.character-preview-card :deep(.ant-card-body) {
   padding: 0;
 }
 
@@ -421,12 +424,12 @@ const addRelationship = () => {
 .character-name {
   font-size: 24px;
   font-weight: 600;
-  color: #ffffff;
+  color: #0a0a0a;
   margin: 0 0 8px 0;
 }
 
 .character-basic-info {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6b7280;
   margin: 0;
 }
 
@@ -438,7 +441,7 @@ const addRelationship = () => {
 .section-title {
   font-size: 12px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: #6b7280;
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -455,8 +458,18 @@ const addRelationship = () => {
   margin: 0;
 }
 
+.p-18{
+  padding: 0 18px;
+}
+
+.ai-generate-wrapper {
+  padding: 0 18px 24px;
+  display: flex;
+  justify-content: center;
+}
+
 .ai-generate-btn {
-  margin: 0 24px 24px;
+  margin: 0 auto; /* 水平居中 */
   border-color: #1890ff;
   color: #1890ff;
   font-weight: 500;
@@ -470,21 +483,21 @@ const addRelationship = () => {
 
 /* 表单样式 */
 :deep(.ant-card) {
-  background: rgba(30, 27, 75, 0.4);
+  background: #ffffff;
   border-radius: 12px;
 }
 
 :deep(.ant-card-head) {
-  color: #ffffff;
+  color:var(--gray-950);
 }
 
 :deep(.ant-card-head-title) {
-  color: #ffffff;
+  color:var(--gray-950);
   font-weight: 600;
 }
 
 :deep(.ant-form-item-label > label) {
-  color: rgba(255, 255, 255, 0.85);
+  color:var(--gray-950);
 }
 
 :deep(.ant-input),

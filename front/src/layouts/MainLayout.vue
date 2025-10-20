@@ -231,6 +231,10 @@ const handleMenuClick = ({ key }) => {
   border-right: 1px solid #f0f0f0;
   overflow-y: auto;
   height: calc(100vh - 64px);
+  position: fixed;
+  left: 0;
+  top: 64px;
+  z-index: 9;
 }
 
 .sidebar-menu {
@@ -308,6 +312,13 @@ const handleMenuClick = ({ key }) => {
   background: #f5f5f5;
   min-height: calc(100vh - 64px);
   overflow-y: auto;
+  margin-left: 240px;
+  transition: margin-left 0.2s;
+}
+
+/* 侧边栏收起时，调整主内容区margin */
+.sidebar.ant-layout-sider-collapsed + .main-content {
+  margin-left: 80px;
 }
 
 .content-wrapper {
