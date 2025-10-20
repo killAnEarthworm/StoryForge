@@ -1,15 +1,12 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vite" />
+  <router-view />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+<script setup>
+// StoryForge 故事创作助手 - 根组件
+// 路由视图将在这里渲染
 </script>
+
+<style>
+/* 全局样式已在 index.css 中定义 */
+</style>

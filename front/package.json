@@ -9,7 +9,8 @@
     "ant-design-vue": "^4.0.0-rc.6",
     "axios": "^1.12.2",
     "vue": "^3.0.4",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.4",

@@ -10,7 +10,10 @@
       "Bash(./mvnw.cmd clean compile:*)",
       "Bash(./mvnw.cmd clean package:*)",
       "Bash(java -version:*)",
-      "Read(//d/**)"
+      "Read(//d/**)",
+      "Bash(mkdir -p \"D:/project/StoryForge/front/src/views/character\" \"D:/project/StoryForge/front/src/views/worldview\" \"D:/project/StoryForge/front/src/views/timeline\" \"D:/project/StoryForge/front/src/views/scene\" \"D:/project/StoryForge/front/src/views/story\" \"D:/project/StoryForge/front/src/views/inspiration\" \"D:/project/StoryForge/front/src/layouts\" \"D:/project/StoryForge/front/src/store\")",
+      "Bash(npm install vuex@next --save)",
+      "Bash(npm run dev)"
     ],
     "deny": [],
     "ask": []
