@@ -1,0 +1,848 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>故事创作助手 - 导航</title>
+  <script src="https://res.gemcoder.com/js/reload.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+          href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#121212',
+            // 深黑色
+            secondary: '#f8f0fc',
+            // 浅粉色背景
+            accent: '#d946ef',
+            // 粉色
+            dark: '#4c1d95',
+            // 紫色
+            'dark-accent': '#7c3aed',
+            // 亮紫色
+            'pink-gradient': '#ec4899',
+            // 粉色渐变
+            'purple-gradient': '#8b5cf6' // 紫色渐变
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .sidebar-item {
+        @apply flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200 rounded-lg;
+      }
+      .sidebar-item.active-menu {
+        @apply bg-gradient-to-r from-accent/20 to-dark/30 text-white font-medium border-l-2 border-accent;
+      }
+      .nav-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    }
+  </style>
+</head>
+<body
+        class="font-inter bg-gray-950 text-gray-100 h-screen flex flex-col overflow-hidden"
+>
+<!-- 顶部导航栏 -->
+<header
+        class="bg-gradient-to-r from-primary to-dark text-white py-3 px-4 nav-shadow z-10"
+>
+  <div class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <i class="fas fa-book-open text-2xl"> </i>
+      <h1
+              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary"
+      >
+        故事创作助手
+      </h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-bell"> </i>
+      </button>
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-cog"> </i>
+      </button>
+      <div class="flex items-center gap-2">
+        <img
+                src="./api/searchImage?query=user avatar with neutral expression, simple style, dark background&amp;width=40&amp;height=40"
+                alt="用户头像"
+                class="w-8 h-8 rounded-full object-cover border-2 border-accent/50"
+        />
+        <span class="hidden md:inline"> 创作者 </span>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- 主内容区 -->
+<main class="flex flex-1 overflow-hidden">
+  <!-- 侧边菜单栏 -->
+  <aside
+          class="bg-gray-900 w-64 border-r border-gradient-to-b from-accent/30 via-transparent to-accent/30 p-4 overflow-y-auto z-10"
+  >
+    <nav class="space-y-1">
+      <a
+              href="javascript:void(0);"
+              data-uuid="characterSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item active-menu"
+      >
+        <i class="fas fa-user-circle w-5 text-center"> </i>
+        <span> 角色设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="worldviewSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-globe-asia w-5 text-center"> </i>
+        <span> 世界观设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="timeline"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-history w-5 text-center"> </i>
+        <span> 时间线 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="scene"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-map-marker-alt w-5 text-center"> </i>
+        <span> 场景 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="storyGeneration"
+              onclick="ytCustomClickRouter(this, event)"
+              cla=""
+              ss="sidebar-item"
+      >
+        <i class="fas fa-feather-alt w-5 text-center"> </i>
+        <span> 故事生成 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="inspirationModule"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-lightbulb w-5 text-center"> </i>
+        <span> 灵感模块 </span>
+      </a>
+    </nav>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h3 class="text-xs uppercase text-gray-400 font-semibold mb-3 px-4">
+        最近项目
+      </h3>
+      <div class="space-y-2">
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">仙侠世界</div>
+          <div class="text-xs text-gray-500">上次编辑: 今天</div>
+        </div>
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">未来都市</div>
+          <div class="text-xs text-gray-500">上次编辑: 昨天</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- iframe 内容区域 -->
+  <div class="flex-1 overflow-hidden relative">
+    <iframe
+            id="navigation"
+            src=""
+            class=""
+            width="100%"
+            height="100%"
+            srcdoc="&lt;html lang='zh-CN'&gt;
+        &lt;head &gt;
+        &lt;meta charset='UTF-8'/&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'/&gt;
+&lt;title &gt;角色设定 - 故事创作助手&lt;/title&gt;
+&lt;script src='https://res.gemcoder.com/js/reload.js'&gt;&lt;/script&gt;
+&lt;script src='https://cdn.tailwindcss.com'&gt;&lt;/script&gt;
+&lt;link href='https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/&gt;
+&lt;script &gt;tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#1a56db',
+        secondary: '#f3f4f6',
+        accent: '#3b82f6',
+        dark: '#1e293b'
+      },
+      fontFamily: {
+        inter: ['Inter', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+};&lt;/script&gt;
+&lt;style type='text/tailwindcss'&gt;
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .form-input-focus {
+                @apply focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none;
+            }
+            .section-card {
+                @apply bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md;
+            }
+            .section-header {
+                @apply px-6 py-4 border-b border-gray-100 flex items-center justify-between;
+            }
+            .section-body {
+                @apply p-6;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2;
+            }
+            .btn-secondary {
+                @apply bg-white text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors flex items-center gap-2;
+            }
+        }
+    &lt;/style&gt;
+
+      &lt;style&gt;
+          ::-webkit-scrollbar { width: 0px; }
+      &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body class='font-inter bg-gray-50'&gt;
+        &lt;!-- 页面容器，应用与iframe的内边距 --&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;!-- 页面标题区域 --&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h1 class='text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-800'&gt;
+        角色设定
+    &lt;/h1&gt;
+&lt;p class='text-gray-500 mt-1'&gt;
+        创建和管理你的故事角色，定义他们的特征、背景和发展
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 角色操作工具栏 --&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4 mb-6'&gt;
+        &lt;div class='flex flex-wrap gap-3'&gt;
+        &lt;button class='btn-primary' id='save-character'&gt;
+        &lt;i class='fas fa-save'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        保存角色
+    &lt;/span&gt;
+    &lt;/button&gt;
+&lt;button class='btn-secondary' id='export-character'&gt;
+        &lt;i class='fas fa-download'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        导出角色卡
+    &lt;/span&gt;
+    &lt;/button&gt;
+&lt;button class='btn-secondary' id='new-character'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        新建角色
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='relative w-full md:w-auto'&gt;
+        &lt;input type='text' placeholder='搜索角色...' class='w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg form-input-focus'/&gt;
+&lt;i class='fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 主要内容区域 --&gt;
+&lt;div class='grid grid-cols-1 lg:grid-cols-3 gap-6'&gt;
+        &lt;!-- 左侧：角色预览 --&gt;
+&lt;div class='lg:col-span-1'&gt;
+        &lt;!-- 角色卡片预览 --&gt;
+&lt;div class='section-card sticky top-4'&gt;
+        &lt;div class='relative h-48 bg-gradient-to-r from-primary/80 to-primary'&gt;
+        &lt;img src='./api/searchImage?query=character portrait with mysterious expression, fantasy style, dark background with light effects&amp;width=600&amp;height=400' alt='角色形象' class='w-full h-full object-cover mix-blend-overlay opacity-60'/&gt;
+&lt;div class='absolute inset-0 flex items-center justify-center'&gt;
+        &lt;div class='w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden'&gt;
+        &lt;img id='character-avatar' src='./api/searchImage?query=fantasy character portrait, detailed face, mysterious look, high quality digital art&amp;width=200&amp;height=200' alt='角色头像' class='w-full h-full object-cover'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='section-body pt-16'&gt;
+        &lt;div class='text-center mb-6'&gt;
+        &lt;h2 id='character-name' class='text-2xl font-bold text-gray-800'&gt;
+        未命名角色
+    &lt;/h2&gt;
+&lt;p id='character-basic-info' class='text-gray-500'&gt;
+        未知年龄 | 未知职业
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h3 class='text-sm font-semibold text-gray-500 uppercase mb-3'&gt;
+        核心性格特征
+    &lt;/h3&gt;
+&lt;div class='flex flex-wrap gap-2' id='character-traits-container'&gt;
+        &lt;span class='px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm'&gt;
+        待添加
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h3 class='text-sm font-semibold text-gray-500 uppercase mb-3'&gt;
+        核心动机
+    &lt;/h3&gt;
+&lt;p id='character-motivation' class='text-gray-700 italic'&gt;
+        尚未设定
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;button class='btn-secondary w-full' id='ai-generate-btn'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        AI辅助生成
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 右侧：角色设定表单 --&gt;
+&lt;div class='lg:col-span-2 space-y-6'&gt;
+        &lt;!-- AI辅助生成面板 --&gt;
+&lt;div class='section-card' id='ai-assist-panel'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-magic text-primary'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        AI辅助生成
+    &lt;/span&gt;
+    &lt;/h2&gt;
+&lt;button class='text-gray-400 hover:text-gray-600' id='close-ai-panel'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='section-body'&gt;
+        &lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        角色关键词
+    &lt;/label&gt;
+&lt;input type='text' id='ai-keywords' placeholder='例如：古风侠客、孤独、剑术高手、寻找真相' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus'/&gt;
+&lt;p class='text-xs text-gray-500 mt-1'&gt;
+        输入角色的核心特征关键词，AI将基于这些关键词生成完整角色设定
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        角色类型
+    &lt;/label&gt;
+&lt;select id='ai-character-type' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus'&gt;
+        &lt;option value&gt;
+        请选择角色类型
+    &lt;/option&gt;
+&lt;option value='warrior'&gt;
+        战士/侠客
+    &lt;/option&gt;
+&lt;option value='mage'&gt;
+        法师/术士
+    &lt;/option&gt;
+&lt;option value='rogue'&gt;
+        盗贼/刺客
+    &lt;/option&gt;
+&lt;option value='scholar'&gt;
+        学者/智者
+    &lt;/option&gt;
+&lt;option value='leader'&gt;
+        领袖/统治者
+    &lt;/option&gt;
+&lt;option value='commoner'&gt;
+        平民/普通人
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        生成详细程度
+    &lt;/label&gt;
+&lt;div class='flex items-center gap-4'&gt;
+        &lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='detail-level' value='basic' checked class='text-primary'/&gt;
+&lt;span &gt;
+        基础
+    &lt;/span&gt;
+    &lt;/label&gt;
+&lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='detail-level' value='medium' class='text-primary'/&gt;
+&lt;span &gt;
+        中等
+    &lt;/span&gt;
+    &lt;/label&gt;
+&lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='detail-level' value='detailed' class='text-primary'/&gt;
+&lt;span &gt;
+        详细
+    &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button id='generate-ai-character' class='btn-primary w-full'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        生成角色设定
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 基础信息层 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800'&gt;
+        基础信息层
+    &lt;/h2&gt;
+    &lt;/div&gt;
+&lt;div class='section-body'&gt;
+        &lt;div class='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='name'&gt;
+        姓名
+    &lt;/label&gt;
+&lt;input type='text' id='name' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='输入角色姓名'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='age'&gt;
+        年龄
+    &lt;/label&gt;
+&lt;input type='text' id='age' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='输入角色年龄'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='gender'&gt;
+        性别
+    &lt;/label&gt;
+&lt;select id='gender' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus'&gt;
+        &lt;option value&gt;
+        请选择
+    &lt;/option&gt;
+&lt;option value='male'&gt;
+        男
+    &lt;/option&gt;
+&lt;option value='female'&gt;
+        女
+    &lt;/option&gt;
+&lt;option value='other'&gt;
+        其他
+    &lt;/option&gt;
+&lt;option value='unknown'&gt;
+        未知
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='occupation'&gt;
+        职业
+    &lt;/label&gt;
+&lt;input type='text' id='occupation' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='输入角色职业'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='appearance'&gt;
+        外貌特征
+    &lt;/label&gt;
+&lt;textarea id='appearance' rows='3' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='描述角色的外貌特征，如身高、体型、发型、衣着风格等'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-2'&gt;
+        核心性格特征
+    &lt;/label&gt;
+&lt;div class='flex flex-wrap gap-2 mb-3' id='trait-tags-container'&gt;
+        &lt;!-- 性格特征标签会通过JS动态添加 --&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-2'&gt;
+        &lt;input type='text' id='new-trait' class='flex-1 px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='添加性格特征关键词'/&gt;
+&lt;button id='add-trait' class='btn-secondary whitespace-nowrap'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        添加
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 深度设定层 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800'&gt;
+        深度设定层
+    &lt;/h2&gt;
+    &lt;/div&gt;
+&lt;div class='section-body'&gt;
+        &lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='motivation'&gt;
+        核心动机
+    &lt;/label&gt;
+&lt;input type='text' id='motivation' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色行动的核心驱动力'/&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='weakness'&gt;
+        弱点
+    &lt;/label&gt;
+&lt;input type='text' id='weakness' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色的主要弱点或缺陷'/&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='background'&gt;
+        背景故事
+    &lt;/label&gt;
+&lt;textarea id='background' rows='5' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色的童年经历、重要人生事件等背景故事'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='values'&gt;
+        价值观和信念体系
+    &lt;/label&gt;
+&lt;textarea id='values' rows='3' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色的核心价值观、道德准则和信念'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-2 gap-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='fears'&gt;
+        恐惧
+    &lt;/label&gt;
+&lt;input type='text' id='fears' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色最害怕的事物或情境'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='desires'&gt;
+        欲望
+    &lt;/label&gt;
+&lt;input type='text' id='desires' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色强烈渴望得到的事物'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 动态属性层 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800'&gt;
+        动态属性层
+    &lt;/h2&gt;
+&lt;button class='btn-secondary text-sm'&gt;
+        &lt;i class='fas fa-link'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        关联时间线
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='section-body'&gt;
+        &lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='speech-style'&gt;
+        口癖/说话风格
+    &lt;/label&gt;
+&lt;input type='text' id='speech-style' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色独特的说话方式或常用语'/&gt;
+    &lt;/div&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1' for='behavior-habits'&gt;
+        行为习惯
+    &lt;/label&gt;
+&lt;textarea id='behavior-habits' rows='3' class='w-full px-4 py-2 border border-gray-300 rounded-lg form-input-focus' placeholder='角色的习惯性动作或行为模式'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        关键关系
+    &lt;/label&gt;
+&lt;div id='relationships-container'&gt;
+        &lt;div class='flex items-center gap-3 mb-3 p-3 border border-gray-200 rounded-lg bg-gray-50'&gt;
+        &lt;div class='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500'&gt;
+        &lt;i class='fas fa-user'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;input type='text' placeholder='角色名称' class='w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm'/&gt;
+    &lt;/div&gt;
+&lt;div class='w-32'&gt;
+        &lt;select class='w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm'&gt;
+        &lt;option value='family'&gt;
+        家人
+    &lt;/option&gt;
+&lt;option value='friend'&gt;
+        朋友
+    &lt;/option&gt;
+&lt;option value='enemy'&gt;
+        敌人
+    &lt;/option&gt;
+&lt;option value='lover'&gt;
+        恋人
+    &lt;/option&gt;
+&lt;option value='mentor'&gt;
+        导师
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;button class='text-gray-400 hover:text-red-500 p-2'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button id='add-relationship' class='btn-secondary w-full mt-2'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        添加关系
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;script &gt;// 当页面大小或者内容发生变化时，通知导航页面跳转iframe高度
+ytSendPageSize();
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', function () {
+  // 初始化AI面板状态（默认隐藏）
+  var aiPanel = document.getElementById('ai-assist-panel');
+  aiPanel.style.display = 'none';
+  // AI辅助生成按钮点击事件
+  document.getElementById('ai-generate-btn').addEventListener('click', function () {
+    aiPanel.style.display = aiPanel.style.display === 'none' ? 'block' : 'none';
+    ytSendPageSize(); // 通知父页面调整iframe高度
+  });
+  // 关闭AI面板按钮
+  document.getElementById('close-ai-panel').addEventListener('click', function () {
+    aiPanel.style.display = 'none';
+    ytSendPageSize(); // 通知父页面调整iframe高度
+  });
+  // 添加性格特征
+  var traitInput = document.getElementById('new-trait');
+  var addTraitBtn = document.getElementById('add-trait');
+  var traitContainer = document.getElementById('trait-tags-container');
+  var previewTraitContainer = document.getElementById('character-traits-container');
+  addTraitBtn.addEventListener('click', addNewTrait);
+  traitInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') addNewTrait();
+  });
+  function addNewTrait() {
+    var traitText = traitInput.value.trim();
+    if (!traitText) return;
+    // 创建新的特征标签
+    var traitTag = document.createElement('div');
+    traitTag.className = 'inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm';
+    traitTag.innerHTML = &quot;&quot;.concat(traitText, &quot;&lt;button class=\&quot;remove-trait text-blue-600 hover:text-blue-800\&quot;&gt;\n                        &lt;i class=\&quot;fas fa-times-circle\&quot;&gt;&lt;/i&gt;\n                    &lt;/button&gt;&quot;);
+
+    // 添加删除事件
+    traitTag.querySelector('.remove-trait').addEventListener('click', function () {
+      traitTag.remove();
+      updatePreviewTraits();
+    });
+    // 添加到容器
+    traitContainer.appendChild(traitTag);
+    traitInput.value = '';
+
+    // 更新预览区域
+    updatePreviewTraits();
+  }
+  // 更新预览区域的性格特征
+  function updatePreviewTraits() {
+    var traits = Array.from(traitContainer.querySelectorAll('div:not(.remove-trait)')).map(function (el) {
+      return el.firstChild.textContent.trim();
+    });
+    previewTraitContainer.innerHTML = '';
+    if (traits.length === 0) {
+      previewTraitContainer.innerHTML = '&lt;span class=&quot;px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm&quot;&gt;待添加&lt;/span&gt;';
+      return;
+    }
+    traits.forEach(function (trait) {
+      var span = document.createElement('span');
+      span.className = 'px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm';
+      span.textContent = trait;
+      previewTraitContainer.appendChild(span);
+    });
+  }
+  // 表单输入同步到预览
+  var nameInput = document.getElementById('name');
+  var ageInput = document.getElementById('age');
+  var occupationInput = document.getElementById('occupation');
+  var motivationInput = document.getElementById('motivation');
+  var characterName = document.getElementById('character-name');
+  var characterBasicInfo = document.getElementById('character-basic-info');
+  var characterMotivation = document.getElementById('character-motivation');
+  nameInput.addEventListener('input', function () {
+    characterName.textContent = nameInput.value || '未命名角色';
+  });
+  function updateBasicInfo() {
+    var age = ageInput.value || '未知';
+    var occupation = occupationInput.value || '未知';
+    characterBasicInfo.textContent = &quot;&quot;.concat(age, &quot;|&quot;).concat(occupation);
+  }
+  ageInput.addEventListener('input', updateBasicInfo);
+  occupationInput.addEventListener('input', updateBasicInfo);
+  motivationInput.addEventListener('input', function () {
+    characterMotivation.textContent = motivationInput.value || '尚未设定';
+  });
+  // 添加关系按钮
+  document.getElementById('add-relationship').addEventListener('click', function () {
+    var container = document.getElementById('relationships-container');
+    var relationshipDiv = document.createElement('div');
+    relationshipDiv.className = 'flex items-center gap-3 mb-3 p-3 border border-gray-200 rounded-lg bg-gray-50';
+    relationshipDiv.innerHTML = &quot;&lt;div class=\&quot;w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500\&quot;&gt;\n                        &lt;i class=\&quot;fas fa-user\&quot;&gt;&lt;/i&gt;\n                    &lt;/div&gt;\n                    &lt;div class=\&quot;flex-1\&quot;&gt;\n                        &lt;input type=\&quot;text\&quot; placeholder=\&quot;\u89D2\u8272\u540D\u79F0\&quot; class=\&quot;w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm\&quot;&gt;\n                    &lt;/div&gt;\n                    &lt;div class=\&quot;w-32\&quot;&gt;\n                        &lt;select class=\&quot;w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm\&quot;&gt;\n                            &lt;option value=\&quot;family\&quot;&gt;\u5BB6\u4EBA&lt;/option&gt;\n                            &lt;option value=\&quot;friend\&quot;&gt;\u670B\u53CB&lt;/option&gt;\n                            &lt;option value=\&quot;enemy\&quot;&gt;\u654C\u4EBA&lt;/option&gt;\n                            &lt;option value=\&quot;lover\&quot;&gt;\u604B\u4EBA&lt;/option&gt;\n                            &lt;option value=\&quot;mentor\&quot;&gt;\u5BFC\u5E08&lt;/option&gt;\n                        &lt;/select&gt;\n                    &lt;/div&gt;\n                    &lt;button class=\&quot;text-gray-400 hover:text-red-500 p-2 remove-relationship\&quot;&gt;\n                        &lt;i class=\&quot;fas fa-times\&quot;&gt;&lt;/i&gt;\n                    &lt;/button&gt;&quot;;
+
+    // 添加删除事件
+    relationshipDiv.querySelector('.remove-relationship').addEventListener('click', function () {
+      relationshipDiv.remove();
+      ytSendPageSize(); // 通知父页面调整iframe高度
+    });
+    container.appendChild(relationshipDiv);
+    ytSendPageSize(); // 通知父页面调整iframe高度
+  });
+  // 为已存在的关系项添加删除事件
+  document.querySelectorAll('.remove-relationship').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btn.closest('div.flex').remove();
+      ytSendPageSize(); // 通知父页面调整iframe高度
+    });
+  });
+  // 保存角色按钮点击事件
+  document.getElementById('save-character').addEventListener('click', function () {
+    alert('角色已保存！');
+  });
+  // 导出角色卡按钮点击事件
+  document.getElementById('export-character').addEventListener('click', function () {
+    alert('角色卡导出功能将在后续版本中实现！');
+  });
+  // 新建角色按钮点击事件
+  document.getElementById('new-character').addEventListener('click', function () {
+    if (confirm('确定要新建角色吗？当前角色信息将丢失。')) {
+      // 重置表单
+      document.querySelectorAll('input, textarea, select').forEach(function (el) {
+        if (el.type !== 'radio' &amp;&amp; el.type !== 'checkbox') {
+          el.value = '';
+        } else if (el.type === 'radio') {
+          el.checked = false;
+        }
+      });
+
+      // 重置性格特征
+      traitContainer.innerHTML = '';
+      updatePreviewTraits();
+
+      // 重置预览区域
+      characterName.textContent = '未命名角色';
+      characterBasicInfo.textContent = '未知年龄 | 未知职业';
+      characterMotivation.textContent = '尚未设定';
+
+      // 重置关系
+      var relationshipsContainer = document.getElementById('relationships-container');
+      relationshipsContainer.innerHTML = &quot;&lt;div class=\&quot;flex items-center gap-3 mb-3 p-3 border border-gray-200 rounded-lg bg-gray-50\&quot;&gt;\n                            &lt;div class=\&quot;w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500\&quot;&gt;\n                                &lt;i class=\&quot;fas fa-user\&quot;&gt;&lt;/i&gt;\n                            &lt;/div&gt;\n                            &lt;div class=\&quot;flex-1\&quot;&gt;\n                                &lt;input type=\&quot;text\&quot; placeholder=\&quot;\u89D2\u8272\u540D\u79F0\&quot; class=\&quot;w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm\&quot;&gt;\n                            &lt;/div&gt;\n                            &lt;div class=\&quot;w-32\&quot;&gt;\n                                &lt;select class=\&quot;w-full px-3 py-1 border border-gray-300 rounded-lg form-input-focus text-sm\&quot;&gt;\n                                    &lt;option value=\&quot;family\&quot;&gt;\u5BB6\u4EBA&lt;/option&gt;\n                                    &lt;option value=\&quot;friend\&quot;&gt;\u670B\u53CB&lt;/option&gt;\n                                    &lt;option value=\&quot;enemy\&quot;&gt;\u654C\u4EBA&lt;/option&gt;\n                                    &lt;option value=\&quot;lover\&quot;&gt;\u604B\u4EBA&lt;/option&gt;\n                                    &lt;option value=\&quot;mentor\&quot;&gt;\u5BFC\u5E08&lt;/option&gt;\n                                &lt;/select&gt;\n                            &lt;/div&gt;\n                            &lt;button class=\&quot;text-gray-400 hover:text-red-500 p-2 remove-relationship\&quot;&gt;\n                                &lt;i class=\&quot;fas fa-times\&quot;&gt;&lt;/i&gt;\n                            &lt;/button&gt;\n                        &lt;/div&gt;&quot;;
+
+      // 为新添加的关系项添加删除事件
+      document.querySelectorAll('.remove-relationship').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          btn.closest('div.flex').remove();
+          ytSendPageSize(); // 通知父页面调整iframe高度
+        });
+      });
+
+      // 隐藏AI面板
+      aiPanel.style.display = 'none';
+
+      // 通知父页面调整iframe高度
+      ytSendPageSize();
+    }
+  });
+  // AI生成角色按钮点击事件
+  document.getElementById('generate-ai-character').addEventListener('click', function () {
+    var keywords = document.getElementById('ai-keywords').value;
+    if (!keywords) {
+      alert('请输入角色关键词');
+      return;
+    }
+
+    // 模拟AI生成过程
+    alert('AI正在生成角色设定，请稍候...');
+
+    // 模拟生成结果（实际应用中这里会调用AI API）
+    setTimeout(function () {
+      // 填充示例数据
+      nameInput.value = '李逍遥';
+      ageInput.value = '20';
+      document.getElementById('gender').value = 'male';
+      occupationInput.value = '侠客';
+      document.getElementById('appearance').value = '身材修长，黑色短发，剑眉星目，常穿蓝色布衣，背负一把古剑，眼神中带着一丝不羁与坚定。';
+      motivationInput.value = '寻找失散的亲人，维护江湖正义';
+      document.getElementById('weakness').value = '过于重情义，容易被情感左右判断';
+      document.getElementById('background').value = '出身平凡村落，自幼失去父母，由婶婶抚养长大。16岁时意外获得一把古剑，从此踏上江湖路。经历了多次生死考验，逐渐成长为一代侠客。';
+      document.getElementById('values').value = '正义、友情、亲情至上，不畏强权，保护弱小';
+      document.getElementById('fears').value = '失去身边重要的人';
+      document.getElementById('desires').value = '成为一代大侠，保护自己在乎的人';
+      document.getElementById('speech-style').value = '直率豪爽，略带江湖口气，常用&quot;嘿&quot;、&quot;哈&quot;等感叹词';
+      document.getElementById('behavior-habits').value = '思考时喜欢用手指轻敲剑柄，紧张时会不自觉地摸鼻子，战斗前会擦拭自己的剑。';
+
+      // 更新预览区域
+      characterName.textContent = nameInput.value;
+      updateBasicInfo();
+      characterMotivation.textContent = motivationInput.value;
+
+      // 添加性格特征
+      traitContainer.innerHTML = '';
+      ['勇敢', '正直', '重情义', '乐观', '冲动', '自信'].forEach(function (trait) {
+        var traitTag = document.createElement('div');
+        traitTag.className = 'inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm';
+        traitTag.innerHTML = &quot;&quot;.concat(trait, &quot;&lt;button class=\&quot;remove-trait text-blue-600 hover:text-blue-800\&quot;&gt;\n                                &lt;i class=\&quot;fas fa-times-circle\&quot;&gt;&lt;/i&gt;\n                            &lt;/button&gt;&quot;);
+        traitTag.querySelector('.remove-trait').addEventListener('click', function () {
+          traitTag.remove();
+          updatePreviewTraits();
+        });
+        traitContainer.appendChild(traitTag);
+      });
+      updatePreviewTraits();
+
+      // 隐藏AI面板
+      aiPanel.style.display = 'none';
+
+      // 通知父页面调整iframe高度
+      ytSendPageSize();
+      alert('角色设定生成完成！');
+    }, 2000);
+  });
+});&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;"
+    >
+    </iframe>
+  </div>
+</main>
+<script>
+  // 页面加载时初始化渲染
+  document.addEventListener('DOMContentLoaded', function () {
+    // 监听子页面大小变化，调整iframe的高度
+    ytGetIframeResize(document.getElementById('navigation'));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,820 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>故事创作助手 - 导航</title>
+  <script src="https://res.gemcoder.com/js/reload.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+          href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#121212',
+            // 深黑色
+            secondary: '#f8f0fc',
+            // 浅粉色背景
+            accent: '#d946ef',
+            // 粉色
+            dark: '#4c1d95',
+            // 紫色
+            'dark-accent': '#7c3aed',
+            // 亮紫色
+            'pink-gradient': '#ec4899',
+            // 粉色渐变
+            'purple-gradient': '#8b5cf6' // 紫色渐变
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .sidebar-item {
+        @apply flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200 rounded-lg;
+      }
+      .sidebar-item.active-menu {
+        @apply bg-gradient-to-r from-accent/20 to-dark/30 text-white font-medium border-l-2 border-accent;
+      }
+      .nav-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    }
+  </style>
+</head>
+<body
+        class="font-inter bg-gray-950 text-gray-100 h-screen flex flex-col overflow-hidden"
+>
+<!-- 顶部导航栏 -->
+<header
+        class="bg-gradient-to-r from-primary to-dark text-white py-3 px-4 nav-shadow z-10"
+>
+  <div class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <i class="fas fa-book-open text-2xl"> </i>
+      <h1
+              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary"
+      >
+        故事创作助手
+      </h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-bell"> </i>
+      </button>
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-cog"> </i>
+      </button>
+      <div class="flex items-center gap-2">
+        <img
+                src="./api/searchImage?query=user avatar with neutral expression, simple style, dark background&amp;width=40&amp;height=40"
+                alt="用户头像"
+                class="w-8 h-8 rounded-full object-cover border-2 border-accent/50"
+        />
+        <span class="hidden md:inline"> 创作者 </span>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- 主内容区 -->
+<main class="flex flex-1 overflow-hidden">
+  <!-- 侧边菜单栏 -->
+  <aside
+          class="bg-gray-900 w-64 border-r border-gradient-to-b from-accent/30 via-transparent to-accent/30 p-4 overflow-y-auto z-10"
+  >
+    <nav class="space-y-1">
+      <a
+              href="javascript:void(0);"
+              data-uuid="characterSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item active-menu"
+      >
+        <i class="fas fa-user-circle w-5 text-center"> </i>
+        <span> 角色设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="worldviewSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-globe-asia w-5 text-center"> </i>
+        <span> 世界观设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="timeline"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-history w-5 text-center"> </i>
+        <span> 时间线 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="scene"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-map-marker-alt w-5 text-center"> </i>
+        <span> 场景 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="storyGeneration"
+              onclick="ytCustomClickRouter(this, event)"
+              cla=""
+              ss="sidebar-item"
+      >
+        <i class="fas fa-feather-alt w-5 text-center"> </i>
+        <span> 故事生成 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="inspirationModule"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-lightbulb w-5 text-center"> </i>
+        <span> 灵感模块 </span>
+      </a>
+    </nav>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h3 class="text-xs uppercase text-gray-400 font-semibold mb-3 px-4">
+        最近项目
+      </h3>
+      <div class="space-y-2">
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">仙侠世界</div>
+          <div class="text-xs text-gray-500">上次编辑: 今天</div>
+        </div>
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">未来都市</div>
+          <div class="text-xs text-gray-500">上次编辑: 昨天</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- iframe 内容区域 -->
+  <div class="flex-1 overflow-hidden relative">
+    <iframe
+            id="navigation"
+            src=""
+            class=""
+            width="100%"
+            height="100%"
+            srcdoc="&lt;html lang='zh-CN'&gt;
+        &lt;head &gt;
+        &lt;meta charset='UTF-8'/&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'/&gt;
+&lt;title &gt;世界观设定 - 故事创作助手&lt;/title&gt;
+&lt;script src='https://res.gemcoder.com/js/reload.js'&gt;&lt;/script&gt;
+&lt;script src='https://cdn.tailwindcss.com'&gt;&lt;/script&gt;
+&lt;link href='https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/&gt;
+&lt;script &gt;tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#1a56db',
+        secondary: '#f3f4f6',
+        accent: '#3b82f6',
+        dark: '#1e293b',
+        'neutral-light': '#f9fafb',
+        'neutral-medium': '#e5e7eb'
+      },
+      fontFamily: {
+        inter: ['Inter', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+};&lt;/script&gt;
+&lt;style type='text/tailwindcss'&gt;
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .form-input-focus {
+                @apply focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all;
+            }
+            .section-card {
+                @apply bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md;
+            }
+            .section-header {
+                @apply flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2;
+            }
+            .btn-secondary {
+                @apply bg-white text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors flex items-center gap-2;
+            }
+        }
+    &lt;/style&gt;
+
+      &lt;style&gt;
+          ::-webkit-scrollbar { width: 0px; }
+      &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body class='font-inter bg-gray-50 text-gray-800 p-4 md:p-6'&gt;
+        &lt;!-- 页面标题区域 --&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h1 class='text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-gray-900'&gt;
+        世界观设定
+    &lt;/h1&gt;
+&lt;p class='text-gray-600 mt-1'&gt;
+        定义你的世界基础规则、社会结构和历史背景
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 题材选择区域 --&gt;
+&lt;div class='section-card mb-6'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-book-dead text-primary'&gt;
+        &lt;/i&gt;
+选择题材模板
+    &lt;/h2&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='grid grid-cols-2 md:grid-cols-4 gap-4'&gt;
+        &lt;div class='border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-primary/5 transition-all' onclick='selectGenre(this, &quot;fantasy&quot;)'&gt;
+        &lt;div class='w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-3 mx-auto'&gt;
+        &lt;i class='fas fa-wand-magic-sparkles text-purple-600 text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-center font-medium'&gt;
+        魔幻
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-500 text-center mt-1'&gt;
+        魔法与神秘力量
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-primary/5 transition-all' onclick='selectGenre(this, &quot;sci-fi&quot;)'&gt;
+        &lt;div class='w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3 mx-auto'&gt;
+        &lt;i class='fas fa-rocket text-blue-600 text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-center font-medium'&gt;
+        科幻
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-500 text-center mt-1'&gt;
+        未来科技与探索
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-primary/5 transition-all' onclick='selectGenre(this, &quot;historical&quot;)'&gt;
+        &lt;div class='w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-3 mx-auto'&gt;
+        &lt;i class='fas fa-landmark text-red-600 text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-center font-medium'&gt;
+        古风
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-500 text-center mt-1'&gt;
+        古代文化与传统
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary hover:bg-primary/5 transition-all' onclick='selectGenre(this, &quot;mystery&quot;)'&gt;
+        &lt;div class='w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3 mx-auto'&gt;
+        &lt;i class='fas fa-search text-gray-600 text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-center font-medium'&gt;
+        悬疑
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-500 text-center mt-1'&gt;
+        谜团与秘密
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 世界观设定主要内容区域 --&gt;
+&lt;div class='grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6'&gt;
+        &lt;!-- 左侧两列：主要设定表单 --&gt;
+&lt;div class='lg:col-span-2 space-y-6'&gt;
+        &lt;!-- 宇宙法则设定 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-cubes text-primary'&gt;
+        &lt;/i&gt;
+宇宙法则
+    &lt;/h2&gt;
+&lt;button class='btn-secondary text-sm' onclick='showAIAssist(&quot;cosmic-laws&quot;)'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+AI辅助
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='space-y-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        基础物理/魔法规则
+    &lt;/label&gt;
+&lt;textarea class='w-full p-3 border border-gray-300 rounded-lg form-input-focus min-h-[100px]' placeholder='描述这个世界的基本运行规则，如是否存在魔法、重力是否不同、能量如何运作等...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        核心力量体系
+    &lt;/label&gt;
+&lt;div class='space-y-3'&gt;
+        &lt;div class='flex items-start gap-3'&gt;
+        &lt;div class='flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600'&gt;
+        1
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;input type='text' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus mb-1' placeholder='力量体系名称，如&quot;元素魔法&quot;、&quot;灵能&quot;等'/&gt;
+&lt;textarea class='w-full p-3 border border-gray-300 rounded-lg form-input-focus min-h-[80px]' placeholder='描述这种力量的来源、限制和表现形式...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-start gap-3'&gt;
+        &lt;div class='flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600'&gt;
+        2
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;input type='text' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus mb-1' placeholder='力量体系名称'/&gt;
+&lt;textarea class='w-full p-3 border border-gray-300 rounded-lg form-input-focus min-h-[80px]' placeholder='描述这种力量的来源、限制和表现形式...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='text-primary text-sm flex items-center gap-1 hover:underline'&gt;
+        &lt;i class='fas fa-plus-circle'&gt;
+        &lt;/i&gt;
+添加力量体系
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 社会结构设定 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-users-cog text-primary'&gt;
+        &lt;/i&gt;
+社会结构
+    &lt;/h2&gt;
+&lt;button class='btn-secondary text-sm' onclick='showAIAssist(&quot;social-structure&quot;)'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+AI辅助
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='space-y-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        政治体制
+    &lt;/label&gt;
+&lt;input type='text' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：君主专制、民主共和、神权统治、部族联盟等'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        社会阶层划分
+    &lt;/label&gt;
+&lt;textarea class='w-full p-3 border border-gray-300 rounded-lg form-input-focus min-h-[100px]' placeholder='描述社会中的主要阶层，如贵族、平民、商人、奴隶等，以及他们之间的关系和流动性...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        经济体系
+    &lt;/label&gt;
+&lt;input type='text' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：货币经济、物物交换、计划经济、资源分配制度等'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        主流文化价值观
+    &lt;/label&gt;
+&lt;div class='grid grid-cols-1 sm:grid-cols-2 gap-3'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;input type='text' class='flex-1 p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：荣誉、自由、集体主义等'/&gt;
+&lt;input type='range' min='1' max='10' value='7' class='w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary'/&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-2'&gt;
+        &lt;input type='text' class='flex-1 p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：荣誉、自由、集体主义等'/&gt;
+&lt;input type='range' min='1' max='10' value='5' class='w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary'/&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-2'&gt;
+        &lt;input type='text' class='flex-1 p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：荣誉、自由、集体主义等'/&gt;
+&lt;input type='range' min='1' max='10' value='3' class='w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary'/&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-2'&gt;
+        &lt;input type='text' class='flex-1 p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：荣誉、自由、集体主义等'/&gt;
+&lt;input type='range' min='1' max='10' value='8' class='w-24 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 地理环境设定 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-globe-americas text-primary'&gt;
+        &lt;/i&gt;
+地理环境
+    &lt;/h2&gt;
+&lt;button class='btn-secondary text-sm' onclick='showAIAssist(&quot;geography&quot;)'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+AI辅助
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='space-y-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        世界地图（可选）
+    &lt;/label&gt;
+&lt;div class='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-gray-50'&gt;
+        &lt;i class='fas fa-upload text-gray-400 text-3xl mb-2'&gt;
+        &lt;/i&gt;
+&lt;p class='text-gray-500 mb-1'&gt;
+        点击上传地图图片或绘制地图
+    &lt;/p&gt;
+&lt;p class='text-xs text-gray-400'&gt;
+        支持PNG、JPG格式，最大5MB
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        主要区域描述
+    &lt;/label&gt;
+&lt;div class='space-y-4'&gt;
+        &lt;div class='border border-gray-200 rounded-lg p-3 bg-gray-50'&gt;
+        &lt;input type='text' class='w-full p-2 border border-gray-300 rounded-lg form-input-focus mb-2' placeholder='区域名称，如&quot;迷雾森林&quot;、&quot;钢铁山脉&quot;等'/&gt;
+&lt;textarea class='w-full p-2 border border-gray-300 rounded-lg form-input-focus min-h-[60px]' placeholder='描述该区域的地理特征、气候、资源和特殊之处...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div class='border border-gray-200 rounded-lg p-3 bg-gray-50'&gt;
+        &lt;input type='text' class='w-full p-2 border border-gray-300 rounded-lg form-input-focus mb-2' placeholder='区域名称，如&quot;迷雾森林&quot;、&quot;钢铁山脉&quot;等'/&gt;
+&lt;textarea class='w-full p-2 border border-gray-300 rounded-lg form-input-focus min-h-[60px]' placeholder='描述该区域的地理特征、气候、资源和特殊之处...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;button class='text-primary text-sm flex items-center gap-1 hover:underline'&gt;
+        &lt;i class='fas fa-plus-circle'&gt;
+        &lt;/i&gt;
+添加区域
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 右侧一列：辅助设定和操作 --&gt;
+&lt;div class='space-y-6'&gt;
+        &lt;!-- 历史背景 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-history text-primary'&gt;
+        &lt;/i&gt;
+历史背景
+    &lt;/h2&gt;
+&lt;button class='btn-secondary text-sm' onclick='showAIAssist(&quot;history&quot;)'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+AI辅助
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='space-y-4'&gt;
+        &lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        当前时代
+    &lt;/label&gt;
+&lt;input type='text' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus' placeholder='如：&quot;魔法复兴时代&quot;、&quot;星际殖民时期&quot;等'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;
+        关键历史事件
+    &lt;/label&gt;
+&lt;div class='space-y-3 max-h-[300px] overflow-y-auto pr-2'&gt;
+        &lt;div class='flex items-start gap-3 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'&gt;
+        &lt;div class='flex-shrink-0 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xs'&gt;
+        1
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;input type='text' class='w-full p-2 border border-gray-300 rounded-lg form-input-focus text-sm mb-1' placeholder='事件名称'/&gt;
+&lt;textarea class='w-full p-2 border border-gray-300 rounded-lg form-input-focus min-h-[60px] text-sm' placeholder='简述该事件及其影响...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-start gap-3 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors'&gt;
+        &lt;div class='flex-shrink-0 w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xs'&gt;
+        2
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;input type='text' class='w-full p-2 border border-gray-300 rounded-lg form-input-focus text-sm mb-1' placeholder='事件名称'/&gt;
+&lt;textarea class='w-full p-2 border border-gray-300 rounded-lg form-input-focus min-h-[60px] text-sm' placeholder='简述该事件及其影响...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='text-primary text-sm flex items-center gap-1 mt-3 hover:underline'&gt;
+        &lt;i class='fas fa-plus-circle'&gt;
+        &lt;/i&gt;
+添加事件
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 专有名词词典 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-book text-primary'&gt;
+        &lt;/i&gt;
+专有名词词典
+    &lt;/h2&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='space-y-4'&gt;
+        &lt;div class='relative'&gt;
+        &lt;input type='text' class='w-full p-3 pl-10 border border-gray-300 rounded-lg form-input-focus' placeholder='搜索专有名词...'/&gt;
+&lt;i class='fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;div class='space-y-2 max-h-[200px] overflow-y-auto pr-2'&gt;
+        &lt;div class='p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex justify-between items-center'&gt;
+        &lt;div &gt;
+        &lt;div class='font-medium text-sm'&gt;
+        魔法水晶
+    &lt;/div&gt;
+&lt;div class='text-xs text-gray-500'&gt;
+        提供能量的矿石，有不同属性
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-1'&gt;
+        &lt;button class='p-1 text-gray-500 hover:text-primary'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1 text-gray-500 hover:text-red-500'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex justify-between items-center'&gt;
+        &lt;div &gt;
+        &lt;div class='font-medium text-sm'&gt;
+        圣殿骑士团
+    &lt;/div&gt;
+&lt;div class='text-xs text-gray-500'&gt;
+        守护王国的精英战斗组织
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-1'&gt;
+        &lt;button class='p-1 text-gray-500 hover:text-primary'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1 text-gray-500 hover:text-red-500'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='w-full btn-secondary text-sm justify-center'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+添加新名词
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 参考资料上传 --&gt;
+&lt;div class='section-card'&gt;
+        &lt;div class='section-header'&gt;
+        &lt;h2 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-file-alt text-primary'&gt;
+        &lt;/i&gt;
+参考资料
+    &lt;/h2&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div class='border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-primary transition-colors cursor-pointer bg-gray-50 mb-4'&gt;
+        &lt;i class='fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2'&gt;
+        &lt;/i&gt;
+&lt;p class='text-sm text-gray-500'&gt;
+        上传参考文档、图片或知识库
+    &lt;/p&gt;
+&lt;p class='text-xs text-gray-400 mt-1'&gt;
+        支持PDF、TXT、PNG格式，最大10MB
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='space-y-2 max-h-[150px] overflow-y-auto pr-2'&gt;
+        &lt;div class='p-2 border border-gray-200 rounded-lg flex items-center justify-between bg-gray-50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-file-pdf text-red-500'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm truncate'&gt;
+        魔法体系参考.pdf
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;button class='p-1 text-gray-500 hover:text-red-500'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-2 border border-gray-200 rounded-lg flex items-center justify-between bg-gray-50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-file-image text-purple-500'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm truncate'&gt;
+        世界地图草图.png
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;button class='p-1 text-gray-500 hover:text-red-500'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 底部操作按钮区域 --&gt;
+&lt;div class='flex flex-col sm:flex-row gap-4 justify-end mt-8 mb-4'&gt;
+        &lt;button class='btn-secondary justify-center'&gt;
+        &lt;i class='fas fa-save'&gt;
+        &lt;/i&gt;
+保存草稿
+    &lt;/button&gt;
+&lt;button class='btn-primary justify-center'&gt;
+        &lt;i class='fas fa-file-export'&gt;
+        &lt;/i&gt;
+导出世界观设定
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;!-- AI辅助弹窗 (默认隐藏) --&gt;
+&lt;div id='aiAssistModal' class='fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden'&gt;
+        &lt;div class='bg-white rounded-xl w-full max-w-md mx-4 shadow-xl'&gt;
+        &lt;div class='p-4 border-b border-gray-200 flex justify-between items-center'&gt;
+        &lt;h3 class='text-lg font-semibold text-gray-800 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-magic text-primary'&gt;
+        &lt;/i&gt;
+AI辅助生成
+    &lt;/h3&gt;
+&lt;button class='text-gray-500 hover:text-gray-700' onclick='closeAIAssist()'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 md:p-6'&gt;
+        &lt;div id='aiAssistContent'&gt;
+        &lt;!-- AI辅助内容将通过JavaScript动态填充 --&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='p-4 border-t border-gray-200 flex justify-end gap-3'&gt;
+        &lt;button class='btn-secondary text-sm' onclick='closeAIAssist()'&gt;
+        取消
+    &lt;/button&gt;
+&lt;button class='btn-primary text-sm' onclick='generateWithAI()'&gt;
+        生成内容
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;script &gt;// 页面加载完成后调用
+document.addEventListener('DOMContentLoaded', function () {
+  // 通知父页面调整iframe大小
+  ytSendPageSize();
+
+  // 默认选中第一个题材
+  var firstGenre = document.querySelector('[onclick^=&quot;selectGenre&quot;]');
+  if (firstGenre) {
+    selectGenre(firstGenre, firstGenre.getAttribute('onclick').split(&quot;'&quot;)[1]);
+  }
+});
+// 题材选择函数
+function selectGenre(element, genre) {
+  // 移除所有题材卡片的选中状态
+  document.querySelectorAll('[onclick^=&quot;selectGenre&quot;]').forEach(function (card) {
+    card.classList.remove('border-primary', 'bg-primary/5');
+    card.classList.add('border-gray-200');
+  });
+
+  // 添加当前选中题材的样式
+  element.classList.remove('border-gray-200');
+  element.classList.add('border-primary', 'bg-primary/5');
+
+  // 在实际应用中，这里可以根据选择的题材加载不同的模板
+  console.log(&quot;Selected genre:&quot;.concat(genre));
+
+  // 通知父页面调整iframe大小
+  ytSendPageSize();
+}
+// 显示AI辅助弹窗
+function showAIAssist(section) {
+  var modal = document.getElementById('aiAssistModal');
+  var content = document.getElementById('aiAssistContent');
+
+  // 根据不同部分显示不同的AI辅助内容
+  var promptPlaceholder = '';
+  var sectionTitle = '';
+  switch (section) {
+    case 'cosmic-laws':
+      sectionTitle = '宇宙法则';
+      promptPlaceholder = '输入关键词，如&quot;元素魔法、能量守恒、咒语吟唱&quot;，AI将生成完整的宇宙法则设定...';
+      break;
+    case 'social-structure':
+      sectionTitle = '社会结构';
+      promptPlaceholder = '输入关键词，如&quot;封建制度、魔法贵族、商人阶层崛起&quot;，AI将生成完整的社会结构设定...';
+      break;
+    case 'geography':
+      sectionTitle = '地理环境';
+      promptPlaceholder = '输入关键词，如&quot;浮空岛屿、魔法森林、火山地带&quot;，AI将生成完整的地理环境设定...';
+      break;
+    case 'history':
+      sectionTitle = '历史背景';
+      promptPlaceholder = '输入关键词，如&quot;大灾难、魔法战争、王朝更替&quot;，AI将生成完整的历史背景设定...';
+      break;
+    default:
+      sectionTitle = '世界观设定';
+      promptPlaceholder = '输入关于你世界观的关键词，AI将帮助你生成相关内容...';
+  }
+  content.innerHTML = &quot;&lt;div class='mb-4'&gt;\n                    &lt;label class='block text-sm font-medium text-gray-700 mb-1'&gt;\u4E3A&quot;.concat(sectionTitle, &quot;\u63D0\u4F9B\u5173\u952E\u8BCD&lt;/label&gt;\n                    &lt;textarea id='aiPrompt' class='w-full p-3 border border-gray-300 rounded-lg form-input-focus min-h-[100px]' placeholder='&quot;).concat(promptPlaceholder, &quot;'&gt;&lt;/textarea&gt;\n                &lt;/div&gt;\n                &lt;div class='text-xs text-gray-500'&gt;\n                    &lt;p&gt;AI\u5C06\u6839\u636E\u4F60\u7684\u5173\u952E\u8BCD\u751F\u6210\u76F8\u5173\u5185\u5BB9\uFF0C\u4F60\u53EF\u4EE5\u5728\u6B64\u57FA\u7840\u4E0A\u8FDB\u884C\u4FEE\u6539\u548C\u5B8C\u5584\u3002&lt;/p&gt;\n                &lt;/div&gt;&quot;);
+
+  // 显示弹窗
+  modal.classList.remove('hidden');
+
+  // 通知父页面调整iframe大小
+  ytSendPageSize();
+}
+// 关闭AI辅助弹窗
+function closeAIAssist() {
+  var modal = document.getElementById('aiAssistModal');
+  modal.classList.add('hidden');
+
+  // 通知父页面调整iframe大小
+  ytSendPageSize();
+}
+// 生成AI内容 (实际应用中会调用后端API)
+function generateWithAI() {
+  // 这里只是模拟AI生成过程
+  var prompt = document.getElementById('aiPrompt').value;
+  if (!prompt.trim()) {
+    alert('请输入关键词以获取AI辅助');
+    return;
+  }
+
+  // 显示加载状态
+  document.querySelector('#aiAssistModal .btn-primary').innerHTML = '&lt;i class=&quot;fas fa-spinner fa-spin&quot;&gt;&lt;/i&gt; 生成中...';
+
+  // 模拟API请求延迟
+  setTimeout(function () {
+    // 在实际应用中，这里会将生成的内容填充到对应的表单字段中
+    alert('AI内容生成完成！在实际应用中，这里会显示生成的内容供你编辑。');
+
+    // 关闭弹窗
+    closeAIAssist();
+
+    // 恢复按钮状态
+    document.querySelector('#aiAssistModal .btn-primary').innerHTML = '&lt;i class=&quot;fas fa-magic&quot;&gt;&lt;/i&gt; 生成内容';
+
+    // 通知父页面调整iframe大小
+    ytSendPageSize();
+  }, 1500);
+}
+// 当页面大小或者内容发生变化时，通知导航页面调整iframe高度
+ytSendPageSize();&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;"
+    >
+    </iframe>
+  </div>
+</main>
+<script>
+  // 页面加载时初始化渲染
+  document.addEventListener('DOMContentLoaded', function () {
+    // 监听子页面大小变化，调整iframe的高度
+    ytGetIframeResize(document.getElementById('navigation'));
+  });
+</script>
+</body>
+</html>

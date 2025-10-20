@@ -1,0 +1,626 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>故事创作助手 - 导航</title>
+    <script src="https://res.gemcoder.com/js/reload.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+            href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#121212',
+                        // 深黑色
+                        secondary: '#f8f0fc',
+                        // 浅粉色背景
+                        accent: '#d946ef',
+                        // 粉色
+                        dark: '#4c1d95',
+                        // 紫色
+                        'dark-accent': '#7c3aed',
+                        // 亮紫色
+                        'pink-gradient': '#ec4899',
+                        // 粉色渐变
+                        'purple-gradient': '#8b5cf6' // 紫色渐变
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-item {
+                @apply flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200 rounded-lg;
+            }
+            .sidebar-item.active-menu {
+                @apply bg-gradient-to-r from-accent/20 to-dark/30 text-white font-medium border-l-2 border-accent;
+            }
+            .nav-shadow {
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+        }
+    </style>
+</head>
+<body
+        class="font-inter bg-gray-950 text-gray-100 h-screen flex flex-col overflow-hidden"
+>
+<!-- 顶部导航栏 -->
+<header
+        class="bg-gradient-to-r from-primary to-dark text-white py-3 px-4 nav-shadow z-10"
+>
+    <div class="container mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <i class="fas fa-book-open text-2xl"> </i>
+            <h1
+                    class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary"
+            >
+                故事创作助手
+            </h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+                <i class="fas fa-bell"> </i>
+            </button>
+            <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+                <i class="fas fa-cog"> </i>
+            </button>
+            <div class="flex items-center gap-2">
+                <img
+                        src="./api/searchImage?query=user avatar with neutral expression, simple style, dark background&amp;width=40&amp;height=40"
+                        alt="用户头像"
+                        class="w-8 h-8 rounded-full object-cover border-2 border-accent/50"
+                />
+                <span class="hidden md:inline"> 创作者 </span>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- 主内容区 -->
+<main class="flex flex-1 overflow-hidden">
+    <!-- 侧边菜单栏 -->
+    <aside
+            class="bg-gray-900 w-64 border-r border-gradient-to-b from-accent/30 via-transparent to-accent/30 p-4 overflow-y-auto z-10"
+    >
+        <nav class="space-y-1">
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="characterSetting"
+                    onclick="ytCustomClickRouter(this, event)"
+                    class="sidebar-item active-menu"
+            >
+                <i class="fas fa-user-circle w-5 text-center"> </i>
+                <span> 角色设定 </span>
+            </a>
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="worldviewSetting"
+                    onclick="ytCustomClickRouter(this, event)"
+                    class="sidebar-item"
+            >
+                <i class="fas fa-globe-asia w-5 text-center"> </i>
+                <span> 世界观设定 </span>
+            </a>
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="timeline"
+                    onclick="ytCustomClickRouter(this, event)"
+                    class="sidebar-item"
+            >
+                <i class="fas fa-history w-5 text-center"> </i>
+                <span> 时间线 </span>
+            </a>
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="scene"
+                    onclick="ytCustomClickRouter(this, event)"
+                    class="sidebar-item"
+            >
+                <i class="fas fa-map-marker-alt w-5 text-center"> </i>
+                <span> 场景 </span>
+            </a>
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="storyGeneration"
+                    onclick="ytCustomClickRouter(this, event)"
+                    cla=""
+                    ss="sidebar-item"
+            >
+                <i class="fas fa-feather-alt w-5 text-center"> </i>
+                <span> 故事生成 </span>
+            </a>
+            <a
+                    href="javascript:void(0);"
+                    data-uuid="inspirationModule"
+                    onclick="ytCustomClickRouter(this, event)"
+                    class="sidebar-item"
+            >
+                <i class="fas fa-lightbulb w-5 text-center"> </i>
+                <span> 灵感模块 </span>
+            </a>
+        </nav>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <h3 class="text-xs uppercase text-gray-400 font-semibold mb-3 px-4">
+                最近项目
+            </h3>
+            <div class="space-y-2">
+                <div
+                        class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+                >
+                    <div class="font-medium">仙侠世界</div>
+                    <div class="text-xs text-gray-500">上次编辑: 今天</div>
+                </div>
+                <div
+                        class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+                >
+                    <div class="font-medium">未来都市</div>
+                    <div class="text-xs text-gray-500">上次编辑: 昨天</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- iframe 内容区域 -->
+    <div class="flex-1 overflow-hidden relative">
+        <iframe
+                id="navigation"
+                src=""
+                class=""
+                width="100%"
+                height="100%"
+                srcdoc="&lt;html lang='zh-CN'&gt;
+        &lt;head &gt;
+        &lt;meta charset='UTF-8'/&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'/&gt;
+&lt;title &gt;故事生成 - 故事创作助手&lt;/title&gt;
+&lt;script src='https://res.gemcoder.com/js/reload.js'&gt;&lt;/script&gt;
+&lt;script src='https://cdn.tailwindcss.com'&gt;&lt;/script&gt;
+&lt;link href='https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/&gt;
+&lt;script &gt;tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#121212',
+        secondary: '#f8f0fc',
+        accent: '#d946ef',
+        dark: '#4c1d95',
+        'dark-accent': '#7c3aed',
+        'pink-gradient': '#ec4899',
+        'purple-gradient': '#8b5cf6'
+      },
+      fontFamily: {
+        inter: ['Inter', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+};&lt;/script&gt;
+&lt;style type='text/tailwindcss'&gt;
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .gradient-border {
+                border-image: linear-gradient(to right, #d946ef, #8b5cf6) 1;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-height {
+                transition: max-height 0.3s ease-in-out;
+            }
+        }
+    &lt;/style&gt;
+
+      &lt;style&gt;
+          ::-webkit-scrollbar { width: 0px; }
+      &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body class='font-inter bg-gray-950 text-gray-100 p-4 md:p-6 min-h-screen'&gt;
+        &lt;!-- 页面标题 --&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h1 class='text-[clamp(1.5rem,3vw,2.5rem)] font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary mb-2'&gt;
+        故事生成
+    &lt;/h1&gt;
+&lt;p class='text-gray-400 max-w-3xl'&gt;
+        根据您的角色设定、世界观和场景，AI将帮助您生成符合设定的精彩故事内容
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 生成模式选择 --&gt;
+&lt;div class='mb-8 bg-gray-900 rounded-xl p-4 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-cubes text-accent'&gt;
+        &lt;/i&gt;
+生成模式
+    &lt;/h2&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-3 gap-4'&gt;
+        &lt;!-- 短篇模式 --&gt;
+&lt;div class='story-mode-card bg-gray-800 hover:bg-gradient-to-br from-gray-800 to-dark/50 border border-gray-700 hover:border-accent/50 rounded-lg p-5 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 active' data-mode='short'&gt;
+        &lt;div class='w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center mb-4'&gt;
+        &lt;i class='fas fa-file-alt text-xl text-accent'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-lg font-medium mb-2'&gt;
+        短篇模式
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-sm'&gt;
+        输入概要，AI生成一篇完整故事
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 章节模式 --&gt;
+&lt;div class='story-mode-card bg-gray-800 hover:bg-gradient-to-br from-gray-800 to-dark/50 border border-gray-700 hover:border-accent/50 rounded-lg p-5 cursor-pointer transition-all duration-300 transform hover:-translate-y-1' data-mode='chapter'&gt;
+        &lt;div class='w-12 h-12 bg-dark-accent/20 rounded-full flex items-center justify-center mb-4'&gt;
+        &lt;i class='fas fa-book text-xl text-dark-accent'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-lg font-medium mb-2'&gt;
+        章节模式
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-sm'&gt;
+        先生成大纲，随后逐章生成，支持修改
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 对话模式 --&gt;
+&lt;div class='story-mode-card bg-gray-800 hover:bg-gradient-to-br from-gray-800 to-dark/50 border border-gray-700 hover:border-accent/50 rounded-lg p-5 cursor-pointer transition-all duration-300 transform hover:-translate-y-1' data-mode='dialogue'&gt;
+        &lt;div class='w-12 h-12 bg-purple-gradient/20 rounded-full flex items-center justify-center mb-4'&gt;
+        &lt;i class='fas fa-comments text-xl text-purple-gradient'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-lg font-medium mb-2'&gt;
+        对话模式
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-sm'&gt;
+        多个角色在场景中互动，生成符合性格的对话
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 生成参数设置 --&gt;
+&lt;div class='grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8'&gt;
+        &lt;!-- 左侧参数面板 --&gt;
+&lt;div class='lg:col-span-1 space-y-6'&gt;
+        &lt;!-- 设定集选择 --&gt;
+&lt;div class='bg-gray-900 rounded-xl p-5 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-cubes text-accent'&gt;
+        &lt;/i&gt;
+设定集
+    &lt;/h2&gt;
+&lt;!-- 角色选择 --&gt;
+&lt;div class='mb-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        角色
+    &lt;/label&gt;
+&lt;div class='relative'&gt;
+        &lt;select class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent appearance-none'&gt;
+        &lt;option value&gt;
+        选择角色...
+    &lt;/option&gt;
+&lt;option value='1'&gt;
+        李逍遥 - 仙侠世界
+    &lt;/option&gt;
+&lt;option value='2'&gt;
+        阿尔忒弥斯 - 星际迷航
+    &lt;/option&gt;
+&lt;option value='3'&gt;
+        亚瑟王 - 卡梅洛特传说
+    &lt;/option&gt;
+    &lt;/select&gt;
+&lt;div class='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-400'&gt;
+        &lt;i class='fas fa-chevron-down text-xs'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='mt-2 text-sm text-accent hover:text-accent/80 flex items-center gap-1 transition-colors'&gt;
+        &lt;i class='fas fa-plus-circle text-xs'&gt;
+        &lt;/i&gt;
+添加角色
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;!-- 世界观选择 --&gt;
+&lt;div class='mb-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        世界观
+    &lt;/label&gt;
+&lt;div class='relative'&gt;
+        &lt;select class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent appearance-none'&gt;
+        &lt;option value&gt;
+        选择世界观...
+    &lt;/option&gt;
+&lt;option value='1'&gt;
+        仙侠世界 - 古风
+    &lt;/option&gt;
+&lt;option value='2'&gt;
+        星际迷航 - 科幻
+    &lt;/option&gt;
+&lt;option value='3'&gt;
+        卡梅洛特 - 魔幻
+    &lt;/option&gt;
+    &lt;/select&gt;
+&lt;div class='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-400'&gt;
+        &lt;i class='fas fa-chevron-down text-xs'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 场景选择 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        场景
+    &lt;/label&gt;
+&lt;div class='relative'&gt;
+        &lt;select class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent appearance-none'&gt;
+        &lt;option value&gt;
+        选择场景...
+    &lt;/option&gt;
+&lt;option value='1'&gt;
+        桃花岛 - 仙侠世界
+    &lt;/option&gt;
+&lt;option value='2'&gt;
+        星际战舰企业号 - 星际迷航
+    &lt;/option&gt;
+&lt;option value='3'&gt;
+        圆桌会议室 - 卡梅洛特传说
+    &lt;/option&gt;
+    &lt;/select&gt;
+&lt;div class='absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-gray-400'&gt;
+        &lt;i class='fas fa-chevron-down text-xs'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 冲突与主题 --&gt;
+&lt;div class='bg-gray-900 rounded-xl p-5 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-exclamation-triangle text-accent'&gt;
+        &lt;/i&gt;
+冲突与主题
+    &lt;/h2&gt;
+&lt;!-- 冲突设定 --&gt;
+&lt;div class='mb-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        冲突设定
+    &lt;/label&gt;
+&lt;input type='text' placeholder='例如：父子理念对立、生存权之争' class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent'/&gt;
+&lt;div class='mt-3 flex flex-wrap gap-2'&gt;
+        &lt;span class='bg-gray-800 text-gray-300 text-xs px-2.5 py-1 rounded-full flex items-center gap-1'&gt;
+        父子理念对立
+&lt;button class='text-gray-500 hover:text-gray-400'&gt;
+        &lt;i class='fas fa-times-circle text-[10px]'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/span&gt;
+&lt;span class='bg-gray-800 text-gray-300 text-xs px-2.5 py-1 rounded-full flex items-center gap-1'&gt;
+        生存权之争
+&lt;button class='text-gray-500 hover:text-gray-400'&gt;
+        &lt;i class='fas fa-times-circle text-[10px]'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/span&gt;
+&lt;span class='bg-accent/20 text-accent text-xs px-2.5 py-1 rounded-full cursor-pointer hover:bg-accent/30 transition-colors'&gt;
+        + 添加冲突
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 主题 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        主题
+    &lt;/label&gt;
+&lt;input type='text' placeholder='例如：牺牲与救赎、孤独与羁绊' class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 写作风格 --&gt;
+&lt;div class='bg-gray-900 rounded-xl p-5 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-feather-alt text-accent'&gt;
+        &lt;/i&gt;
+写作风格
+    &lt;/h2&gt;
+&lt;!-- 风格提示词 --&gt;
+&lt;div class='mb-4'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        风格提示词
+    &lt;/label&gt;
+&lt;input type='text' placeholder='描述您想要的写作风格' class='w-full bg-gray-800 border border-gray-700 rounded-lg py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent'/&gt;
+    &lt;/div&gt;
+&lt;!-- 风格模板 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        风格模板
+    &lt;/label&gt;
+&lt;div class='grid grid-cols-2 gap-2'&gt;
+        &lt;button class='bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg py-2 text-xs text-left transition-colors'&gt;
+        海明威式简洁
+    &lt;/button&gt;
+&lt;button class='bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg py-2 text-xs text-left transition-colors'&gt;
+        金庸武侠风
+    &lt;/button&gt;
+&lt;button class='bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg py-2 text-xs text-left transition-colors'&gt;
+        村上春树风格
+    &lt;/button&gt;
+&lt;button class='bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg py-2 text-xs text-left transition-colors'&gt;
+        刘慈欣硬科幻
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 右侧内容输入 --&gt;
+&lt;div class='lg:col-span-2 space-y-6'&gt;
+        &lt;!-- 输入区域 --&gt;
+&lt;div class='bg-gray-900 rounded-xl p-5 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-pen-fancy text-accent'&gt;
+        &lt;/i&gt;
+故事概要/灵感
+    &lt;/h2&gt;
+&lt;div class='mb-4'&gt;
+        &lt;textarea placeholder='请输入故事概要或灵感...' rows='8' class='w-full bg-gray-800 border border-gray-700 rounded-lg p-4 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent resize-none'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div class='flex justify-between items-center'&gt;
+        &lt;div class='text-xs text-gray-500'&gt;
+        提示：输入越详细，生成效果越好
+    &lt;/div&gt;
+&lt;div class='flex gap-3'&gt;
+        &lt;button class='px-4 py-2 bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg text-sm transition-colors flex items-center gap-2'&gt;
+        &lt;i class='fas fa-upload text-xs'&gt;
+        &lt;/i&gt;
+上传参考
+    &lt;/button&gt;
+&lt;button class='px-6 py-2 bg-gradient-to-r from-accent to-dark-accent hover:from-accent/90 hover:to-dark-accent/90 rounded-lg text-sm font-medium transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 shadow-lg shadow-accent/20'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+生成故事
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 生成结果 --&gt;
+&lt;div class='bg-gray-900 rounded-xl border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg overflow-hidden'&gt;
+        &lt;div class='p-5 border-b border-gray-800 flex justify-between items-center'&gt;
+        &lt;h2 class='text-lg font-semibold flex items-center gap-2'&gt;
+        &lt;i class='fas fa-book-open text-accent'&gt;
+        &lt;/i&gt;
+生成结果
+    &lt;/h2&gt;
+&lt;div class='flex gap-2'&gt;
+        &lt;button class='p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white' title='复制'&gt;
+        &lt;i class='fas fa-copy'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white' title='下载'&gt;
+        &lt;i class='fas fa-download'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white' title='编辑'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white' title='更多选项'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 结果内容 --&gt;
+&lt;div class='p-5 bg-gray-900/50 min-h-[300px] flex flex-col items-center justify-center text-center text-gray-500'&gt;
+        &lt;div class='w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4'&gt;
+        &lt;i class='fas fa-magic text-2xl text-gray-600'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='text-lg font-medium mb-2'&gt;
+        等待生成故事
+    &lt;/h3&gt;
+&lt;p class='max-w-md mb-4'&gt;
+        设置好参数并点击&quot;生成故事&quot;按钮后，AI将根据您的设定创建精彩内容
+    &lt;/p&gt;
+&lt;div class='flex gap-3'&gt;
+        &lt;button class='px-4 py-2 bg-gray-800 hover:bg-gray-750 border border-gray-700 rounded-lg text-sm transition-colors'&gt;
+        查看历史记录
+    &lt;/button&gt;
+&lt;button class='px-4 py-2 bg-accent/20 hover:bg-accent/30 text-accent rounded-lg text-sm transition-colors'&gt;
+        查看示例
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 角色一致性保障 --&gt;
+&lt;div class='bg-gray-900 rounded-xl p-5 border border-gradient-to-r from-accent/30 to-dark-accent/30 shadow-lg mb-6'&gt;
+        &lt;h2 class='text-lg font-semibold mb-4 flex items-center gap-2'&gt;
+        &lt;i class='fas fa-balance-scale text-accent'&gt;
+        &lt;/i&gt;
+角色一致性保障
+    &lt;/h2&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-3 gap-4 text-sm'&gt;
+        &lt;div class='bg-gray-800 rounded-lg p-4 border border-gray-700 flex flex-col items-center text-center'&gt;
+        &lt;div class='w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center mb-3'&gt;
+        &lt;i class='fas fa-code-branch text-accent'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='font-medium mb-1'&gt;
+        性格向量化
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-xs'&gt;
+        将角色特征转换为向量，确保行为一致性
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800 rounded-lg p-4 border border-gray-700 flex flex-col items-center text-center'&gt;
+        &lt;div class='w-10 h-10 bg-dark-accent/20 rounded-full flex items-center justify-center mb-3'&gt;
+        &lt;i class='fas fa-database text-dark-accent'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='font-medium mb-1'&gt;
+        记忆检索系统
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-xs'&gt;
+        角色行为时检索相关历史经历（时间线）
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800 rounded-lg p-4 border border-gray-700 flex flex-col items-center text-center'&gt;
+        &lt;div class='w-10 h-10 bg-purple-gradient/20 rounded-full flex items-center justify-center mb-3'&gt;
+        &lt;i class='fas fa-exclamation-circle text-purple-gradient'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;h3 class='font-medium mb-1'&gt;
+        性格偏离预警
+    &lt;/h3&gt;
+&lt;p class='text-gray-400 text-xs'&gt;
+        检测生成内容是否符合角色设定
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;script &gt;// 当页面加载完成后执行
+document.addEventListener('DOMContentLoaded', function () {
+  // 故事模式选择
+  var modeCards = document.querySelectorAll('.story-mode-card');
+  modeCards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      // 移除所有卡片的active状态
+      modeCards.forEach(function (c) {
+        return c.classList.remove('active', 'border-accent/50', 'bg-gradient-to-br', 'from-gray-800', 'to-dark/50');
+      });
+      modeCards.forEach(function (c) {
+        return c.classList.add('bg-gray-800', 'border-gray-700');
+      });
+
+      // 添加当前卡片的active状态
+      card.classList.add('active', 'border-accent/50', 'bg-gradient-to-br', 'from-gray-800', 'to-dark/50');
+      card.classList.remove('bg-gray-800', 'border-gray-700');
+    });
+  });
+
+  // 通知iframe调整大小
+  ytSendPageSize();
+});
+
+// 当页面大小或者内容发生变化时，通知导航页面跳转iframe高度
+ytSendPageSize();&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;"
+        >
+        </iframe>
+    </div>
+</main>
+<script>
+    // 页面加载时初始化渲染
+    document.addEventListener('DOMContentLoaded', function () {
+        // 监听子页面大小变化，调整iframe的高度
+        ytGetIframeResize(document.getElementById('navigation'));
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,904 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>故事创作助手 - 导航</title>
+  <script src="https://res.gemcoder.com/js/reload.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+          href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#121212',
+            // 深黑色
+            secondary: '#f8f0fc',
+            // 浅粉色背景
+            accent: '#d946ef',
+            // 粉色
+            dark: '#4c1d95',
+            // 紫色
+            'dark-accent': '#7c3aed',
+            // 亮紫色
+            'pink-gradient': '#ec4899',
+            // 粉色渐变
+            'purple-gradient': '#8b5cf6' // 紫色渐变
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .sidebar-item {
+        @apply flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200 rounded-lg;
+      }
+      .sidebar-item.active-menu {
+        @apply bg-gradient-to-r from-accent/20 to-dark/30 text-white font-medium border-l-2 border-accent;
+      }
+      .nav-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    }
+  </style>
+</head>
+<body
+        class="font-inter bg-gray-950 text-gray-100 h-screen flex flex-col overflow-hidden"
+>
+<!-- 顶部导航栏 -->
+<header
+        class="bg-gradient-to-r from-primary to-dark text-white py-3 px-4 nav-shadow z-10"
+>
+  <div class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <i class="fas fa-book-open text-2xl"> </i>
+      <h1
+              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary"
+      >
+        故事创作助手
+      </h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-bell"> </i>
+      </button>
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-cog"> </i>
+      </button>
+      <div class="flex items-center gap-2">
+        <img
+                src="./api/searchImage?query=user avatar with neutral expression, simple style, dark background&amp;width=40&amp;height=40"
+                alt="用户头像"
+                class="w-8 h-8 rounded-full object-cover border-2 border-accent/50"
+        />
+        <span class="hidden md:inline"> 创作者 </span>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- 主内容区 -->
+<main class="flex flex-1 overflow-hidden">
+  <!-- 侧边菜单栏 -->
+  <aside
+          class="bg-gray-900 w-64 border-r border-gradient-to-b from-accent/30 via-transparent to-accent/30 p-4 overflow-y-auto z-10"
+  >
+    <nav class="space-y-1">
+      <a
+              href="javascript:void(0);"
+              data-uuid="characterSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item active-menu"
+      >
+        <i class="fas fa-user-circle w-5 text-center"> </i>
+        <span> 角色设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="worldviewSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-globe-asia w-5 text-center"> </i>
+        <span> 世界观设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="timeline"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-history w-5 text-center"> </i>
+        <span> 时间线 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="scene"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-map-marker-alt w-5 text-center"> </i>
+        <span> 场景 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="storyGeneration"
+              onclick="ytCustomClickRouter(this, event)"
+              cla=""
+              ss="sidebar-item"
+      >
+        <i class="fas fa-feather-alt w-5 text-center"> </i>
+        <span> 故事生成 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="inspirationModule"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-lightbulb w-5 text-center"> </i>
+        <span> 灵感模块 </span>
+      </a>
+    </nav>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h3 class="text-xs uppercase text-gray-400 font-semibold mb-3 px-4">
+        最近项目
+      </h3>
+      <div class="space-y-2">
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">仙侠世界</div>
+          <div class="text-xs text-gray-500">上次编辑: 今天</div>
+        </div>
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">未来都市</div>
+          <div class="text-xs text-gray-500">上次编辑: 昨天</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- iframe 内容区域 -->
+  <div class="flex-1 overflow-hidden relative">
+    <iframe
+            id="navigation"
+            src=""
+            class=""
+            width="100%"
+            height="100%"
+            srcdoc="&lt;html lang='zh-CN'&gt;
+        &lt;head &gt;
+        &lt;meta charset='UTF-8'/&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'/&gt;
+&lt;title &gt;时间线 - 故事创作助手&lt;/title&gt;
+&lt;script src='https://res.gemcoder.com/js/reload.js'&gt;&lt;/script&gt;
+&lt;script src='https://cdn.tailwindcss.com'&gt;&lt;/script&gt;
+&lt;link href='https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/&gt;
+&lt;script &gt;tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#121212',
+        secondary: '#f8f0fc',
+        accent: '#d946ef',
+        dark: '#4c1d95',
+        'dark-accent': '#7c3aed',
+        'pink-gradient': '#ec4899',
+        'purple-gradient': '#8b5cf6',
+        'timeline-line': '#d946ef',
+        'timeline-dot': '#ec4899',
+        'event-type-1': '#3b82f6',
+        'event-type-2': '#10b981',
+        'event-type-3': '#f59e0b',
+        'event-type-4': '#ef4444'
+      },
+      fontFamily: {
+        inter: ['Inter', 'system-ui', 'sans-serif']
+      },
+      spacing: {
+        '7.5': '1.875rem',
+        '12.5': '3.125rem'
+      }
+    }
+  }
+};&lt;/script&gt;
+&lt;style type='text/tailwindcss'&gt;
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .timeline-line {
+                @apply absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-timeline-line via-timeline-line/70 to-timeline-line/30;
+            }
+            .timeline-dot {
+                @apply absolute left-4 w-3 h-3 -ml-1.5 rounded-full bg-timeline-dot border-2 border-gray-900 z-10;
+            }
+            .event-card {
+                @apply bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 border border-gray-700/50 hover:border-accent/50 transition-all duration-300 shadow-lg hover:shadow-accent/10;
+            }
+            .event-type-badge {
+                @apply text-xs px-2 py-0.5 rounded-full font-medium;
+            }
+            .btn-primary {
+                @apply bg-gradient-to-r from-accent to-purple-gradient text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-accent/20 flex items-center gap-2;
+            }
+            .btn-secondary {
+                @apply bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-300 border border-gray-700;
+            }
+            .form-input {
+                @apply bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all;
+            }
+            .form-label {
+                @apply block text-sm font-medium text-gray-300 mb-1;
+            }
+            .card {
+                @apply bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/30 shadow-lg;
+            }
+        }
+    &lt;/style&gt;
+
+      &lt;style&gt;
+          ::-webkit-scrollbar { width: 0px; }
+      &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body class='bg-gray-950 font-inter text-gray-100 p-4 md:p-6'&gt;
+        &lt;div class='max-w-7xl mx-auto'&gt;
+        &lt;!-- 页面标题和操作区 --&gt;
+&lt;div class='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8'&gt;
+        &lt;div &gt;
+        &lt;h1 class='text-[clamp(1.5rem,3vw,2.5rem)] font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary'&gt;
+        时间线管理
+    &lt;/h1&gt;
+&lt;p class='text-gray-400 mt-1'&gt;
+        创建和管理角色的关键事件与时间节点
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-3'&gt;
+        &lt;button id='addEventBtn' class='btn-primary'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        添加事件
+    &lt;/span&gt;
+    &lt;/button&gt;
+&lt;button class='btn-secondary'&gt;
+        &lt;i class='fas fa-filter'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        筛选
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 角色选择器 --&gt;
+&lt;div class='card p-4 mb-6'&gt;
+        &lt;div class='flex flex-col md:flex-row md:items-center justify-between gap-4'&gt;
+        &lt;div &gt;
+        &lt;h2 class='text-lg font-semibold'&gt;
+        当前角色
+    &lt;/h2&gt;
+&lt;p class='text-gray-400 text-sm'&gt;
+        选择一个角色查看其时间线
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex flex-col sm:flex-row gap-3 w-full md:w-auto'&gt;
+        &lt;div class='relative flex-1'&gt;
+        &lt;select class='form-input w-full appearance-none pr-10'&gt;
+        &lt;option &gt;
+        李逍遥 - 仙剑奇侠传
+    &lt;/option&gt;
+&lt;option &gt;
+        阿尔萨斯 - 魔兽世界
+    &lt;/option&gt;
+&lt;option &gt;
+        亚瑟·摩根 - 荒野大镖客
+    &lt;/option&gt;
+&lt;option &gt;
+        创建新角色...
+    &lt;/option&gt;
+    &lt;/select&gt;
+&lt;div class='absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none'&gt;
+        &lt;i class='fas fa-chevron-down text-gray-500'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='btn-secondary whitespace-nowrap'&gt;
+        &lt;i class='fas fa-sync-alt'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        刷新时间线
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 时间线概览 --&gt;
+&lt;div class='grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8'&gt;
+        &lt;div class='card p-5'&gt;
+        &lt;div class='flex items-start justify-between'&gt;
+        &lt;div &gt;
+        &lt;h3 class='text-gray-400 text-sm'&gt;
+        总事件数
+    &lt;/h3&gt;
+&lt;p class='text-3xl font-bold mt-1'&gt;
+        24
+    &lt;/p&gt;
+&lt;p class='text-green-400 text-xs mt-1 flex items-center gap-1'&gt;
+        &lt;i class='fas fa-arrow-up'&gt;
+        &lt;/i&gt;
+较上月增长 12%
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent'&gt;
+        &lt;i class='fas fa-calendar-alt text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-4 h-12'&gt;
+        &lt;canvas id='eventsChart' width='400' height='100'&gt;
+        &lt;/canvas&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='card p-5'&gt;
+        &lt;div class='flex items-start justify-between'&gt;
+        &lt;div &gt;
+        &lt;h3 class='text-gray-400 text-sm'&gt;
+        关键转折点
+    &lt;/h3&gt;
+&lt;p class='text-3xl font-bold mt-1'&gt;
+        5
+    &lt;/p&gt;
+&lt;p class='text-gray-400 text-xs mt-1'&gt;
+        影响角色发展的重要事件
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='w-12 h-12 rounded-full bg-purple-gradient/20 flex items-center justify-center text-purple-gradient'&gt;
+        &lt;i class='fas fa-star text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-4 flex flex-wrap gap-2'&gt;
+        &lt;span class='event-type-badge bg-event-type-1/20 text-event-type-1'&gt;
+        重大抉择
+    &lt;/span&gt;
+&lt;span class='event-type-badge bg-event-type-2/20 text-event-type-2'&gt;
+        关系变化
+    &lt;/span&gt;
+&lt;span class='event-type-badge bg-event-type-3/20 text-event-type-3'&gt;
+        成长突破
+    &lt;/span&gt;
+&lt;span class='event-type-badge bg-event-type-4/20 text-event-type-4'&gt;
+        创伤经历
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='card p-5'&gt;
+        &lt;div class='flex items-start justify-between'&gt;
+        &lt;div &gt;
+        &lt;h3 class='text-gray-400 text-sm'&gt;
+        时间跨度
+    &lt;/h3&gt;
+&lt;p class='text-3xl font-bold mt-1'&gt;
+        15年
+    &lt;/p&gt;
+&lt;p class='text-gray-400 text-xs mt-1'&gt;
+        从少年到传奇的成长历程
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-gray-300'&gt;
+        &lt;i class='fas fa-hourglass-half text-xl'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-4 h-12'&gt;
+        &lt;div class='relative w-full h-full'&gt;
+        &lt;div class='absolute top-1/2 left-0 w-full h-1 bg-gray-700 rounded-full -translate-y-1/2'&gt;
+        &lt;div class='absolute h-full bg-gradient-to-r from-accent to-purple-gradient rounded-full' style='width: 75%;'&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='absolute top-0 left-0 w-full h-full flex items-center justify-between'&gt;
+        &lt;span class='text-xs text-gray-400'&gt;
+        18岁
+    &lt;/span&gt;
+&lt;span class='text-xs text-gray-400'&gt;
+        33岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 时间线主体 --&gt;
+&lt;div class='card p-6 mb-6'&gt;
+        &lt;div class='mb-6'&gt;
+        &lt;h2 class='text-xl font-semibold mb-2'&gt;
+        李逍遥的时间线
+    &lt;/h2&gt;
+&lt;p class='text-gray-400 text-sm'&gt;
+        从普通客栈店小二到一代剑仙的成长历程
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 时间线控制 --&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4 mb-8'&gt;
+        &lt;div class='flex items-center gap-3'&gt;
+        &lt;button class='bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition-colors'&gt;
+        &lt;i class='fas fa-compress-alt'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition-colors'&gt;
+        &lt;i class='fas fa-expand-alt'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;div class='h-6 w-px bg-gray-700 mx-1'&gt;
+        &lt;/div&gt;
+&lt;button class='bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition-colors'&gt;
+        &lt;i class='fas fa-arrow-up'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='bg-gray-800 p-2 rounded-lg hover:bg-gray-700 transition-colors'&gt;
+        &lt;i class='fas fa-arrow-down'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;span class='text-sm text-gray-400'&gt;
+        时间线视图:
+    &lt;/span&gt;
+&lt;button class='bg-gray-800 text-sm px-3 py-1.5 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-stream'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        线性
+    &lt;/span&gt;
+    &lt;/button&gt;
+&lt;button class='bg-gray-700 text-sm px-3 py-1.5 rounded-lg hover:bg-gray-600 transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-th-large'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        网格
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 时间线内容 --&gt;
+&lt;div class='relative pl-12'&gt;
+        &lt;!-- 时间线中轴线 --&gt;
+&lt;div class='timeline-line'&gt;
+        &lt;/div&gt;
+&lt;!-- 事件1 --&gt;
+&lt;div class='relative mb-10'&gt;
+        &lt;div class='timeline-dot' style='top: 24px;'&gt;
+        &lt;/div&gt;
+&lt;div class='event-card'&gt;
+        &lt;div class='flex flex-wrap items-start justify-between gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;span class='text-lg font-semibold'&gt;
+        离开余杭镇
+    &lt;/span&gt;
+&lt;span class='ml-2 text-sm text-gray-400'&gt;
+        18岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;span class='event-type-badge bg-event-type-1/20 text-event-type-1'&gt;
+        启程冒险
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;p class='text-gray-300 mb-4'&gt;
+        为救婶婶，李逍遥初次离开家乡余杭镇，前往仙灵岛求药，从此踏上冒险之旅。
+    &lt;/p&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-user text-gray-500'&gt;
+        &lt;/i&gt;
+&lt;div class='flex -space-x-2'&gt;
+        &lt;img src='./api/searchImage?query=young hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+&lt;img src='./api/searchImage?query=fairy girl character portrait, fantasy style, white dress&amp;width=32&amp;height=32' alt='赵灵儿' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-trash-alt'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 事件2 --&gt;
+&lt;div class='relative mb-10'&gt;
+        &lt;div class='timeline-dot' style='top: 24px;'&gt;
+        &lt;/div&gt;
+&lt;div class='event-card'&gt;
+        &lt;div class='flex flex-wrap items-start justify-between gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;span class='text-lg font-semibold'&gt;
+        结识林月如
+    &lt;/span&gt;
+&lt;span class='ml-2 text-sm text-gray-400'&gt;
+        18岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;span class='event-type-badge bg-event-type-2/20 text-event-type-2'&gt;
+        关系变化
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;p class='text-gray-300 mb-4'&gt;
+        在比武招亲中击败林月如，被迫与其同行。两人从互相敌视到逐渐产生情愫。
+    &lt;/p&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-user text-gray-500'&gt;
+        &lt;/i&gt;
+&lt;div class='flex -space-x-2'&gt;
+        &lt;img src='./api/searchImage?query=young hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+&lt;img src='./api/searchImage?query=noble lady character portrait, fantasy style, elegant&amp;width=32&amp;height=32' alt='林月如' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-trash-alt'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 事件3 --&gt;
+&lt;div class='relative mb-10'&gt;
+        &lt;div class='timeline-dot' style='top: 24px;'&gt;
+        &lt;/div&gt;
+&lt;div class='event-card border-accent/30 shadow-accent/5'&gt;
+        &lt;div class='flex flex-wrap items-start justify-between gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;span class='text-lg font-semibold'&gt;
+        锁妖塔救灵儿
+    &lt;/span&gt;
+&lt;span class='ml-2 text-sm text-gray-400'&gt;
+        19岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;span class='event-type-badge bg-event-type-4/20 text-event-type-4'&gt;
+        重大牺牲
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;p class='text-gray-300 mb-4'&gt;
+        为救被囚禁在锁妖塔中的赵灵儿，李逍遥与林月如一同闯入。在塔即将崩塌时，林月如为救李逍遥和赵灵儿而牺牲。
+    &lt;/p&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-user text-gray-500'&gt;
+        &lt;/i&gt;
+&lt;div class='flex -space-x-2'&gt;
+        &lt;img src='./api/searchImage?query=young hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+&lt;img src='./api/searchImage?query=fairy girl character portrait, fantasy style, white dress&amp;width=32&amp;height=32' alt='赵灵儿' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+&lt;img src='./api/searchImage?query=noble lady character portrait, fantasy style, elegant&amp;width=32&amp;height=32' alt='林月如' class='w-6 h-6 rounded-full border-2 border-gray-800 opacity-50'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;span class='text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full flex items-center gap-1'&gt;
+        &lt;i class='fas fa-star text-xs'&gt;
+        &lt;/i&gt;
+关键事件
+    &lt;/span&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 事件4 --&gt;
+&lt;div class='relative mb-10'&gt;
+        &lt;div class='timeline-dot' style='top: 24px;'&gt;
+        &lt;/div&gt;
+&lt;div class='event-card'&gt;
+        &lt;div class='flex flex-wrap items-start justify-between gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;span class='text-lg font-semibold'&gt;
+        击败拜月教主
+    &lt;/span&gt;
+&lt;span class='ml-2 text-sm text-gray-400'&gt;
+        20岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;span class='event-type-badge bg-event-type-3/20 text-event-type-3'&gt;
+        最终决战
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;p class='text-gray-300 mb-4'&gt;
+        李逍遥在南诏国与拜月教主展开最终决战，成功击败拜月，但赵灵儿也因此牺牲，只留下李逍遥和他们的女儿李忆如。
+    &lt;/p&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-user text-gray-500'&gt;
+        &lt;/i&gt;
+&lt;div class='flex -space-x-2'&gt;
+        &lt;img src='./api/searchImage?query=young hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+&lt;img src='./api/searchImage?query=fairy girl character portrait, fantasy style, white dress&amp;width=32&amp;height=32' alt='赵灵儿' class='w-6 h-6 rounded-full border-2 border-gray-800 opacity-50'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;span class='text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full flex items-center gap-1'&gt;
+        &lt;i class='fas fa-star text-xs'&gt;
+        &lt;/i&gt;
+关键事件
+    &lt;/span&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 事件5 --&gt;
+&lt;div class='relative mb-10'&gt;
+        &lt;div class='timeline-dot' style='top: 24px;'&gt;
+        &lt;/div&gt;
+&lt;div class='event-card'&gt;
+        &lt;div class='flex flex-wrap items-start justify-between gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;span class='text-lg font-semibold'&gt;
+        成为蜀山掌门
+    &lt;/span&gt;
+&lt;span class='ml-2 text-sm text-gray-400'&gt;
+        25岁
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;span class='event-type-badge bg-event-type-1/20 text-event-type-1'&gt;
+        人生巅峰
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;p class='text-gray-300 mb-4'&gt;
+        经历多年历练，李逍遥因其卓越的剑术和领导能力，被推举为蜀山仙剑派第二十七代掌门，成为一代传奇剑仙。
+    &lt;/p&gt;
+&lt;div class='flex flex-wrap items-center justify-between gap-4'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-user text-gray-500'&gt;
+        &lt;/i&gt;
+&lt;div class='flex -space-x-2'&gt;
+        &lt;img src='./api/searchImage?query=mature hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full border-2 border-gray-800'/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-3'&gt;
+        &lt;span class='text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded-full flex items-center gap-1'&gt;
+        &lt;i class='fas fa-star text-xs'&gt;
+        &lt;/i&gt;
+关键事件
+    &lt;/span&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-ellipsis-v'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 更多事件提示 --&gt;
+&lt;div class='text-center py-4'&gt;
+        &lt;button class='text-accent hover:text-accent/80 transition-colors flex items-center gap-1 mx-auto'&gt;
+        &lt;span &gt;
+        查看更多事件
+    &lt;/span&gt;
+&lt;i class='fas fa-chevron-down'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 添加事件模态框 --&gt;
+&lt;div id='eventModal' class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center hidden'&gt;
+        &lt;div class='bg-gray-900 rounded-xl border border-gray-700 shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto'&gt;
+        &lt;div class='p-6 border-b border-gray-800'&gt;
+        &lt;div class='flex items-center justify-between'&gt;
+        &lt;h3 class='text-xl font-semibold'&gt;
+        添加新事件
+    &lt;/h3&gt;
+&lt;button id='closeModalBtn' class='text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='p-6 space-y-5'&gt;
+        &lt;div &gt;
+        &lt;label class='form-label'&gt;
+        事件标题
+    &lt;/label&gt;
+&lt;input type='text' class='form-input w-full' placeholder='输入事件标题'/&gt;
+    &lt;/div&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-2 gap-5'&gt;
+        &lt;div &gt;
+        &lt;label class='form-label'&gt;
+        时间点
+    &lt;/label&gt;
+&lt;input type='text' class='form-input w-full' placeholder='例如：25岁 或 2023年'/&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='form-label'&gt;
+        事件类型
+    &lt;/label&gt;
+&lt;select class='form-input w-full'&gt;
+        &lt;option &gt;
+        启程冒险
+    &lt;/option&gt;
+&lt;option &gt;
+        关系变化
+    &lt;/option&gt;
+&lt;option &gt;
+        重大牺牲
+    &lt;/option&gt;
+&lt;option &gt;
+        最终决战
+    &lt;/option&gt;
+&lt;option &gt;
+        人生巅峰
+    &lt;/option&gt;
+&lt;option &gt;
+        自定义...
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='form-label'&gt;
+        事件描述
+    &lt;/label&gt;
+&lt;textarea class='form-input w-full h-32' placeholder='详细描述这个事件的经过、影响和意义...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='form-label'&gt;
+        参与角色
+    &lt;/label&gt;
+&lt;div class='flex flex-wrap gap-3 mt-2'&gt;
+        &lt;div class='flex items-center gap-2 bg-gray-800 rounded-lg px-3 py-2'&gt;
+        &lt;img src='./api/searchImage?query=young hero character portrait, fantasy style, asian features&amp;width=32&amp;height=32' alt='李逍遥' class='w-6 h-6 rounded-full'/&gt;
+&lt;span &gt;
+        李逍遥
+    &lt;/span&gt;
+&lt;button class='text-gray-500 hover:text-gray-300 transition-colors'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;button class='bg-gray-800 rounded-lg px-3 py-2 text-sm flex items-center gap-2 hover:bg-gray-700 transition-colors'&gt;
+        &lt;i class='fas fa-plus text-accent'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        添加角色
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='form-label'&gt;
+        事件重要度
+    &lt;/label&gt;
+&lt;div class='flex items-center gap-3 mt-2'&gt;
+        &lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='importance' class='text-accent focus:ring-accent'/&gt;
+&lt;span &gt;
+        普通事件
+    &lt;/span&gt;
+    &lt;/label&gt;
+&lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='importance' class='text-accent focus:ring-accent' checked/&gt;
+&lt;span &gt;
+        重要事件
+    &lt;/span&gt;
+    &lt;/label&gt;
+&lt;label class='flex items-center gap-2 cursor-pointer'&gt;
+        &lt;input type='radio' name='importance' class='text-accent focus:ring-accent'/&gt;
+&lt;span &gt;
+        关键转折点
+    &lt;/span&gt;
+    &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='p-6 border-t border-gray-800 flex justify-end gap-3'&gt;
+        &lt;button class='btn-secondary'&gt;
+        取消
+    &lt;/button&gt;
+&lt;button class='btn-primary'&gt;
+        &lt;i class='fas fa-save'&gt;
+        &lt;/i&gt;
+&lt;span &gt;
+        保存事件
+    &lt;/span&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;script &gt;// 当页面大小或者内容发生变化时，通知导航页面调整iframe高度
+ytSendPageSize();
+// 页面加载时初始化渲染
+document.addEventListener('DOMContentLoaded', function () {
+  // 模态框控制
+  var addEventBtn = document.getElementById('addEventBtn');
+  var closeModalBtn = document.getElementById('closeModalBtn');
+  var eventModal = document.getElementById('eventModal');
+  addEventBtn.addEventListener('click', function () {
+    eventModal.classList.remove('hidden');
+    eventModal.classList.add('flex');
+    ytSendPageSize();
+  });
+  closeModalBtn.addEventListener('click', function () {
+    eventModal.classList.add('hidden');
+    eventModal.classList.remove('flex');
+    ytSendPageSize();
+  });
+  // 点击模态框外部关闭
+  eventModal.addEventListener('click', function (e) {
+    if (e.target === eventModal) {
+      eventModal.classList.add('hidden');
+      eventModal.classList.remove('flex');
+      ytSendPageSize();
+    }
+  });
+  // 模拟事件卡片点击效果
+  var eventCards = document.querySelectorAll('.event-card');
+  eventCards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      // 这里可以添加事件详情查看逻辑
+      console.log('查看事件详情');
+    });
+  });
+});&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;"
+    >
+    </iframe>
+  </div>
+</main>
+<script>
+  // 页面加载时初始化渲染
+  document.addEventListener('DOMContentLoaded', function () {
+    // 监听子页面大小变化，调整iframe的高度
+    ytGetIframeResize(document.getElementById('navigation'));
+  });
+</script>
+</body>
+</html>

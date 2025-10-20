@@ -2,12 +2,9 @@ spring:
   application:
     name: storyforge-backend
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/storyforge
-    username: postgres
-#    password: ${DB_PASSWORD:yourpassword}
-    password: 123456
-    driver-class-name: org.postgresql.Driver
+  # 激活的环境配置 (dev/prod)
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
   jpa:
     hibernate:
@@ -22,33 +19,169 @@ spring:
           lob:
             non_contextual_creation: true
 
-  ai:
-    openai:
-      api-key: ${OPENAI_API_KEY}
-      base-url: https://api.openai.com
-      model: gpt-4-turbo-preview
-      temperature: 0.7
-  data:
-    redis:
-      host: localhost
-      port: 6379
-#      password: ${REDIS_PASSWORD:}
-      password: 123456
-      timeout: 3000ms
-      lettuce:
-        pool:
-          max-active: 10
-          max-idle: 8
-          min-idle: 2
+# AI 配置 (环境无关)
+ai:
+  # OpenAI API 配置
+  openai:
+    api-key: ${OPENAI_API_KEY}
+    base-url: https://api.openai.com
+    model: gpt-4-turbo-preview
+    temperature: 0.7
 
-server:
-  port: 8080
+  # Prompt 模板配置
+  prompt:
+    # 提示词模板
+    templates:
+      character-creation: |
+        你是一位专业的小说角色创作助手。请根据以下信息生成详细的角色设定。
 
-jwt:
-  secret: ${JWT_SECRET:your-secret-key-change-in-production}
-  expiration: 86400000 # 24 hours
+        ## 输入信息
+        {input}
 
-logging:
-  level:
-    com.storyforge: DEBUG
-    org.springframework.ai: DEBUG
+        ## 要求
+        1. 生成完整的角色基本信息（姓名、年龄、性别、外貌特征）
+        2. 设计深度的性格特征（使用大五人格理论）
+        3. 创建角色背景故事和动机
+        4. 定义行为模式和语言风格
+        5. 提供初始记忆片段
+
+        ## 输出格式
+        请以JSON格式输出，包含以下字段：
+        - basicInfo: 基本信息
+        - personality: 性格向量
+        - backstory: 背景故事
+        - behaviorPatterns: 行为模式
+        - initialMemories: 初始记忆
+
+      worldview-creation: |
+        你是一位世界观架构师。请根据以下信息构建完整的故事世界。
+
+        ## 输入信息
+        {input}
+
+        ## 要求
+        1. 定义世界的基本规则（物理法则、魔法系统等）
+        2. 构建社会结构和政治体系
+        3. 设计地理环境和重要地点
+        4. 创建独特的文化和术语体系
+
+        ## 输出格式
+        以JSON格式输出世界观的各个维度。
+
+      chapter-generation: |
+        你是一位专业的小说作者。请根据以下上下文生成精彩的章节内容。
+
+        ## 角色信息
+        {characters}
+
+        ## 世界观设定
+        {worldview}
+
+        ## 当前时间线
+        {timeline}
+
+        ## 章节大纲
+        {outline}
+
+        ## 要求
+        1. 保持角色性格一致性
+        2. 遵循世界观规则
+        3. 推进剧情发展
+        4. 包含生动的场景描写和对话
+        5. 字数约 {wordCount} 字
+
+        ## 输出格式
+        直接输出章节正文内容。
+
+      scene-generation: |
+        你是场景描写专家。请创建沉浸式的场景描述。
+
+        ## 场景信息
+        {sceneContext}
+
+        ## 要求
+        1. 多感官描写（视觉、听觉、嗅觉、触觉）
+        2. 营造氛围感
+        3. 突出重要细节
+        4. 自然的场景过渡
+
+        ## 输出
+        输出详细的场景描述文本。
+
+      dialogue-generation: |
+        你是对话创作专家。请生成符合角色性格的对话。
+
+        ## 角色信息
+        {characters}
+
+        ## 场景上下文
+        {context}
+
+        ## 对话目标
+        {goal}
+
+        ## 要求
+        1. 对话符合每个角色的语言风格
+        2. 推进情节或揭示角色性格
+        3. 自然流畅的对话节奏
+        4. 适当的肢体语言和心理描写
+
+        ## 输出
+        输出对话内容（包含说话人标识和动作描写）。
+
+    # 提示词生成参数配置
+    settings:
+      character-creation:
+        temperature: 0.7
+        maxTokens: 2000
+        topP: 0.95
+        frequencyPenalty: 0.3
+        presencePenalty: 0.3
+        enableCoT: true
+        maxContextTokens: 3000
+        retryCount: 3
+        timeoutSeconds: 60
+
+      worldview-creation:
+        temperature: 0.8
+        maxTokens: 2500
+        topP: 0.95
+        frequencyPenalty: 0.2
+        presencePenalty: 0.4
+        enableCoT: true
+        maxContextTokens: 3000
+        retryCount: 3
+        timeoutSeconds: 60
+
+      chapter-generation:
+        temperature: 0.75
+        maxTokens: 4000
+        topP: 0.95
+        frequencyPenalty: 0.4
+        presencePenalty: 0.3
+        enableCoT: false
+        maxContextTokens: 4000
+        retryCount: 2
+        timeoutSeconds: 90
+
+      scene-generation:
+        temperature: 0.8
+        maxTokens: 1500
+        topP: 0.95
+        frequencyPenalty: 0.5
+        presencePenalty: 0.4
+        enableCoT: false
+        maxContextTokens: 2000
+        retryCount: 2
+        timeoutSeconds: 60
+
+      dialogue-generation:
+        temperature: 0.7
+        maxTokens: 1500
+        topP: 0.95
+        frequencyPenalty: 0.6
+        presencePenalty: 0.3
+        enableCoT: false
+        maxContextTokens: 2000
+        retryCount: 2
+        timeoutSeconds: 60

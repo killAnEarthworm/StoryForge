@@ -1,0 +1,913 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>故事创作助手 - 导航</title>
+  <script src="https://res.gemcoder.com/js/reload.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+          href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#121212',
+            // 深黑色
+            secondary: '#f8f0fc',
+            // 浅粉色背景
+            accent: '#d946ef',
+            // 粉色
+            dark: '#4c1d95',
+            // 紫色
+            'dark-accent': '#7c3aed',
+            // 亮紫色
+            'pink-gradient': '#ec4899',
+            // 粉色渐变
+            'purple-gradient': '#8b5cf6' // 紫色渐变
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .sidebar-item {
+        @apply flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-800 transition-all duration-200 rounded-lg;
+      }
+      .sidebar-item.active-menu {
+        @apply bg-gradient-to-r from-accent/20 to-dark/30 text-white font-medium border-l-2 border-accent;
+      }
+      .nav-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+    }
+  </style>
+</head>
+<body
+        class="font-inter bg-gray-950 text-gray-100 h-screen flex flex-col overflow-hidden"
+>
+<!-- 顶部导航栏 -->
+<header
+        class="bg-gradient-to-r from-primary to-dark text-white py-3 px-4 nav-shadow z-10"
+>
+  <div class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <i class="fas fa-book-open text-2xl"> </i>
+      <h1
+              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary"
+      >
+        故事创作助手
+      </h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-bell"> </i>
+      </button>
+      <button class="p-2 rounded-full hover:bg-accent/20 transition-colors">
+        <i class="fas fa-cog"> </i>
+      </button>
+      <div class="flex items-center gap-2">
+        <img
+                src="./api/searchImage?query=user avatar with neutral expression, simple style, dark background&amp;width=40&amp;height=40"
+                alt="用户头像"
+                class="w-8 h-8 rounded-full object-cover border-2 border-accent/50"
+        />
+        <span class="hidden md:inline"> 创作者 </span>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- 主内容区 -->
+<main class="flex flex-1 overflow-hidden">
+  <!-- 侧边菜单栏 -->
+  <aside
+          class="bg-gray-900 w-64 border-r border-gradient-to-b from-accent/30 via-transparent to-accent/30 p-4 overflow-y-auto z-10"
+  >
+    <nav class="space-y-1">
+      <a
+              href="javascript:void(0);"
+              data-uuid="characterSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item active-menu"
+      >
+        <i class="fas fa-user-circle w-5 text-center"> </i>
+        <span> 角色设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="worldviewSetting"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-globe-asia w-5 text-center"> </i>
+        <span> 世界观设定 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="timeline"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-history w-5 text-center"> </i>
+        <span> 时间线 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="scene"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-map-marker-alt w-5 text-center"> </i>
+        <span> 场景 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="storyGeneration"
+              onclick="ytCustomClickRouter(this, event)"
+              cla=""
+              ss="sidebar-item"
+      >
+        <i class="fas fa-feather-alt w-5 text-center"> </i>
+        <span> 故事生成 </span>
+      </a>
+      <a
+              href="javascript:void(0);"
+              data-uuid="inspirationModule"
+              onclick="ytCustomClickRouter(this, event)"
+              class="sidebar-item"
+      >
+        <i class="fas fa-lightbulb w-5 text-center"> </i>
+        <span> 灵感模块 </span>
+      </a>
+    </nav>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h3 class="text-xs uppercase text-gray-400 font-semibold mb-3 px-4">
+        最近项目
+      </h3>
+      <div class="space-y-2">
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">仙侠世界</div>
+          <div class="text-xs text-gray-500">上次编辑: 今天</div>
+        </div>
+        <div
+                class="px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 rounded-lg cursor-pointer transition-colors"
+        >
+          <div class="font-medium">未来都市</div>
+          <div class="text-xs text-gray-500">上次编辑: 昨天</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- iframe 内容区域 -->
+  <div class="flex-1 overflow-hidden relative">
+    <iframe
+            id="navigation"
+            src=""
+            class=""
+            width="100%"
+            height="100%"
+            srcdoc="&lt;html lang='zh-CN'&gt;
+        &lt;head &gt;
+        &lt;meta charset='UTF-8'/&gt;
+&lt;meta name='viewport' content='width=device-width, initial-scale=1.0'/&gt;
+&lt;title &gt;场景设定 - 故事创作助手&lt;/title&gt;
+&lt;script src='https://res.gemcoder.com/js/reload.js'&gt;&lt;/script&gt;
+&lt;script src='https://cdn.tailwindcss.com'&gt;&lt;/script&gt;
+&lt;link href='https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css' rel='stylesheet'/&gt;
+&lt;script &gt;tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#121212',
+        secondary: '#f8f0fc',
+        accent: '#d946ef',
+        dark: '#4c1d95',
+        'dark-accent': '#7c3aed',
+        'pink-gradient': '#ec4899',
+        'purple-gradient': '#8b5cf6',
+        'scene-bg': '#1e1b4b'
+      },
+      fontFamily: {
+        inter: ['Inter', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+};&lt;/script&gt;
+&lt;style type='text/tailwindcss'&gt;
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .bg-glass {
+                background: rgba(30, 27, 75, 0.7);
+                backdrop-filter: blur(8px);
+            }
+            .border-gradient {
+                border-image: linear-gradient(to right, #d946ef, #8b5cf6) 1;
+            }
+        }
+    &lt;/style&gt;
+
+      &lt;style&gt;
+          ::-webkit-scrollbar { width: 0px; }
+      &lt;/style&gt;
+  &lt;/head&gt;
+&lt;body class='font-inter bg-gray-950 text-gray-100 p-4 md:p-6 min-h-screen'&gt;
+        &lt;!-- 页面标题 --&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h1 class='text-[clamp(1.5rem,3vw,2.5rem)] font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary'&gt;
+        场景设定
+    &lt;/h1&gt;
+&lt;p class='text-gray-400 mt-1'&gt;
+        定义故事中的关键场景，包括环境、氛围和可用元素
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;!-- 主要内容区 --&gt;
+&lt;div class='grid grid-cols-1 lg:grid-cols-3 gap-6'&gt;
+        &lt;!-- 左侧：场景基本信息 --&gt;
+&lt;div class='lg:col-span-2 space-y-6'&gt;
+        &lt;!-- 场景基本信息卡片 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;div class='flex justify-between items-center mb-5'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2'&gt;
+        &lt;i class='fas fa-map-marked-alt text-accent'&gt;
+        &lt;/i&gt;
+场景基本信息
+    &lt;/h2&gt;
+&lt;div class='flex gap-2'&gt;
+        &lt;button class='px-3 py-1 text-sm bg-accent/20 hover:bg-accent/30 rounded-lg transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-save'&gt;
+        &lt;/i&gt;
+保存
+    &lt;/button&gt;
+&lt;button class='px-3 py-1 text-sm bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-copy'&gt;
+        &lt;/i&gt;
+复制
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-2 gap-5'&gt;
+        &lt;!-- 场景名称 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        场景名称
+    &lt;/label&gt;
+&lt;input type='text' class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all' placeholder='例如：月光下的古堡大厅'/&gt;
+    &lt;/div&gt;
+&lt;!-- 场景类型 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        场景类型
+    &lt;/label&gt;
+&lt;select class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        室内场景
+    &lt;/option&gt;
+&lt;option &gt;
+        室外自然场景
+    &lt;/option&gt;
+&lt;option &gt;
+        城市环境
+    &lt;/option&gt;
+&lt;option &gt;
+        特殊空间
+    &lt;/option&gt;
+&lt;option &gt;
+        自定义...
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;!-- 关联故事线 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        关联故事线
+    &lt;/label&gt;
+&lt;select class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        主线剧情
+    &lt;/option&gt;
+&lt;option &gt;
+        角色A的支线
+    &lt;/option&gt;
+&lt;option &gt;
+        角色B的回忆
+    &lt;/option&gt;
+&lt;option &gt;
+        新增故事线...
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;!-- 时间背景 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        时间背景
+    &lt;/label&gt;
+&lt;div class='grid grid-cols-2 gap-3'&gt;
+        &lt;select class='bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        清晨
+    &lt;/option&gt;
+&lt;option &gt;
+        上午
+    &lt;/option&gt;
+&lt;option &gt;
+        中午
+    &lt;/option&gt;
+&lt;option &gt;
+        下午
+    &lt;/option&gt;
+&lt;option &gt;
+        黄昏
+    &lt;/option&gt;
+&lt;option &gt;
+        夜晚
+    &lt;/option&gt;
+    &lt;/select&gt;
+&lt;select class='bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        季节：春季
+    &lt;/option&gt;
+&lt;option &gt;
+        季节：夏季
+    &lt;/option&gt;
+&lt;option &gt;
+        季节：秋季
+    &lt;/option&gt;
+&lt;option &gt;
+        季节：冬季
+    &lt;/option&gt;
+&lt;option &gt;
+        特殊天气：雨天
+    &lt;/option&gt;
+&lt;option &gt;
+        特殊天气：雪天
+    &lt;/option&gt;
+&lt;option &gt;
+        特殊天气：风暴
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 物理环境描述 --&gt;
+&lt;div class='mt-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        物理环境描述
+    &lt;/label&gt;
+&lt;textarea rows='4' class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all' placeholder='详细描述场景的物理环境，包括布局、建筑风格、装饰等...'&gt;
+        &lt;/textarea&gt;
+&lt;div class='flex justify-between items-center mt-2'&gt;
+        &lt;span class='text-xs text-gray-500'&gt;
+        描述场景的视觉元素和空间布局
+    &lt;/span&gt;
+&lt;button class='text-xs text-accent hover:text-accent/80 transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-magic'&gt;
+        &lt;/i&gt;
+AI辅助
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 氛围与情绪基调 --&gt;
+&lt;div class='mt-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-1'&gt;
+        氛围与情绪基调
+    &lt;/label&gt;
+&lt;div class='grid grid-cols-2 gap-3 mb-3'&gt;
+        &lt;div &gt;
+        &lt;label class='text-xs text-gray-400 mb-1 block'&gt;
+        主要氛围
+    &lt;/label&gt;
+&lt;select class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        紧张
+    &lt;/option&gt;
+&lt;option &gt;
+        宁静
+    &lt;/option&gt;
+&lt;option &gt;
+        神秘
+    &lt;/option&gt;
+&lt;option &gt;
+        压抑
+    &lt;/option&gt;
+&lt;option &gt;
+        欢乐
+    &lt;/option&gt;
+&lt;option &gt;
+        悲伤
+    &lt;/option&gt;
+&lt;option &gt;
+        恐怖
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+&lt;div &gt;
+        &lt;label class='text-xs text-gray-400 mb-1 block'&gt;
+        情绪基调
+    &lt;/label&gt;
+&lt;select class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all'&gt;
+        &lt;option &gt;
+        希望
+    &lt;/option&gt;
+&lt;option &gt;
+        绝望
+    &lt;/option&gt;
+&lt;option &gt;
+        期待
+    &lt;/option&gt;
+&lt;option &gt;
+        恐惧
+    &lt;/option&gt;
+&lt;option &gt;
+        平静
+    &lt;/option&gt;
+&lt;option &gt;
+        混乱
+    &lt;/option&gt;
+    &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;textarea rows='3' class='w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all' placeholder='描述场景给人的整体感受和情绪影响...'&gt;
+        &lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 场景元素与道具 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;div class='flex justify-between items-center mb-5'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2'&gt;
+        &lt;i class='fas fa-cubes text-accent'&gt;
+        &lt;/i&gt;
+场景元素与道具
+    &lt;/h2&gt;
+&lt;button class='px-3 py-1.5 text-sm bg-accent hover:bg-accent/90 rounded-lg transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+添加元素
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;!-- 场景元素列表 --&gt;
+&lt;div class='space-y-4'&gt;
+        &lt;!-- 元素项1 --&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-4 border border-gray-700/50 hover:border-accent/30 transition-all'&gt;
+        &lt;div class='flex justify-between items-start'&gt;
+        &lt;div &gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;span class='bg-accent/20 text-accent text-xs px-2 py-0.5 rounded-full'&gt;
+        道具
+    &lt;/span&gt;
+&lt;h3 class='font-medium'&gt;
+        古老的橡木书桌
+    &lt;/h3&gt;
+    &lt;/div&gt;
+&lt;p class='text-sm text-gray-400 mt-1'&gt;
+        一张雕刻精美的橡木书桌，桌面上散落着羊皮纸和羽毛笔
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-1'&gt;
+        &lt;button class='p-1.5 text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1.5 text-gray-400 hover:text-red-400 transition-colors'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-3 flex flex-wrap gap-2'&gt;
+        &lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        可交互
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        包含线索
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        木质
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 元素项2 --&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-4 border border-gray-700/50 hover:border-accent/30 transition-all'&gt;
+        &lt;div class='flex justify-between items-start'&gt;
+        &lt;div &gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;span class='bg-purple-gradient/20 text-purple-gradient text-xs px-2 py-0.5 rounded-full'&gt;
+        环境元素
+    &lt;/span&gt;
+&lt;h3 class='font-medium'&gt;
+        摇曳的烛台
+    &lt;/h3&gt;
+    &lt;/div&gt;
+&lt;p class='text-sm text-gray-400 mt-1'&gt;
+        青铜烛台上插着三根蜡烛，火焰随风摇曳，投射出晃动的影子
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-1'&gt;
+        &lt;button class='p-1.5 text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1.5 text-gray-400 hover:text-red-400 transition-colors'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-3 flex flex-wrap gap-2'&gt;
+        &lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        光源
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        可交互
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        金属
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 元素项3 --&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-4 border border-gray-700/50 hover:border-accent/30 transition-all'&gt;
+        &lt;div class='flex justify-between items-start'&gt;
+        &lt;div &gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;span class='bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full'&gt;
+        环境特征
+    &lt;/span&gt;
+&lt;h3 class='font-medium'&gt;
+        石砌壁炉
+    &lt;/h3&gt;
+    &lt;/div&gt;
+&lt;p class='text-sm text-gray-400 mt-1'&gt;
+        燃烧着火焰的石砌壁炉，上方挂着一把装饰性的古剑
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-1'&gt;
+        &lt;button class='p-1.5 text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-edit'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1.5 text-gray-400 hover:text-red-400 transition-colors'&gt;
+        &lt;i class='fas fa-trash'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-3 flex flex-wrap gap-2'&gt;
+        &lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        热源
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        光源
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        石质
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 空状态提示 (默认隐藏) --&gt;
+&lt;div class='hidden text-center py-10 text-gray-500'&gt;
+        &lt;i class='fas fa-box-open text-4xl mb-3'&gt;
+        &lt;/i&gt;
+&lt;p &gt;
+        此场景暂无元素，点击&quot;添加元素&quot;开始创建
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 场景事件与互动 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;div class='flex justify-between items-center mb-5'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2'&gt;
+        &lt;i class='fas fa-exchange-alt text-accent'&gt;
+        &lt;/i&gt;
+场景事件与互动
+    &lt;/h2&gt;
+&lt;button class='px-3 py-1.5 text-sm bg-accent hover:bg-accent/90 rounded-lg transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+添加事件
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;!-- 可能发生的互动 --&gt;
+&lt;div class='mb-6'&gt;
+        &lt;h3 class='text-sm font-medium text-gray-300 mb-3'&gt;
+        可能的互动
+    &lt;/h3&gt;
+&lt;div class='grid grid-cols-1 md:grid-cols-2 gap-3'&gt;
+        &lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-hand-pointer text-accent'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm'&gt;
+        检查书桌抽屉
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-hand-pointer text-accent'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm'&gt;
+        观察窗外景象
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-hand-pointer text-accent'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm'&gt;
+        点燃/熄灭蜡烛
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50'&gt;
+        &lt;div class='flex items-center gap-2'&gt;
+        &lt;i class='fas fa-hand-pointer text-accent'&gt;
+        &lt;/i&gt;
+&lt;span class='text-sm'&gt;
+        查看壁炉上方的剑
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 预期事件 --&gt;
+&lt;div &gt;
+        &lt;h3 class='text-sm font-medium text-gray-300 mb-3'&gt;
+        预期事件
+    &lt;/h3&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-4 border border-gray-700/50'&gt;
+        &lt;div class='flex items-start gap-3'&gt;
+        &lt;div class='bg-accent/20 p-2 rounded-lg'&gt;
+        &lt;i class='fas fa-hourglass-half text-accent'&gt;
+        &lt;/i&gt;
+    &lt;/div&gt;
+&lt;div class='flex-1'&gt;
+        &lt;h4 class='font-medium'&gt;
+        访客到来
+    &lt;/h4&gt;
+&lt;p class='text-sm text-gray-400 mt-1'&gt;
+        当角色调查书桌时，会有神秘访客敲门，打断调查
+    &lt;/p&gt;
+&lt;div class='flex items-center gap-2 mt-2'&gt;
+        &lt;span class='text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full'&gt;
+        触发事件
+    &lt;/span&gt;
+&lt;span class='text-xs bg-gray-700/50 text-gray-300 px-2 py-0.5 rounded-full'&gt;
+        剧情关键
+    &lt;/span&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 右侧：场景视觉化与关联 --&gt;
+&lt;div class='space-y-6'&gt;
+        &lt;!-- 场景视觉预览 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2 mb-4'&gt;
+        &lt;i class='fas fa-image text-accent'&gt;
+        &lt;/i&gt;
+场景视觉预览
+    &lt;/h2&gt;
+&lt;div class='relative rounded-lg overflow-hidden aspect-[4/3] bg-gray-800/50 border border-gray-700'&gt;
+        &lt;img src='./api/searchImage?query=medieval castle interior with wooden desk and stone fireplace, dim lighting, mysterious atmosphere, fantasy scene&amp;width=800&amp;height=600' alt='场景视觉参考' class='w-full h-full object-cover opacity-80'/&gt;
+&lt;div class='absolute inset-0 bg-gradient-to-t from-scene-bg/80 to-transparent flex items-end'&gt;
+        &lt;div class='p-4'&gt;
+        &lt;button class='text-sm bg-accent hover:bg-accent/90 rounded-lg px-3 py-1.5 transition-colors flex items-center gap-1'&gt;
+        &lt;i class='fas fa-camera'&gt;
+        &lt;/i&gt;
+更换图片
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;div class='mt-4 grid grid-cols-3 gap-2'&gt;
+        &lt;button class='aspect-square rounded-md bg-gray-800/50 border border-dashed border-gray-700 flex items-center justify-center hover:border-accent/50 transition-all'&gt;
+        &lt;i class='fas fa-plus text-gray-500'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='aspect-square rounded-md bg-gray-800/50 border border-dashed border-gray-700 flex items-center justify-center hover:border-accent/50 transition-all'&gt;
+        &lt;i class='fas fa-plus text-gray-500'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='aspect-square rounded-md bg-gray-800/50 border border-dashed border-gray-700 flex items-center justify-center hover:border-accent/50 transition-all'&gt;
+        &lt;i class='fas fa-plus text-gray-500'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 关联角色 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2 mb-4'&gt;
+        &lt;i class='fas fa-users text-accent'&gt;
+        &lt;/i&gt;
+关联角色
+    &lt;/h2&gt;
+&lt;div class='space-y-3'&gt;
+        &lt;!-- 角色1 --&gt;
+&lt;div class='flex items-center gap-3 p-3 bg-gray-800/30 rounded-lg border border-gray-700/50'&gt;
+        &lt;img src='./api/searchImage?query=wise old wizard with long beard, fantasy style, staff in hand&amp;width=60&amp;height=60' alt='角色头像' class='w-10 h-10 rounded-full object-cover border border-accent/30'/&gt;
+&lt;div class='flex-1 min-w-0'&gt;
+        &lt;h3 class='font-medium truncate'&gt;
+        梅林法师
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-400 truncate'&gt;
+        场景主人
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-1'&gt;
+        &lt;button class='p-1.5 text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-link'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1.5 text-gray-400 hover:text-red-400 transition-colors'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 角色2 --&gt;
+&lt;div class='flex items-center gap-3 p-3 bg-gray-800/30 rounded-lg border border-gray-700/50'&gt;
+        &lt;img src='./api/searchImage?query=young knight with determined expression, medieval armor, sword&amp;width=60&amp;height=60' alt='角色头像' class='w-10 h-10 rounded-full object-cover border border-accent/30'/&gt;
+&lt;div class='flex-1 min-w-0'&gt;
+        &lt;h3 class='font-medium truncate'&gt;
+        亚瑟爵士
+    &lt;/h3&gt;
+&lt;p class='text-xs text-gray-400 truncate'&gt;
+        访客
+    &lt;/p&gt;
+    &lt;/div&gt;
+&lt;div class='flex items-center gap-1'&gt;
+        &lt;button class='p-1.5 text-gray-400 hover:text-white transition-colors'&gt;
+        &lt;i class='fas fa-link'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+&lt;button class='p-1.5 text-gray-400 hover:text-red-400 transition-colors'&gt;
+        &lt;i class='fas fa-times'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;button class='w-full mt-4 py-2 border border-dashed border-accent/50 text-accent hover:bg-accent/10 rounded-lg transition-colors text-sm flex items-center justify-center gap-1'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+添加关联角色
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;!-- 场景标签与分类 --&gt;
+&lt;div class='bg-gradient-to-br from-scene-bg to-dark rounded-xl p-5 shadow-lg border border-accent/20'&gt;
+        &lt;h2 class='text-xl font-semibold flex items-center gap-2 mb-4'&gt;
+        &lt;i class='fas fa-tags text-accent'&gt;
+        &lt;/i&gt;
+场景标签与分类
+    &lt;/h2&gt;
+&lt;!-- 场景分类 --&gt;
+&lt;div class='mb-5'&gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        场景分类
+    &lt;/label&gt;
+&lt;div class='grid grid-cols-2 gap-2'&gt;
+        &lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50 flex items-center gap-2 cursor-pointer hover:border-accent/30 transition-all'&gt;
+        &lt;input type='radio' name='scene-category' id='category-indoor' class='accent-accent'/&gt;
+&lt;label for='category-indoor' class='cursor-pointer'&gt;
+        室内场景
+    &lt;/label&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50 flex items-center gap-2 cursor-pointer hover:border-accent/30 transition-all'&gt;
+        &lt;input type='radio' name='scene-category' id='category-outdoor' class='accent-accent'/&gt;
+&lt;label for='category-outdoor' class='cursor-pointer'&gt;
+        室外场景
+    &lt;/label&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50 flex items-center gap-2 cursor-pointer hover:border-accent/30 transition-all'&gt;
+        &lt;input type='radio' name='scene-category' id='category-special' class='accent-accent' checked/&gt;
+&lt;label for='category-special' class='cursor-pointer'&gt;
+        特殊空间
+    &lt;/label&gt;
+    &lt;/div&gt;
+&lt;div class='bg-gray-800/30 rounded-lg p-3 border border-gray-700/50 flex items-center gap-2 cursor-pointer hover:border-accent/30 transition-all'&gt;
+        &lt;input type='radio' name='scene-category' id='category-abstract' class='accent-accent'/&gt;
+&lt;label for='category-abstract' class='cursor-pointer'&gt;
+        抽象场景
+    &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 标签 --&gt;
+&lt;div &gt;
+        &lt;label class='block text-sm font-medium text-gray-300 mb-2'&gt;
+        标签
+    &lt;/label&gt;
+&lt;div class='flex flex-wrap gap-2 mb-3'&gt;
+        &lt;span class='bg-accent/20 text-accent text-xs px-2.5 py-1 rounded-full flex items-center gap-1'&gt;
+        魔法
+&lt;button class='text-accent/70 hover:text-accent transition-colors'&gt;
+        &lt;i class='fas fa-times-circle'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/span&gt;
+&lt;span class='bg-accent/20 text-accent text-xs px-2.5 py-1 rounded-full flex items-center gap-1'&gt;
+        中世纪
+&lt;button class='text-accent/70 hover:text-accent transition-colors'&gt;
+        &lt;i class='fas fa-times-circle'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/span&gt;
+&lt;span class='bg-accent/20 text-accent text-xs px-2.5 py-1 rounded-full flex items-center gap-1'&gt;
+        神秘
+&lt;button class='text-accent/70 hover:text-accent transition-colors'&gt;
+        &lt;i class='fas fa-times-circle'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/span&gt;
+    &lt;/div&gt;
+&lt;div class='flex'&gt;
+        &lt;input type='text' placeholder='添加标签...' class='flex-1 bg-gray-800/50 border border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent transition-all text-sm'/&gt;
+&lt;button class='bg-accent hover:bg-accent/90 px-3 rounded-r-lg transition-colors'&gt;
+        &lt;i class='fas fa-plus'&gt;
+        &lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;!-- 底部操作栏 --&gt;
+&lt;div class='mt-8 flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-gray-800'&gt;
+        &lt;div class='flex gap-3'&gt;
+        &lt;button class='px-4 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2'&gt;
+        &lt;i class='fas fa-arrow-left'&gt;
+        &lt;/i&gt;
+返回列表
+    &lt;/button&gt;
+&lt;button class='px-4 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors flex items-center gap-2'&gt;
+        &lt;i class='fas fa-file-export'&gt;
+        &lt;/i&gt;
+导出场景
+    &lt;/button&gt;
+    &lt;/div&gt;
+&lt;div class='flex gap-3'&gt;
+        &lt;button class='px-5 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors'&gt;
+        预览场景
+    &lt;/button&gt;
+&lt;button class='px-5 py-2.5 bg-gradient-to-r from-accent to-purple-gradient hover:opacity-90 rounded-lg transition-all font-medium'&gt;
+        保存场景设定
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+&lt;script &gt;// 当页面大小或者内容发生变化时，通知导航页面跳转iframe高度
+ytSendPageSize();
+// 简单的交互功能示例
+document.addEventListener('DOMContentLoaded', function () {
+  // 为所有删除按钮添加确认提示
+  var deleteButtons = document.querySelectorAll('.fa-trash');
+  deleteButtons.forEach(function (button) {
+    button.parentElement.addEventListener('click', function (e) {
+      if (!confirm('确定要删除这个项目吗？')) {
+        e.preventDefault();
+      }
+    });
+  });
+  // 模拟AI辅助按钮点击效果
+  var aiButtons = document.querySelectorAll('button:has(.fa-magic)');
+  aiButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      alert('AI辅助功能即将推出，敬请期待！');
+    });
+  });
+});&lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;"
+    >
+    </iframe>
+  </div>
+</main>
+<script>
+  // 页面加载时初始化渲染
+  document.addEventListener('DOMContentLoaded', function () {
+    // 监听子页面大小变化，调整iframe的高度
+    ytGetIframeResize(document.getElementById('navigation'));
+  });
+</script>
+</body>
+</html>

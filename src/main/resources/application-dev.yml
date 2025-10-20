@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/storyforge
+    username: postgres
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD:123456}
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 8
+          min-idle: 2
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:dev-secret-key-not-for-production}
+  expiration: 86400000 # 24 hours
+
+logging:
+  level:
+    com.linyuan.storyforge: DEBUG
+    org.springframework.ai: DEBUG
+    org.springframework.web: DEBUG
