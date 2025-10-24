@@ -13,7 +13,9 @@
       "Read(//d/**)",
       "Bash(mkdir -p \"D:/project/StoryForge/front/src/views/character\" \"D:/project/StoryForge/front/src/views/worldview\" \"D:/project/StoryForge/front/src/views/timeline\" \"D:/project/StoryForge/front/src/views/scene\" \"D:/project/StoryForge/front/src/views/story\" \"D:/project/StoryForge/front/src/views/inspiration\" \"D:/project/StoryForge/front/src/layouts\" \"D:/project/StoryForge/front/src/store\")",
       "Bash(npm install vuex@next --save)",
-      "Bash(npm run dev)"
+      "Bash(npm run dev)",
+      "WebFetch(domain:cloud.baidu.com)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

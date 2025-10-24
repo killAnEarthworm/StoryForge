@@ -86,4 +86,25 @@ public class CharacterController {
         characterService.deleteCharacter(id);
         return ApiResponse.success(null, "Character deleted successfully");
     }
+
+    /**
+     * Generate character using AI
+     * POST /api/characters/generate?projectId=xxx&keywords=xxx
+     */
+    @PostMapping("/generate")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<CharacterDTO> generateCharacter(
+            @RequestParam UUID projectId,
+            @RequestParam String keywords) {
+        log.info("POST /api/characters/generate - Generating character with AI for project: {}, keywords: {}",
+                projectId, keywords);
+
+        try {
+            CharacterDTO generatedCharacter = characterService.generateCharacterWithAI(projectId, keywords);
+            return ApiResponse.success(generatedCharacter, "Character generated successfully using AI");
+        } catch (RuntimeException e) {
+            log.error("Failed to generate character with AI", e);
+            return ApiResponse.error("AI generation failed: " + e.getMessage());
+        }
+    }
 }

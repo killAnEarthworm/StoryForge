@@ -4,281 +4,626 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**StoryForge** is an AI-powered story generation platform built with Spring Boot 3.5.6 and Spring AI 1.0.3. The system leverages GPT-4 for intelligent narrative creation, using sophisticated prompt engineering, vector-based character consistency, and memory management systems to generate coherent, engaging stories.
+**StoryForge** is an AI-powered story generation platform built with Spring Boot and Vue 3. The system leverages OpenAI's GPT-4 for intelligent narrative creation, using sophisticated prompt engineering, vector-based character consistency, and memory management systems to generate coherent, engaging stories.
 
-**Current Status**: Early MVP stage - only bootstrap application exists, but comprehensive architecture design documents and database schemas are defined.
+**Current Status**: Early development stage with:
+- ✅ Backend: Complete entity models, repositories, services, and REST controllers for all six core modules
+- ✅ Frontend: Vue 3 framework with routing, state management, and UI scaffolding
+- 🚧 AI Integration: Configuration and templates ready, implementation in progress
+- 🚧 Database: Schema defined, migrations available
 
 ## Build & Development Commands
 
-### Maven Commands
+### Backend (Spring Boot)
+
+**Windows (Command Prompt)**:
+```cmd
+REM Build the project
+mvnw.cmd clean package
+
+REM Run the application
+mvnw.cmd spring-boot:run
+
+REM Run with specific profile
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev
+
+REM Run tests
+mvnw.cmd test
+
+REM Run specific test class
+mvnw.cmd test -Dtest=StoryForgeApplicationTests
+
+REM Skip tests during build
+mvnw.cmd clean package -DskipTests
+```
+
+**Unix/Linux/Mac**:
 ```bash
-# Build the project
-mvnw clean package
+# Use ./mvnw instead of mvnw.cmd
+./mvnw clean package
+./mvnw spring-boot:run
+```
 
-# Run the application
-mvnw spring-boot:run
+### Frontend (Vue 3 + Vite)
 
-# Run with specific profile (dev/prod)
-mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```bash
+# Navigate to frontend directory
+cd front
 
-# Run tests
-mvnw test
+# Install dependencies (first time only)
+npm install
 
-# Run specific test class
-mvnw test -Dtest=StoryForgeApplicationTests
+# Run development server
+npm run dev
+# Access at: http://localhost:8888
 
-# Skip tests during build
-mvnw clean package -DskipTests
+# Build for production
+npm run build
 ```
 
 ### Required Environment Variables
+
+**Windows (Command Prompt)**:
+```cmd
+set DB_PASSWORD=123456
+set OPENAI_API_KEY=your-openai-key
+set REDIS_PASSWORD=123456
+set JWT_SECRET=your-secret-key-change-in-production
+```
+
+**Windows (PowerShell)**:
+```powershell
+$env:DB_PASSWORD="123456"
+$env:OPENAI_API_KEY="your-openai-key"
+$env:REDIS_PASSWORD="123456"
+$env:JWT_SECRET="your-secret-key-change-in-production"
+```
+
+**Unix/Linux/Mac**:
 ```bash
-# Database
-DB_PASSWORD=123456
+export DB_PASSWORD=123456
+export OPENAI_API_KEY=your-openai-key
+export REDIS_PASSWORD=123456
+export JWT_SECRET=your-secret-key-change-in-production
+```
 
-# OpenAI API
-OPENAI_API_KEY=your-openai-key
+### Database Setup
 
-# Redis (optional, defaults to empty)
-REDIS_PASSWORD=123456
+```bash
+# Connect to PostgreSQL
+psql -U postgres
 
-# JWT Secret (required for production)
-JWT_SECRET=your-secret-key-change-in-production
+# Create database
+CREATE DATABASE storyforge;
+CREATE USER storyforge WITH PASSWORD '123456';
+GRANT ALL PRIVILEGES ON DATABASE storyforge TO storyforge;
+
+# Initialize schema
+\c storyforge
+\i src/main/resources/_sql/init.sql
 ```
 
 ## Architecture Overview
 
 ### Technology Stack
-- **Framework**: Spring Boot 3.5.6 with Spring WebFlux (reactive programming)
-- **AI Integration**: Spring AI 1.0.3 with OpenAI GPT-4 Turbo Preview
+
+**Backend**:
+- **Framework**: Spring Boot 3.3.5
+- **Java Version**: 21
+- **AI Integration**: Spring AI 1.0.0-M4 with OpenAI GPT-4 Turbo Preview
 - **Database**: PostgreSQL with pgvector extension for embeddings
 - **Cache/Session**: Redis with Spring Session
-- **Security**: Spring Security with JWT authentication
-- **ORM**: JPA + MyBatis (dual persistence approach)
+- **Security**: Spring Security with JWT authentication (currently disabled in dev mode)
+- **ORM**: JPA (Hibernate) + MyBatis (planned for complex queries)
 - **Build Tool**: Maven
-- **Java Version**: 25
 
-### Planned Module Structure
+**Frontend**:
+- **Framework**: Vue 3
+- **Build Tool**: Vite 1.0
+- **UI Library**: Ant Design Vue 4.0
+- **State Management**: Vuex 4
+- **Routing**: Vue Router 4
+- **HTTP Client**: Axios 1.12
 
-The system is designed with six major feature modules:
+### Project Structure
 
-1. **Character Module** - AI-assisted character generation with personality vectors, memory management, and consistency validation
-2. **Worldview Module** - World-building with knowledge graphs, rule systems, and consistency engines
-3. **Timeline Module** - Event management with causality tracking, paradox detection, and branching scenarios
-4. **Scene Module** - Layered scene generation with sensory details, atmosphere, and dynamic transitions
-5. **Story Generation Module** - Multi-mode generation (chapter-by-chapter, dialogue-driven, interactive, collaborative) with quality control
-6. **Inspiration Module** - AI creative assistance with trend analysis, idea combination, and recommendation engines
+```
+StoryForge/
+├── src/main/java/com/linyuan/storyforge/
+│   ├── entity/          # JPA entities (Character, Worldview, Timeline, Scene, etc.)
+│   ├── dto/             # Data Transfer Objects
+│   ├── repository/      # Spring Data JPA repositories
+│   ├── service/         # Business logic layer
+│   ├── controller/      # REST API controllers
+│   ├── config/          # Configuration classes (Security, Prompts)
+│   ├── exception/       # Exception handlers
+│   ├── common/          # Common utilities (ApiResponse)
+│   └── enums/           # Enumerations
+├── src/main/resources/
+│   ├── application.yml           # Main configuration
+│   ├── application-dev.yml       # Development profile
+│   ├── application-prod.yml      # Production profile
+│   └── _sql/                     # Database migration scripts
+├── front/                        # Vue 3 frontend
+│   ├── src/
+│   │   ├── views/       # Page components (character, worldview, timeline, etc.)
+│   │   ├── layouts/     # Layout components (MainLayout)
+│   │   ├── store/       # Vuex modules
+│   │   ├── router/      # Vue Router configuration
+│   │   ├── http/        # Axios configuration and API definitions
+│   │   ├── components/  # Reusable components
+│   │   └── assets/      # Static assets
+│   ├── package.json
+│   └── vite.config.js
+└── doc/                 # Architecture and design documents
+```
 
-### Key Architectural Patterns
+### Six Core Modules
 
-**Layered Architecture**: Controller → Service → Repository → Database
+All modules follow the same layered architecture: **Entity → Repository → Service → Controller → Frontend View**
 
-**AI-First Design**:
-- Every module integrates GPT-4 for intelligent generation
-- Dynamic context building for consistency
-- Prompt templates with versioning and A/B testing
-- Chain-of-Thought (CoT) injection for better reasoning
+1. **Character Module** (`/api/characters`, `/character`)
+   - Character creation and management with personality vectors
+   - Character memory system with hierarchical types
+   - Character relationships with dynamic tracking
+   - AI-assisted character generation
 
-**Consistency Assurance**:
-- 10-dimensional personality vectors (Big Five + extensions)
-- Character memory system with Ebbinghaus forgetting curves
-- Behavior anchors for validation
-- Worldview rule constraints
+2. **Worldview Module** (`/api/worldviews`, `/worldview`)
+   - Universe laws and magic systems (JSONB storage)
+   - Social structures and geography
+   - Knowledge graph for entity relationships
+   - Terminology dictionary
 
-**Quality Control Pipeline**:
-- Multi-dimensional evaluation (consistency, narrative quality, character performance, pacing, style)
-- Automatic repair system for detected issues
-- Regeneration with feedback loops
+3. **Timeline Module** (`/api/timelines`, `/timeline`)
+   - Event sequence management
+   - Causal relationship tracking
+   - Paradox detection system
+   - Critical point identification
+
+4. **Scene Module** (`/api/scenes`, `/scene`)
+   - Scene creation with atmosphere and mood
+   - Physical environment descriptions
+   - Scene element and prop management
+   - Character associations
+
+5. **Story Generation Module** (`/api/chapters`, `/story`)
+   - Multiple generation modes (chapter, short story, dialogue)
+   - Quality control pipeline
+   - Generation history tracking
+   - Export functionality
+
+6. **Inspiration Module** (`/api/inspiration`, `/inspiration`)
+   - Creative recommendations
+   - Trend analysis
+   - Idea combination engine
+   - Theme suggestions
 
 ## Core Data Models
 
-### Character System
-- **Character**: Basic info + personality vector + behavior patterns
-- **CharacterMemory**: Hierarchical memory types (core → emotional → skill → episodic → semantic) with accessibility decay
-- **CharacterRelationship**: Many-to-many with dynamic tension tracking
+### Key Entities
 
-### Worldview System
-- **Worldview**: JSONB fields for universe laws, social structures, geography, terminology
-- **KnowledgeGraph**: Entity-relationship network with rule constraints
+**Character** (`src/main/java/com/linyuan/storyforge/entity/Character.java`):
+- Basic info: name, age, appearance, occupation
+- Deep settings: backgroundStory, childhoodExperience, importantExperiences (JSONB)
+- Personality: personalityTraits (array), personalityVector (float array for AI)
+- Behavior: speechPattern, behavioralHabits, catchphrases
+- Dynamic state: emotionalState (JSONB), relationships (JSONB)
+- Belongs to: Project, optionally Worldview
 
-### Timeline System
-- **Timeline**: Event sequences with causal relationships
-- **TimelineEvent**: Individual events with impact tracking
-- **Paradox Detection**: Validates character state continuity across events
+**CharacterMemory**:
+- Five-tier hierarchy: core → emotional → skill → episodic → semantic
+- Accessibility decay system (Ebbinghaus forgetting curve)
+- Vector embeddings for similarity search
 
-### Generation System
-- **PromptTemplate**: Versioned templates with effectiveness scoring
-- **GenerationHistory**: Tracks quality metrics for ML optimization
-- **StoryChapter/Scene/Dialogue**: Content entities with metadata
+**CharacterRelationship**:
+- Many-to-many between characters
+- Relationship type and intensity tracking
 
-## Prompt Engineering Strategy
+**Worldview**:
+- JSONB fields for flexible schema (universe laws, social structures, geography, terminology)
+- Knowledge graph support
 
-The system uses a sophisticated prompt engineering approach:
+**Timeline & TimelineEvent**:
+- Event sequences with causal relationships
+- Character state tracking across events
 
-1. **Template Management**: YAML-based templates with variable substitution
-2. **Context Optimization**: Token counting, truncation, and relevance filtering
-3. **Multi-Stage Generation**: Outline → Scene → Dialogue → Refinement
-4. **Dynamic Context Injection**:
-   - Character personalities from vectors
-   - Relevant memories via similarity search
-   - Worldview constraints and rules
-   - Relationship dynamics
+**StoryChapter, Scene, Dialogue**:
+- Content entities with metadata
+- Quality metrics tracking
 
-### Memory Retrieval Algorithm
-Multi-dimensional relevance scoring:
-- Scene relevance (30%)
-- Emotional resonance (20%)
-- Time decay factor (15%)
-- Keyword matching (15%)
-- Access frequency (10%)
+**PromptTemplate**:
+- Template versioning
+- Effectiveness scoring
+- Type enumeration for categorization
 
-## Database Considerations
+**GenerationHistory**:
+- Tracks all AI generations
+- Quality metrics for optimization
 
-### PostgreSQL Extensions Required
-- **pgvector**: For character personality and memory vectors
+## Prompt Engineering System
 
-### Key Indexes (Planned)
-- Timeline: `(character_id, timestamp)` for performance
-- Character Memory: GIN index on keywords for full-text search
-- Vector similarity indexes for pgvector operations
+The system uses a centralized prompt configuration in `application.yml` under `ai.prompt`:
 
-### JSONB Usage
-Extensive use of JSONB for flexible schemas:
-- Worldview rules and structures
-- Character emotional states
-- Scene details and atmosphere
-- Generation metadata
+### Template Structure
 
-## AI Integration Notes
+Templates are stored in `ai.prompt.templates` as multi-line YAML strings with variable placeholders:
 
-### OpenAI Configuration
-- **Model**: gpt-4-turbo-preview
-- **Base Temperature**: 0.7 (configurable per template)
-- **Context Window Management**: Max 3000 tokens per context
-- **Rate Limiting**: Implement retry logic with exponential backoff
-
-### Prompt Template Structure
 ```yaml
 ai:
   prompt:
     templates:
       character-creation: |
-        [System instruction]
+        你是一位专业的小说角色创作助手...
 
-        ## Input
-        {variables}
+        ## 输入信息
+        {input}
 
-        ## Requirements
-        [Specific constraints]
+        ## 要求
+        [具体要求]
 
-        ## Output Format
-        [Structured format]
-
-    settings:
-      character-creation:
-        temperature: 0.7
-        maxTokens: 2000
-        topP: 0.95
+        ## 输出格式
+        [JSON格式定义]
 ```
 
-### Generation Pipeline Pattern
-All major generation follows this pattern:
-1. Prepare context from database
-2. Build prompt with template + variables
-3. Call AI with retry logic
-4. Parse and validate response
-5. Quality check against consistency rules
-6. Save with generation metadata
-7. Update related entity states
+### Template Configuration
 
-## Development Guidelines
+Each template has corresponding settings in `ai.prompt.settings`:
 
-### When Adding New Features
+```yaml
+ai:
+  prompt:
+    settings:
+      character-creation:
+        temperature: 0.7          # Creativity vs consistency (0.0-2.0)
+        maxTokens: 2000          # Max output length
+        topP: 0.95               # Nucleus sampling
+        frequencyPenalty: 0.3    # Reduce repetition
+        presencePenalty: 0.3     # Encourage topic diversity
+        enableCoT: true          # Chain of Thought reasoning
+        maxContextTokens: 3000   # Context window limit
+        retryCount: 3            # Retry on failure
+        timeoutSeconds: 60       # API timeout
+```
 
-**Character-Related Features**:
-- Always validate against personality vectors
-- Update memory accessibility on character interactions
-- Check behavior anchor constraints
-- Maintain relationship tension tracking
+### Available Templates
 
-**Story Generation Features**:
-- Use the `GenerationPipeline` pattern
-- Implement quality checks before saving
-- Track generation history for optimization
-- Consider impact on timeline causality
+- `character-creation`: Generate complete character profiles
+- `worldview-creation`: Build comprehensive world settings
+- `chapter-generation`: Generate story chapters with context
+- `scene-generation`: Create immersive scene descriptions
+- `dialogue-generation`: Generate character-appropriate dialogue
 
-**Worldview Features**:
-- Validate against existing rule constraints
-- Update knowledge graph relationships
-- Ensure terminology consistency
+### Accessing Templates in Code
 
-### Performance Considerations
+Use `PromptConfiguration` bean (auto-configured from application.yml):
 
-1. **Caching Strategy**: Frequently used prompts and contexts should be cached (Redis)
-2. **Batch Operations**: Character memory retrieval uses single SQL query with CTEs
-3. **Vector Operations**: Use pgvector indexes for similarity searches
-4. **Async Generation**: Long-running AI calls should use reactive patterns (WebFlux)
+```java
+@Autowired
+private PromptConfiguration promptConfig;
 
-### Security Notes
-- JWT tokens expire after 24 hours
-- All AI API keys must be environment variables
-- Session data stored in Redis
-- Validate user ownership before generation operations
+// Get template content
+String template = promptConfig.getTemplate("character-creation");
 
-## Common Workflows
+// Get settings
+PromptConfiguration.PromptSettings settings =
+    promptConfig.getSettingsOrDefault("character-creation");
 
-### Creating a New Character
-1. Call `CharacterGenerationService.generateCharacter()`
-2. Service stages: BasicInfo → DeepSettings → PersonalityVector → BehaviorPattern → InitialMemories
-3. Validate consistency with `CharacterConsistencySystem`
-4. Save to database with generated ID
+// Check existence
+boolean exists = promptConfig.hasTemplate("character-creation");
+```
 
-### Generating a Story Chapter
-1. `ChapterGenerationPipeline.generateChapter()`
-2. Stages: Context prep → Outline → Scenes → Dialogue → Quality check
-3. Each scene updates GenerationContext
-4. Quality score < 0.7 triggers regeneration
-5. Update character states and memories after generation
+## REST API Structure
 
-### Adding a Timeline Event
-1. Create event via `TimelineManagementService`
-2. System runs topological sort for causality
-3. Detects paradoxes (e.g., dead character acting)
-4. Identifies critical points using graph algorithms
-5. Updates all affected character states
+All APIs follow RESTful conventions:
 
-## Testing Strategy
+**Base URL**: `http://localhost:8080/api`
 
-### Unit Tests
-- Service layer logic with mocked repositories
-- Prompt template rendering and variable substitution
-- Vector similarity calculations
-- Memory relevance scoring algorithms
+**Standard Endpoints** (pattern for all modules):
+- `GET    /api/{resource}` - List all
+- `POST   /api/{resource}` - Create new
+- `GET    /api/{resource}/{id}` - Get by ID
+- `PUT    /api/{resource}/{id}` - Update
+- `DELETE /api/{resource}/{id}` - Delete
 
-### Integration Tests
-- End-to-end generation pipelines
-- Database constraint validation
-- AI service integration (use test API keys)
-- Quality control system evaluation
+**Module-Specific Endpoints**:
+- Projects: `/api/projects`, `/api/projects/status/{status}`, `/api/projects/genre/{genre}`
+- Characters: `/api/characters`, `/api/characters/project/{projectId}`
+- Chapters: `/api/chapters`, `/api/chapters/project/{projectId}`, `/api/chapters/status/{status}`
+- Worldviews: `/api/worldviews`
+- Scenes: `/api/scenes`
+- Timelines: `/api/timelines`
+- Character Memories: `/api/character-memories`
+- Character Relationships: `/api/character-relationships`
+- Dialogues: `/api/dialogues`
+- Generation History: `/api/generation-history`
+- Prompt Templates: `/api/prompt-templates`
 
-### Test Data
-- Use `@Sql` annotations for database setup
-- Character fixtures with known personality vectors
-- Worldview templates for consistent testing
+**Response Format**: All responses use `ApiResponse<T>` wrapper:
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": { ... }
+}
+```
 
-## Known Design Decisions
+## Frontend Architecture
 
-1. **Dual Persistence (JPA + MyBatis)**: JPA for standard CRUD, MyBatis for complex queries with CTEs and vector operations
-2. **JSONB for Flexibility**: Allows rapid iteration on data models without migrations
-3. **Reactive Stack**: WebFlux supports long-running AI operations without blocking
-4. **Memory Hierarchy**: Five-tier system balances realism with computational efficiency
-5. **Vector Dimensions**: 10 dimensions chosen as optimal balance between expressiveness and performance
+### Routing
 
-## Future Expansion Points
+Routes defined in `front/src/router/router.config.js`:
+- `/character` - Character creation and management
+- `/worldview` - World-building interface
+- `/timeline` - Timeline visualization
+- `/scene` - Scene composition
+- `/story` - Story generation
+- `/inspiration` - Creative assistance
 
-Based on design documents:
-- Interactive branching story support (timeline merge logic exists)
-- Multi-perspective narrative generation
-- Emotion-driven content generation with arc tracking
-- Real-time collaborative writing features
-- Advanced analytics dashboard for generation quality trends
+### State Management
+
+Vuex modules in `front/src/store/modules/`:
+- `character.js` - Character state
+- `worldview.js` - Worldview state
+- `timeline.js` - Timeline state
+- `scene.js` - Scene state
+- `story.js` - Story generation state
+- `inspiration.js` - Inspiration state
+
+### API Layer
+
+API functions defined in `front/src/http/api.js`:
+- `characterApi` - Character CRUD operations
+- `worldviewApi` - Worldview operations
+- `timelineApi` - Timeline operations
+- `sceneApi` - Scene operations
+- `storyApi` - Story generation
+- `inspirationApi` - Inspiration features
+- `userApi` - Authentication
+- `uploadApi` - File uploads
+
+Axios instance configured in `front/src/http/axios.config.js` with interceptors for:
+- Request/response transformation
+- Error handling
+- Authentication token injection
+
+### Proxy Configuration
+
+Frontend dev server proxies `/api` requests to backend:
+```javascript
+// vite.config.js
+proxy: {
+  '/api': {
+    target: 'http://localhost:8080',
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api/, '')
+  }
+}
+```
+
+## Database Schema
+
+### PostgreSQL Extensions Required
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;  -- pgvector for embeddings
+```
+
+### JSONB Usage
+
+Extensive use of JSONB for flexible schemas:
+- `Character.importantExperiences` - Structured life events
+- `Character.emotionalState` - Dynamic emotional tracking
+- `Character.relationships` - Relationship metadata
+- `Worldview` - All world-building data
+- `Scene` details and atmosphere
+- Generation metadata
+
+### Array Types
+
+PostgreSQL arrays for collections:
+- `Character.personalityTraits` - `varchar[]`
+- `Character.fears` - `text[]`
+- `Character.desires` - `text[]`
+- `Character.catchphrases` - `text[]`
+- `Character.behavioralHabits` - `text[]`
+
+### Vector Types
+
+Float arrays for AI embeddings:
+- `Character.personalityVector` - `float[]` (10 dimensions planned)
+- `CharacterMemory` embeddings for similarity search
+
+## Development Workflows
+
+### Adding a New Feature Module
+
+1. **Create Entity** in `src/main/java/com/linyuan/storyforge/entity/`
+   - Extend `BaseEntity` for ID, createdAt, updatedAt
+   - Use `@Type(JsonBinaryType.class)` for JSONB fields
+   - Define relationships with `@ManyToOne`, `@OneToMany`
+
+2. **Create DTO** in `src/main/java/com/linyuan/storyforge/dto/`
+   - Mirror entity structure but simplified for API
+   - Use validation annotations if needed
+
+3. **Create Repository** in `src/main/java/com/linyuan/storyforge/repository/`
+   - Extend `JpaRepository<Entity, Long>`
+   - Add custom query methods as needed
+
+4. **Create Service** in `src/main/java/com/linyuan/storyforge/service/`
+   - Implement business logic
+   - Handle DTO ↔ Entity conversion
+   - Call repositories for data access
+
+5. **Create Controller** in `src/main/java/com/linyuan/storyforge/controller/`
+   - Annotate with `@RestController` and `@RequestMapping("/api/...")`
+   - Inject service via constructor
+   - Return `ApiResponse<T>` for consistency
+
+6. **Add Frontend View** in `front/src/views/[module]/Index.vue`
+   - Create component with UI
+   - Use Ant Design Vue components
+   - Connect to Vuex store
+
+7. **Add Vuex Module** in `front/src/store/modules/[module].js`
+   - Define state, mutations, actions
+   - Call API functions from `http/api.js`
+
+8. **Add API Functions** in `front/src/http/api.js`
+   - Export module-specific API object
+   - Define CRUD methods using axios instance
+
+### Modifying Prompt Templates
+
+Templates are in `src/main/resources/application.yml` under `ai.prompt.templates`.
+
+**To add a new template**:
+1. Add template content under `ai.prompt.templates.[template-name]`
+2. Add settings under `ai.prompt.settings.[template-name]`
+3. Access in code via `PromptConfiguration` bean
+4. Consider adding enum value in `PromptTemplateType` for type safety
+
+**Template best practices**:
+- Use clear section headers (## Input, ## Requirements, ## Output Format)
+- Include variable placeholders in `{curlyBraces}`
+- Specify expected output format (JSON, plain text, etc.)
+- Set appropriate temperature (0.7 for balanced, 0.8+ for creative, 0.5- for consistent)
+- Enable `enableCoT: true` for complex reasoning tasks
+
+### Working with Character Entities
+
+Characters have rich nested structures:
+
+```java
+Character character = Character.builder()
+    .name("张三")
+    .age(25)
+    .personalityTraits(List.of("勇敢", "冲动"))
+    .importantExperiences(List.of(
+        Map.of("time", "童年", "event", "...", "impact", "...")
+    ))
+    .emotionalState(Map.of("mood", "平静", "stress", 3))
+    .personalityVector(List.of(0.7f, 0.3f, ...)) // 10 dimensions
+    .build();
+```
+
+**Important considerations**:
+- Always set `project` relationship
+- Personality vectors should be 10-dimensional (Big Five + extensions)
+- JSONB fields are flexible but should follow consistent structures
+- Use `characterSummary` for AI prompt context
+
+## Testing
+
+### Running Tests
+
+```bash
+# All tests
+mvnw.cmd test
+
+# Specific test class
+mvnw.cmd test -Dtest=StoryForgeApplicationTests
+
+# Skip tests
+mvnw.cmd clean package -DskipTests
+```
+
+### Test Strategy
+
+- **Unit Tests**: Service layer with mocked repositories
+- **Integration Tests**: Full controller → service → repository → database flow
+- Use `@SpringBootTest` for integration tests
+- Use `@WebMvcTest` for controller-only tests
+- Database tests use H2 in-memory or test PostgreSQL instance
+
+## Common Issues
+
+### Build Errors
+
+**Lombok not working**:
+- Ensure Lombok plugin is installed in IDE
+- Check annotation processor is enabled in IDE settings
+- Maven plugin configuration at pom.xml:126-136 should handle compilation
+
+**JPA/Hibernate errors**:
+- Verify `ddl-auto: validate` matches actual database schema
+- Check PostgreSQL extensions are installed (`vector`)
+- For JSONB issues, verify `hypersistence-utils-hibernate-63` dependency
+
+### Database Connection
+
+**PostgreSQL connection failed**:
+1. Verify PostgreSQL service is running
+2. Check database `storyforge` exists
+3. Verify credentials in `application-dev.yml`
+4. Ensure environment variable `DB_PASSWORD` is set
+
+**Redis connection failed**:
+- If Redis not available, comment out Spring Session dependency in `pom.xml`
+- Or disable Redis in application.yml
+
+### Frontend Issues
+
+**Vite dev server won't start**:
+- Check Node.js version (16+ recommended)
+- Run `npm install` in `front/` directory
+- Verify port 8888 is not in use
+
+**API calls failing**:
+- Ensure backend is running on port 8080
+- Check proxy configuration in `vite.config.js`
+- Verify CORS is allowed (currently handled by Spring Security config)
+
+## Design Decisions
+
+### Why JSONB?
+
+Allows rapid iteration on data models without migrations. Particularly useful for:
+- Worldview structures (laws, geography, social systems vary widely)
+- Character emotional states (dynamic, game-like attributes)
+- Generation metadata (flexible tracking of AI generation params)
+
+**Trade-off**: Less type safety, harder to query complex nested data.
+
+### Why Dual Persistence (JPA + MyBatis)?
+
+- **JPA**: Simple CRUD operations, entity lifecycle management
+- **MyBatis** (planned): Complex queries with CTEs, vector similarity searches, JSON aggregations
+
+Currently only JPA is implemented. MyBatis will be added for performance-critical queries.
+
+### Why Spring AI?
+
+- Unified abstraction over AI providers (OpenAI, Azure, etc.)
+- Built-in retry logic and error handling
+- Vector store integration (pgvector)
+- Spring Boot auto-configuration
+
+### Why Monorepo Structure?
+
+Frontend and backend in same repository for:
+- Easier coordination during rapid development
+- Shared documentation and design artifacts
+- Single source of truth for API contracts
+
+**Trade-off**: Larger repo size, need to manage two build systems.
+
+## References
+
+**Documentation** (in `doc/`):
+- `API_STRUCTURE.md` - Detailed API specifications
+- `enhanced_feature_modules.md` - Feature module design
+- `spring_ai_prompt_engineering.md` - AI integration patterns
+- `JDK21_UPGRADE_GUIDE.md` - Migration notes
+
+**Configuration Files**:
+- `pom.xml` - Maven dependencies and build config
+- `src/main/resources/application.yml` - Main app config
+- `front/package.json` - NPM dependencies
+- `front/vite.config.js` - Vite build config
+
+**Key Classes**:
+- `PromptConfiguration.java:19` - Prompt template management
+- `SecurityConfig.java` - Security configuration (dev mode: permitAll)
+- `GlobalExceptionHandler.java` - Centralized error handling
+- `ApiResponse.java` - Standardized response wrapper

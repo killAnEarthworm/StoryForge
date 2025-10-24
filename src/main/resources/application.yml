@@ -21,12 +21,18 @@ spring:
 
 # AI 配置 (环境无关)
 ai:
-  # OpenAI API 配置
+  # 百度千帆配置
+  qianfan:
+    enabled: true
+    api-key: ${QIANFAN_API_KEY:bce-v3/ALTAK-FaKaUC3SaFBIJ2YToxN5G/8bee61978c9c117ac773e5b4b88bf97c09442a1b}
+    secret-key: ${QIANFAN_SECRET_KEY:app-yV7uvMHY}
+
+  # OpenAI兼容配置（使用百度千帆V2 API）
   openai:
-    api-key: ${OPENAI_API_KEY}
-    base-url: https://api.openai.com
-    model: gpt-4-turbo-preview
+    base-url: https://qianfan.baidubce.com/v2
+    model: ERNIE-3.5-8K
     temperature: 0.7
+    max-tokens: 2000
 
   # Prompt 模板配置
   prompt:
