@@ -15,7 +15,10 @@
       "Bash(npm install vuex@next --save)",
       "Bash(npm run dev)",
       "WebFetch(domain:cloud.baidu.com)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:bcnn1ynmae5e.feishu.cn)",
+      "WebFetch(domain:accounts.feishu.cn)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

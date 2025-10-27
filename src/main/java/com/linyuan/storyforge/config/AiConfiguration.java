@@ -14,7 +14,12 @@ import org.springframework.context.annotation.Configuration;
  * 配置百度千帆大模型作为Spring AI的ChatModel实现
  *
  * 百度千帆V2 API完全兼容OpenAI标准
- * 鉴权方式：直接使用API Key，无需获取Access Token
+ *
+ * API调用方式：
+ * - URL: https://qianfan.baidubce.com/v2/chat/completions
+ * - 鉴权: Authorization: Bearer {API_KEY}
+ * - 只需要API Key，无需secret key
+ * - 请求体: { "model": "xxx", "messages": [...] }
  *
  * @author StoryForge Team
  * @since 1.0.0
@@ -25,9 +30,6 @@ public class AiConfiguration {
 
     @Value("${ai.qianfan.api-key:}")
     private String apiKey;
-
-    @Value("${ai.qianfan.app-id:}")
-    private String appId;
 
     @Value("${ai.openai.base-url:https://qianfan.baidubce.com/v2}")
     private String baseUrl;
@@ -60,9 +62,6 @@ public class AiConfiguration {
             throw new IllegalStateException("百度千帆API Key未配置");
         }
 
-        if (appId != null && !appId.isEmpty()) {
-            log.info("- App ID: {}", appId);
-        }
 
         // 直接使用API Key创建客户端
         // 百度千帆V2 API兼容OpenAI，API Key可以直接用作Bearer Token

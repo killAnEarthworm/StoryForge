@@ -22,15 +22,16 @@ spring:
 # AI 配置 (环境无关)
 ai:
   # 百度千帆配置
+  # V2 API 只需要 API Key，无需 secret-key
+  # 鉴权方式：Authorization: Bearer {API_KEY}
   qianfan:
     enabled: true
     api-key: ${QIANFAN_API_KEY:bce-v3/ALTAK-FaKaUC3SaFBIJ2YToxN5G/8bee61978c9c117ac773e5b4b88bf97c09442a1b}
-    secret-key: ${QIANFAN_SECRET_KEY:app-yV7uvMHY}
 
   # OpenAI兼容配置（使用百度千帆V2 API）
   openai:
     base-url: https://qianfan.baidubce.com/v2
-    model: ERNIE-3.5-8K
+    model: ernie-4.5-8k-preview
     temperature: 0.7
     max-tokens: 2000
 

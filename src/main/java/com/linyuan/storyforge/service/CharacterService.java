@@ -154,10 +154,6 @@ public class CharacterService {
     public CharacterDTO generateCharacterWithAI(UUID projectId, String keywords) {
         log.info("使用AI生成角色，项目: {}, 关键词: {}", projectId, keywords);
 
-        // 检查AI服务是否可用
-        if (!aiGenerationService.isAvailable()) {
-            throw new RuntimeException("AI服务不可用，请检查百度千帆API配置");
-        }
 
         // 验证项目存在
         Project project = projectRepository.findById(projectId)

@@ -66,7 +66,7 @@ npm run build
 **Windows (Command Prompt)**:
 ```cmd
 set DB_PASSWORD=123456
-set OPENAI_API_KEY=your-openai-key
+set QIANFAN_API_KEY=bce-v3/ALTAK-xxxxx/xxxxxx
 set REDIS_PASSWORD=123456
 set JWT_SECRET=your-secret-key-change-in-production
 ```
@@ -74,7 +74,7 @@ set JWT_SECRET=your-secret-key-change-in-production
 **Windows (PowerShell)**:
 ```powershell
 $env:DB_PASSWORD="123456"
-$env:OPENAI_API_KEY="your-openai-key"
+$env:QIANFAN_API_KEY="bce-v3/ALTAK-xxxxx/xxxxxx"
 $env:REDIS_PASSWORD="123456"
 $env:JWT_SECRET="your-secret-key-change-in-production"
 ```
@@ -82,10 +82,12 @@ $env:JWT_SECRET="your-secret-key-change-in-production"
 **Unix/Linux/Mac**:
 ```bash
 export DB_PASSWORD=123456
-export OPENAI_API_KEY=your-openai-key
+export QIANFAN_API_KEY=bce-v3/ALTAK-xxxxx/xxxxxx
 export REDIS_PASSWORD=123456
 export JWT_SECRET=your-secret-key-change-in-production
 ```
+
+**Note**: 百度千帆 V2 API 只需要 API Key，不需要 Secret Key。API Key 格式为 `bce-v3/ALTAK-xxxxx/xxxxxx`。
 
 ### Database Setup
 
