@@ -1,25 +1,18 @@
 package com.linyuan.storyforge.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * AI服务配置类
- * 配置百度千帆大模型作为Spring AI的ChatModel实现
  *
- * 百度千帆V2 API完全兼容OpenAI标准
+ * 注意：不再使用 Spring AI 的 OpenAI 兼容层
+ * 现在直接通过 QianfanDirectService 调用百度千帆 V2 API
  *
- * API调用方式：
- * - URL: https://qianfan.baidubce.com/v2/chat/completions
- * - 鉴权: Authorization: Bearer {API_KEY}
- * - 只需要API Key，无需secret key
- * - 请求体: { "model": "xxx", "messages": [...] }
+ * 原因：
+ * - Spring AI OpenAI 客户端的 URL 路径拼接与百度千帆不兼容
+ * - 直接调用提供更好的控制和调试能力
+ * - 避免不必要的抽象层开销
  *
  * @author StoryForge Team
  * @since 1.0.0
@@ -28,89 +21,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AiConfiguration {
 
-    @Value("${ai.qianfan.api-key:}")
-    private String apiKey;
-
-    @Value("${ai.openai.base-url:https://qianfan.baidubce.com/v2}")
-    private String baseUrl;
-
-    @Value("${ai.openai.model:ERNIE-3.5-8K}")
-    private String model;
-
-    @Value("${ai.openai.temperature:0.7}")
-    private Double temperature;
-
-    @Value("${ai.openai.max-tokens:2000}")
-    private Integer maxTokens;
-
-    /**
-     * 创建OpenAI兼容的API客户端
-     * 使用百度千帆的API Key直接认证
-     *
-     * @return OpenAiApi实例
-     */
-    @Bean
-    @ConditionalOnProperty(prefix = "ai.qianfan", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public OpenAiApi openAiApi() {
-        log.info("初始化百度千帆API客户端");
-        log.info("- Base URL: {}", baseUrl);
-        log.info("- Model: {}", model);
-
-        if (apiKey == null || apiKey.isEmpty()) {
-            log.warn("百度千帆API Key未配置，AI功能将不可用");
-            log.warn("请设置环境变量 QIANFAN_API_KEY");
-            throw new IllegalStateException("百度千帆API Key未配置");
-        }
-
-
-        // 直接使用API Key创建客户端
-        // 百度千帆V2 API兼容OpenAI，API Key可以直接用作Bearer Token
-        OpenAiApi api = new OpenAiApi(baseUrl, apiKey);
-
-        log.info("✅ 百度千帆API客户端创建成功");
-        return api;
+    public AiConfiguration() {
+        log.info("=".repeat(80));
+        log.info("AI 配置已加载");
+        log.info("使用: 百度千帆 V2 API 直接调用（QianfanDirectService）");
+        log.info("不使用: Spring AI OpenAI 兼容层");
+        log.info("=".repeat(80));
     }
 
-    /**
-     * 创建ChatModel Bean
-     * Spring AI会自动使用这个配置进行对话生成
-     *
-     * @param openAiApi OpenAI兼容的API客户端
-     * @return OpenAiChatModel实例
-     */
-    @Bean
-    @ConditionalOnProperty(prefix = "ai.qianfan", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public OpenAiChatModel openAiChatModel(OpenAiApi openAiApi) {
-        log.info("创建OpenAiChatModel Bean");
-        log.info("- 模型: {}", model);
-        log.info("- 温度: {}", temperature);
-        log.info("- 最大Token数: {}", maxTokens);
-
-        // 配置默认选项
-        OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .withModel(model)
-                .withTemperature(temperature)
-                .withMaxTokens(maxTokens)
-                .build();
-
-        OpenAiChatModel chatModel = new OpenAiChatModel(openAiApi, options);
-
-        log.info("✅ OpenAiChatModel创建成功，AI功能已就绪");
-        return chatModel;
-    }
-
-    /**
-     * 提供一个空的ChatModel作为降级方案
-     * 当千帆API未配置时使用，避免应用启动失败
-     */
-    @Bean
-    @ConditionalOnProperty(prefix = "ai.qianfan", name = "enabled", havingValue = "false")
-    public OpenAiChatModel disabledChatModel() {
-        log.warn("❌ 百度千帆API已禁用，AI功能将不可用");
-        log.warn("请设置环境变量 QIANFAN_API_KEY 并将 ai.qianfan.enabled 设置为 true");
-
-        // 返回一个不可用的配置
-        OpenAiApi dummyApi = new OpenAiApi("", "");
-        return new OpenAiChatModel(dummyApi);
-    }
+    // 所有 Spring AI OpenAI 相关的 Bean 配置已移除
+    // AI 服务现在通过 QianfanDirectService 直接调用百度千帆 API
 }

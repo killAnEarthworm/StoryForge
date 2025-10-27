@@ -2,6 +2,7 @@ package com.linyuan.storyforge.controller;
 
 import com.linyuan.storyforge.common.ApiResponse;
 import com.linyuan.storyforge.service.AiGenerationService;
+import com.linyuan.storyforge.service.QianfanDirectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class TestAiController {
 
     private final AiGenerationService aiGenerationService;
+    private final QianfanDirectService qianfanDirectService;
 
     /**
      * 测试简单对话
@@ -118,6 +120,102 @@ public class TestAiController {
             error.put("stackTrace", e.getStackTrace()[0].toString());
 
             return ApiResponse.error(500, "AI chat failed", error);
+        }
+    }
+
+    /**
+     * 使用直接调用服务测试（不经过 Spring AI）
+     * GET /api/test/ai/direct-hello
+     */
+    @GetMapping("/direct-hello")
+    public ApiResponse<Map<String, Object>> testDirectHello() {
+        log.info("GET /api/test/ai/direct-hello - Testing direct API call");
+
+        try {
+            long startTime = System.currentTimeMillis();
+            String response = qianfanDirectService.chat("你好，请用一句话介绍你自己");
+            long endTime = System.currentTimeMillis();
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("response", response);
+            result.put("responseTime", (endTime - startTime) + "ms");
+            result.put("method", "Direct HTTP Call (not via Spring AI)");
+
+            return ApiResponse.success(result, "Direct API call successful");
+
+        } catch (Exception e) {
+            log.error("Direct API call failed", e);
+
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("error", e.getMessage());
+            error.put("errorType", e.getClass().getSimpleName());
+
+            return ApiResponse.error("Direct API call failed: " + e.getMessage(), error);
+        }
+    }
+
+    /**
+     * 测试直接连接
+     * GET /api/test/ai/direct-test
+     */
+    @GetMapping("/direct-test")
+    public ApiResponse<Map<String, Object>> testDirectConnection() {
+        log.info("GET /api/test/ai/direct-test - Testing direct connection");
+
+        try {
+            Map<String, Object> result = qianfanDirectService.testConnection();
+            return ApiResponse.success(result);
+
+        } catch (Exception e) {
+            log.error("Direct connection test failed", e);
+
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("error", e.getMessage());
+
+            return ApiResponse.error("Connection test failed", error);
+        }
+    }
+
+    /**
+     * 使用直接调用服务的自定义测试
+     * POST /api/test/ai/direct-chat
+     * Body: { "message": "your message here" }
+     */
+    @PostMapping("/direct-chat")
+    public ApiResponse<Map<String, Object>> testDirectChat(@RequestBody Map<String, String> request) {
+        String message = request.get("message");
+        log.info("POST /api/test/ai/direct-chat - Message: {}", message);
+
+        if (message == null || message.trim().isEmpty()) {
+            return ApiResponse.error(400, "Message is required");
+        }
+
+        try {
+            long startTime = System.currentTimeMillis();
+            String response = qianfanDirectService.chat(message);
+            long endTime = System.currentTimeMillis();
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", message);
+            result.put("response", response);
+            result.put("responseTime", (endTime - startTime) + "ms");
+            result.put("method", "Direct HTTP Call");
+
+            return ApiResponse.success(result);
+
+        } catch (Exception e) {
+            log.error("Direct chat failed", e);
+
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", message);
+            error.put("error", e.getMessage());
+
+            return ApiResponse.error("Direct chat failed", error);
         }
     }
 }
