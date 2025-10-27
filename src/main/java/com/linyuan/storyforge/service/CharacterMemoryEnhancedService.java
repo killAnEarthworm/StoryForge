@@ -331,7 +331,7 @@ public class CharacterMemoryEnhancedService {
 
         // 按类型统计
         Map<String, Long> typeStats = memories.stream()
-                .collect(Collectors.grouping(
+                .collect(Collectors.groupingBy(
                         m -> m.getMemoryType() != null ? m.getMemoryType() : "UNKNOWN",
                         Collectors.counting()
                 ));

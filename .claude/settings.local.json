@@ -18,7 +18,10 @@
       "WebSearch",
       "WebFetch(domain:bcnn1ynmae5e.feishu.cn)",
       "WebFetch(domain:accounts.feishu.cn)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(mvnw.cmd clean compile:*)",
+      "Bash(cmd /c mvnw.cmd:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []
