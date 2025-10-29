@@ -141,11 +141,10 @@ const selectMode = (mode) => {
 
 .mode-card h3 {
   margin: 12px 0 8px 0;
-  color: #ffffff;
 }
 
 .mode-card p {
-  color: rgba(255, 255, 255, 0.6);
+  color: #4b5563;
   margin: 0;
 }
 </style>

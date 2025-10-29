@@ -5,6 +5,33 @@ import axiosInstance from './index'
  * 基于后端REST API设计
  */
 
+// ==================== 项目相关API ====================
+export const projectApi = {
+  // 获取所有项目
+  getProjects: () => axiosInstance.get('/api/projects'),
+
+  // 获取单个项目
+  getProject: (id) => axiosInstance.get(`/api/projects/${id}`),
+
+  // 创建项目
+  createProject: (data) => axiosInstance.post('/api/projects', data),
+
+  // 更新项目
+  updateProject: (id, data) => axiosInstance.put(`/api/projects/${id}`, data),
+
+  // 删除项目
+  deleteProject: (id) => axiosInstance.delete(`/api/projects/${id}`),
+
+  // 按状态获取项目
+  getProjectsByStatus: (status) => axiosInstance.get(`/api/projects/status/${status}`),
+
+  // 按类型获取项目
+  getProjectsByGenre: (genre) => axiosInstance.get(`/api/projects/genre/${genre}`),
+
+  // 搜索项目
+  searchProjects: (name) => axiosInstance.get('/api/projects/search', { params: { name } }),
+};
+
 // ==================== 角色相关API ====================
 export const characterApi = {
   // 获取角色列表
@@ -140,6 +167,7 @@ export const uploadApi = {
 
 // 导出默认API对象
 export default {
+  project: projectApi,
   character: characterApi,
   worldview: worldviewApi,
   timeline: timelineApi,

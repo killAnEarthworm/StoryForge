@@ -21,7 +21,8 @@
       "Bash(findstr:*)",
       "Bash(mvnw.cmd clean compile:*)",
       "Bash(cmd /c mvnw.cmd:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []
