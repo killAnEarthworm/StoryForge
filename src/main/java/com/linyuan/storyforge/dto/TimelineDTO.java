@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
  * Timeline DTO for API requests/responses
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TimelineDTO {
@@ -49,4 +51,18 @@ public class TimelineDTO {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    /**
+     * 获取事件简要描述（用于列表展示）
+     *
+     * @return 简要描述
+     */
+    public String getSimpleSummary() {
+        String timeDesc = relativeTime != null ? relativeTime :
+                (eventTime != null ? eventTime.toString() : "未知时间");
+        String desc = eventDescription != null && eventDescription.length() > 50
+                ? eventDescription.substring(0, 47) + "..."
+                : eventDescription;
+        return String.format("[%s] %s", timeDesc, desc);
+    }
 }

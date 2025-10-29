@@ -267,6 +267,38 @@ public class SceneGenerationController {
         return ApiResponse.success(preview, "提示词预览生成成功");
     }
 
+    /**
+     * 从已存在的场景提取时间线事件
+     * POST /api/scenes/{sceneId}/extract-timeline-event
+     *
+     * @param sceneId 场景ID
+     * @param request 包含角色ID和可选事件类型的请求
+     * @return 创建的时间线事件
+     */
+    @PostMapping("/{sceneId}/extract-timeline-event")
+    public ApiResponse<com.linyuan.storyforge.dto.TimelineDTO> extractTimelineEvent(
+            @PathVariable UUID sceneId,
+            @RequestBody Map<String, Object> request) {
+
+        log.info("POST /api/scenes/{}/extract-timeline-event - 提取时间线事件", sceneId);
+
+        try {
+            UUID characterId = UUID.fromString((String) request.get("characterId"));
+            String eventType = (String) request.get("eventType"); // 可以为null
+
+            com.linyuan.storyforge.dto.TimelineDTO timelineEvent =
+                    sceneGenerationService.extractTimelineEventFromExistingScene(sceneId, characterId, eventType);
+
+            return ApiResponse.success(timelineEvent, "成功从场景提取时间线事件");
+        } catch (IllegalArgumentException e) {
+            log.error("参数错误", e);
+            return ApiResponse.error(400, "参数错误: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("提取时间线事件失败", e);
+            return ApiResponse.error(500, "提取时间线事件失败: " + e.getMessage());
+        }
+    }
+
     // ==================== 辅助方法 ====================
 
     /**

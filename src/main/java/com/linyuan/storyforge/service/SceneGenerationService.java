@@ -33,6 +33,7 @@ public class SceneGenerationService {
     private final WorldviewService worldviewService;
     private final CharacterService characterService;
     private final CharacterMemoryEnhancedService memoryService;
+    private final TimelineService timelineService;
     private final ProjectRepository projectRepository;
     private final SceneRepository sceneRepository;
     private final ObjectMapper objectMapper;
@@ -80,6 +81,16 @@ public class SceneGenerationService {
         // 8. 保存到数据库
         SceneDTO savedScene = sceneService.createScene(sceneDTO);
         log.info("场景生成成功 - ID: {}, 名称: {}", savedScene.getId(), savedScene.getName());
+
+        // 9. 如果启用了时间线事件提取，自动创建时间线事件
+        if (Boolean.TRUE.equals(request.getExtractTimelineEvents())) {
+            try {
+                extractAndCreateTimelineEvents(savedScene, request);
+            } catch (Exception e) {
+                log.error("提取时间线事件失败（场景已保存） - 场景ID: {}", savedScene.getId(), e);
+                // 不中断流程，仅记录错误
+            }
+        }
 
         return savedScene;
     }
@@ -598,5 +609,267 @@ public class SceneGenerationService {
         public void setPreviousScene(SceneDTO previousScene) {
             this.previousScene = previousScene;
         }
+    }
+
+    // ==================== 时间线集成方法 ====================
+
+    /**
+     * 从生成的场景中提取并创建时间线事件
+     * 根据场景类型、参与角色和情节内容自动创建相关的时间线事件
+     *
+     * @param scene   生成的场景
+     * @param request 原始请求
+     */
+    private void extractAndCreateTimelineEvents(SceneDTO scene, SceneGenerationRequest request) {
+        log.info("开始从场景提取时间线事件 - 场景: {}", scene.getName());
+
+        // 如果没有参与角色，无法创建时间线事件
+        if (request.getCharacterIds() == null || request.getCharacterIds().isEmpty()) {
+            log.debug("场景无参与角色，跳过时间线事件创建");
+            return;
+        }
+
+        // 根据场景类型确定事件类型和重要度
+        String eventType = mapSceneTypeToEventType(request.getSceneType());
+        int memoryImportance = calculateMemoryImportance(request);
+
+        // 为每个参与角色创建时间线事件
+        for (UUID characterId : request.getCharacterIds()) {
+            try {
+                // 构建事件描述
+                String eventDescription = buildEventDescription(scene, request);
+
+                // 创建时间线事件
+                TimelineDTO timelineEvent = timelineService.addEventFromScene(
+                        request.getProjectId(),
+                        characterId,
+                        eventDescription,
+                        eventType,
+                        memoryImportance
+                );
+
+                log.debug("成功为角色 {} 创建时间线事件: {}", characterId, timelineEvent.getId());
+            } catch (Exception e) {
+                log.error("为角色 {} 创建时间线事件失败", characterId, e);
+                // 继续处理其他角色
+            }
+        }
+
+        log.info("场景时间线事件提取完成 - 场景: {}, 处理角色数: {}",
+                scene.getName(), request.getCharacterIds().size());
+    }
+
+    /**
+     * 将场景类型映射到时间线事件类型
+     *
+     * @param sceneType 场景类型
+     * @return 事件类型代码
+     */
+    private String mapSceneTypeToEventType(SceneType sceneType) {
+        return switch (sceneType) {
+            case ACTION -> "action";
+            case DIALOGUE -> "dialogue";
+            case EMOTIONAL -> "inner_change";
+            case CONFLICT -> "conflict";
+            case CLIMAX -> "climax";
+            case TRANSITION -> "environment_change";
+            case OPENING -> "encounter";
+            case ENDING -> "resolution";
+            case DESCRIPTION -> "environment_change";
+            case DAILY -> "action";
+        };
+    }
+
+    /**
+     * 计算记忆重要度
+     * 基于场景类型、情感强度和是否包含关键事件
+     *
+     * @param request 场景生成请求
+     * @return 记忆重要度 (1-10)
+     */
+    private int calculateMemoryImportance(SceneGenerationRequest request) {
+        int importance = 5; // 基础重要度
+
+        // 根据场景类型调整
+        importance += switch (request.getSceneType()) {
+            case CLIMAX -> 4;           // 高潮场景最重要
+            case CONFLICT -> 3;         // 冲突场景较重要
+            case EMOTIONAL, OPENING, ENDING -> 2;  // 情感、开场、结尾场景重要
+            case ACTION, DIALOGUE -> 1; // 动作和对话场景一般
+            case TRANSITION, DAILY, DESCRIPTION -> 0; // 过渡和日常场景不太重要
+        };
+
+        // 根据情感强度调整（如果有）
+        if (request.getEmotionalIntensity() != null && request.getEmotionalIntensity() >= 7) {
+            importance += 1;
+        }
+
+        // 如果有关键事件列表，提高重要度
+        if (request.getKeyEvents() != null && !request.getKeyEvents().isEmpty()) {
+            importance += 1;
+        }
+
+        // 如果有冲突点，提高重要度
+        if (request.getConflict() != null && !request.getConflict().isBlank()) {
+            importance += 1;
+        }
+
+        // 确保在1-10范围内
+        return Math.max(1, Math.min(10, importance));
+    }
+
+    /**
+     * 构建事件描述
+     * 综合场景的多个维度信息，生成简洁的事件描述
+     *
+     * @param scene   生成的场景
+     * @param request 原始请求
+     * @return 事件描述
+     */
+    private String buildEventDescription(SceneDTO scene, SceneGenerationRequest request) {
+        StringBuilder description = new StringBuilder();
+
+        // 基础信息：地点 + 场景类型
+        description.append(String.format("在%s", request.getLocation()));
+
+        // 添加时间信息（如果有）
+        if (request.getTimeOfDay() != null) {
+            description.append(String.format("的%s", request.getTimeOfDay()));
+        }
+
+        // 添加场景目的（如果有）
+        if (request.getScenePurpose() != null && !request.getScenePurpose().isBlank()) {
+            description.append("，").append(request.getScenePurpose());
+        }
+        // 否则使用场景摘要
+        else if (scene.getSceneSummary() != null && !scene.getSceneSummary().isBlank()) {
+            description.append("，").append(scene.getSceneSummary());
+        }
+        // 否则使用场景类型的描述
+        else {
+            description.append("，发生了").append(request.getSceneType().getDisplayName()).append("场景");
+        }
+
+        // 添加关键事件（如果有）
+        if (request.getKeyEvents() != null && !request.getKeyEvents().isEmpty()) {
+            description.append("。关键事件：");
+            description.append(String.join("、", request.getKeyEvents()));
+        }
+
+        // 限制长度（Timeline eventDescription字段通常不需要太长）
+        String result = description.toString();
+        if (result.length() > 200) {
+            result = result.substring(0, 197) + "...";
+        }
+
+        return result;
+    }
+
+    /**
+     * 为已存在的场景手动提取时间线事件
+     * 用于补充或重新生成时间线事件
+     *
+     * @param sceneId     场景ID
+     * @param characterId 角色ID
+     * @param eventType   事件类型（可选，如果为null则自动推断）
+     * @return 创建的时间线事件
+     */
+    @Transactional
+    public TimelineDTO extractTimelineEventFromExistingScene(UUID sceneId, UUID characterId, String eventType) {
+        log.info("为现有场景提取时间线事件 - 场景ID: {}, 角色ID: {}", sceneId, characterId);
+
+        // 1. 获取场景
+        SceneDTO scene = sceneService.getSceneById(sceneId);
+
+        // 2. 确定事件类型（如果未提供）
+        if (eventType == null || eventType.isBlank()) {
+            // 根据场景摘要或氛围推断事件类型
+            eventType = inferEventTypeFromScene(scene);
+        }
+
+        // 3. 构建简化的事件描述
+        String eventDescription = String.format("场景：%s。%s",
+                scene.getName(),
+                scene.getSceneSummary() != null ? scene.getSceneSummary() : scene.getAtmosphere());
+
+        // 4. 确定记忆重要度（基于场景的情绪关键词）
+        int memoryImportance = inferMemoryImportanceFromScene(scene);
+
+        // 5. 创建时间线事件
+        TimelineDTO timelineEvent = timelineService.addEventFromScene(
+                scene.getProjectId(),
+                characterId,
+                eventDescription,
+                eventType,
+                memoryImportance
+        );
+
+        log.info("成功为现有场景创建时间线事件 - 事件ID: {}", timelineEvent.getId());
+        return timelineEvent;
+    }
+
+    /**
+     * 从场景推断事件类型
+     *
+     * @param scene 场景
+     * @return 事件类型代码
+     */
+    private String inferEventTypeFromScene(SceneDTO scene) {
+        // 根据场景的情绪关键词推断
+        if (scene.getMoodKeywords() != null && !scene.getMoodKeywords().isEmpty()) {
+            String firstKeyword = scene.getMoodKeywords().get(0).toLowerCase();
+
+            if (firstKeyword.contains("冲突") || firstKeyword.contains("对抗") || firstKeyword.contains("战斗")) {
+                return "conflict";
+            } else if (firstKeyword.contains("对话") || firstKeyword.contains("交流") || firstKeyword.contains("沟通")) {
+                return "dialogue";
+            } else if (firstKeyword.contains("情感") || firstKeyword.contains("悲伤") || firstKeyword.contains("喜悦")) {
+                return "inner_change";
+            } else if (firstKeyword.contains("发现") || firstKeyword.contains("揭示") || firstKeyword.contains("真相")) {
+                return "discovery";
+            } else if (firstKeyword.contains("决定") || firstKeyword.contains("选择") || firstKeyword.contains("抉择")) {
+                return "decision";
+            }
+        }
+
+        // 默认返回行动类型
+        return "action";
+    }
+
+    /**
+     * 从场景推断记忆重要度
+     *
+     * @param scene 场景
+     * @return 记忆重要度 (1-10)
+     */
+    private int inferMemoryImportanceFromScene(SceneDTO scene) {
+        int importance = 5; // 基础重要度
+
+        // 根据情绪关键词判断
+        if (scene.getMoodKeywords() != null && !scene.getMoodKeywords().isEmpty()) {
+            for (String keyword : scene.getMoodKeywords()) {
+                String lowerKeyword = keyword.toLowerCase();
+                if (lowerKeyword.contains("高潮") || lowerKeyword.contains("转折")) {
+                    importance += 3;
+                    break;
+                } else if (lowerKeyword.contains("冲突") || lowerKeyword.contains("危机") || lowerKeyword.contains("关键")) {
+                    importance += 2;
+                    break;
+                } else if (lowerKeyword.contains("重要") || lowerKeyword.contains("紧张") || lowerKeyword.contains("激动")) {
+                    importance += 1;
+                    break;
+                }
+            }
+        }
+
+        // 如果氛围强烈，提高重要度
+        if (scene.getAtmosphere() != null) {
+            String atmosphere = scene.getAtmosphere().toLowerCase();
+            if (atmosphere.contains("强烈") || atmosphere.contains("极度") || atmosphere.contains("剧烈")) {
+                importance += 1;
+            }
+        }
+
+        return Math.max(1, Math.min(10, importance));
     }
 }

@@ -184,6 +184,110 @@ public class TimelineService {
         return timelineRepository.countByCharacterId(characterId);
     }
 
+    /**
+     * Get complete project timeline (all events from all characters sorted by time)
+     *
+     * @param projectId 项目ID
+     * @return 完整的项目时间线事件列表
+     */
+    @Transactional(readOnly = true)
+    public List<TimelineDTO> getCompleteProjectTimeline(UUID projectId) {
+        log.info("获取项目完整时间线 - 项目ID: {}", projectId);
+
+        if (!projectRepository.existsById(projectId)) {
+            throw new ResourceNotFoundException("Project", "id", projectId);
+        }
+
+        return timelineRepository.findByProjectIdOrderByEventTimeAsc(projectId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get key events (high importance events)
+     *
+     * @param projectId 项目ID
+     * @param threshold 重要度阈值（默认7）
+     * @return 关键事件列表
+     */
+    @Transactional(readOnly = true)
+    public List<TimelineDTO> getKeyEvents(UUID projectId, Integer threshold) {
+        log.info("获取关键事件 - 项目ID: {}, 阈值: {}", projectId, threshold);
+
+        if (threshold == null) {
+            threshold = 7;
+        }
+
+        Integer finalThreshold = threshold;
+        return timelineRepository.findByProjectIdOrderByEventTimeAsc(projectId).stream()
+                .filter(t -> t.getMemoryImportance() != null && t.getMemoryImportance() >= finalThreshold)
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get events by type for a project
+     *
+     * @param projectId 项目ID
+     * @param eventType 事件类型
+     * @return 指定类型的事件列表
+     */
+    @Transactional(readOnly = true)
+    public List<TimelineDTO> getEventsByType(UUID projectId, String eventType) {
+        log.info("获取特定类型事件 - 项目ID: {}, 类型: {}", projectId, eventType);
+
+        return timelineRepository.findByProjectIdOrderByEventTimeAsc(projectId).stream()
+                .filter(t -> eventType.equalsIgnoreCase(t.getEventType()))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Batch create timeline events
+     *
+     * @param timelineDTOs 时间线事件列表
+     * @return 创建的事件列表
+     */
+    @Transactional
+    public List<TimelineDTO> batchCreateTimelines(List<TimelineDTO> timelineDTOs) {
+        log.info("批量创建时间线事件 - 数量: {}", timelineDTOs.size());
+
+        return timelineDTOs.stream()
+                .map(this::createTimeline)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Add event from scene description
+     * 从场景描述中提取并添加事件
+     *
+     * @param projectId          项目ID
+     * @param characterId        主要角色ID
+     * @param sceneDescription   场景描述
+     * @param eventType          事件类型
+     * @param memoryImportance   记忆重要度
+     * @return 创建的时间线事件
+     */
+    @Transactional
+    public TimelineDTO addEventFromScene(UUID projectId,
+                                         UUID characterId,
+                                         String sceneDescription,
+                                         String eventType,
+                                         Integer memoryImportance) {
+        log.info("从场景添加事件 - 角色ID: {}, 事件类型: {}", characterId, eventType);
+
+        TimelineDTO timelineDTO = TimelineDTO.builder()
+                .projectId(projectId)
+                .characterId(characterId)
+                .eventType(eventType)
+                .eventDescription(sceneDescription)
+                .eventTime(LocalDateTime.now())
+                .memoryImportance(memoryImportance != null ? memoryImportance : 5)
+                .build();
+
+        return createTimeline(timelineDTO);
+    }
+
     // Conversion methods
     private TimelineDTO convertToDTO(Timeline timeline) {
         TimelineDTO dto = new TimelineDTO();
