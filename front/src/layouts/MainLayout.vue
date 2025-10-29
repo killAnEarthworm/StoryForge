@@ -84,7 +84,7 @@
 
         <!-- 项目列表 -->
         <div class="recent-projects" v-if="!collapsed">
-          <a-divider style="margin: 16px 0; border-color: #f0f0f0" />
+          <a-divider style="margin: 8px 0; border-color: #f0f0f0" />
           <div class="projects-header">
             <div class="recent-projects-title">项目</div>
             <a-button
@@ -537,18 +537,40 @@ const formatTime = (dateString) => {
   margin-right: 10px;
 }
 
-/* 最近项目样式 */
-.recent-projects {
-  padding: 0 16px;
+/* 项目头部样式 */
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* 添加这行确保垂直居中 */
+  margin-bottom: 8px;
+  padding: 0 8px;
 }
 
 .recent-projects-title {
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.45);
   font-weight: 600;
-  margin-bottom: 12px;
-  padding: 0 8px;
+  /* 移除原来的 margin-bottom，改用 padding 控制间距 */
+  padding: 8px 0;
+  margin: 0; /* 确保没有外边距影响对齐 */
+}
+
+.add-project-btn {
+  color: #1890ff;
+  padding: 0;
+  height: auto;
+  /* 移除原来的 margin-top，改用 align-items: center 控制垂直对齐 */
+  margin: 0;
+}
+
+.add-project-btn:hover {
+  color: #40a9ff;
+}
+
+/* 最近项目容器样式 */
+.recent-projects {
+  padding: 0 16px;
 }
 
 .project-item {
@@ -599,17 +621,6 @@ const formatTime = (dateString) => {
   min-height: 100%;
 }
 
-/* 页面切换动画 */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
 /* 滚动条样式 */
 .sidebar::-webkit-scrollbar,
 .main-content::-webkit-scrollbar {
@@ -627,24 +638,6 @@ const formatTime = (dateString) => {
   background: #8c8c8c;
 }
 
-/* 项目列表增强样式 */
-.projects-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  padding: 0 8px;
-}
-
-.add-project-btn {
-  color: #1890ff;
-  padding: 0;
-  height: auto;
-}
-
-.add-project-btn:hover {
-  color: #40a9ff;
-}
 
 .project-item {
   display: flex;

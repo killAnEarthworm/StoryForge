@@ -93,15 +93,15 @@
                 <a-input-number v-model:value="currentCharacter.age" placeholder="输入角色年龄" style="width: 100%" />
               </a-form-item>
             </a-col>
-<!--            <a-col :span="12">-->
-<!--              <a-form-item label="性别">-->
-<!--                <a-select v-model:value="currentCharacter.gender" placeholder="请选择">-->
-<!--                  <a-select-option value="male">男</a-select-option>-->
-<!--                  <a-select-option value="female">女</a-select-option>-->
-<!--                  <a-select-option value="other">其他</a-select-option>-->
-<!--                </a-select>-->
-<!--              </a-form-item>-->
-<!--            </a-col>-->
+            <a-col :span="12">
+              <a-form-item label="性别">
+                <a-select v-model:value="currentCharacter.gender" placeholder="请选择">
+                  <a-select-option value="male">男</a-select-option>
+                  <a-select-option value="female">女</a-select-option>
+                  <a-select-option value="other">其他</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
             <a-col :span="12">
               <a-form-item label="职业">
                 <a-input v-model:value="currentCharacter.occupation" placeholder="输入角色职业" />
@@ -152,7 +152,7 @@
         <a-card title="深度设定层" :bordered="false">
           <a-row :gutter="16">
             <a-col :span="24">
-              <a-form-item label="背景故事 (backgroundStory)">
+              <a-form-item label="背景故事">
                 <a-textarea
                     v-model:value="currentCharacter.backgroundStory"
                     :rows="5"
@@ -161,7 +161,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="童年经历 (childhoodExperience)">
+              <a-form-item label="童年经历">
                 <a-textarea
                     v-model:value="currentCharacter.childhoodExperience"
                     :rows="3"
@@ -170,7 +170,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="价值观信念 (valuesBeliefs)">
+              <a-form-item label="价值观信念">
                 <a-textarea
                     v-model:value="currentCharacter.valuesBeliefs"
                     :rows="3"
@@ -179,7 +179,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="恐惧 (fears)">
+              <a-form-item label="恐惧">
                 <div class="traits-input-group">
                   <a-space wrap>
                     <a-tag
@@ -205,7 +205,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="欲望 (desires)">
+              <a-form-item label="欲望">
                 <div class="traits-input-group">
                   <a-space wrap>
                     <a-tag
@@ -231,7 +231,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="目标 (goals)">
+              <a-form-item label="目标">
                 <div class="traits-input-group">
                   <a-space wrap>
                     <a-tag
@@ -262,7 +262,7 @@
         <a-card title="行为特征层" :bordered="false">
           <a-row :gutter="16">
             <a-col :span="24">
-              <a-form-item label="说话方式 (speechPattern)">
+              <a-form-item label="说话方式">
                 <a-textarea
                     v-model:value="currentCharacter.speechPattern"
                     :rows="3"
@@ -271,7 +271,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="行为习惯 (behavioralHabits)">
+              <a-form-item label="行为习惯">
                 <div class="traits-input-group">
                   <a-space wrap>
                     <a-tag
@@ -296,7 +296,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label="口癖 (catchphrases)">
+              <a-form-item label="口癖">
                 <div class="traits-input-group">
                   <a-space wrap>
                     <a-tag
