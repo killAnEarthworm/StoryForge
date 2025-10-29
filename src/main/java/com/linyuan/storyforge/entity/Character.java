@@ -36,6 +36,8 @@ public class Character extends BaseEntity {
 
     private Integer age;
 
+    private String gender;
+
     @Column(columnDefinition = "TEXT")
     private String appearance;
 

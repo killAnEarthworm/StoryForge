@@ -95,10 +95,10 @@
             </a-col>
             <a-col :span="12">
               <a-form-item label="性别">
-                <a-select v-model:value="currentCharacter.gender" placeholder="请选择">
-                  <a-select-option value="male">男</a-select-option>
-                  <a-select-option value="female">女</a-select-option>
-                  <a-select-option value="other">其他</a-select-option>
+                <a-select v-model="currentCharacter.gender" placeholder="请选择">
+                  <a-select-option value="男">男</a-select-option>
+                  <a-select-option value="女">女</a-select-option>
+                  <a-select-option value="其他">其他</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -438,6 +438,7 @@ const addNewCharacter = () => {
   const newChar = {
     name: '',
     age: null,
+    gender:'',
     occupation: '',
     appearance: '',
     personalityTraits: [],

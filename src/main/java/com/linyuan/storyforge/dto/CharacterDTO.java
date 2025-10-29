@@ -33,6 +33,8 @@ public class CharacterDTO {
 
     private Integer age;
 
+    private String gender;
+
     private String appearance;
 
     @Size(max = 100, message = "Occupation must not exceed 100 characters")

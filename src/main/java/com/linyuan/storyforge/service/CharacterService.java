@@ -102,6 +102,7 @@ public class CharacterService {
         // Update basic fields
         existingCharacter.setName(characterDTO.getName());
         existingCharacter.setAge(characterDTO.getAge());
+        existingCharacter.setGender(characterDTO.getGender());
         existingCharacter.setAppearance(characterDTO.getAppearance());
         existingCharacter.setOccupation(characterDTO.getOccupation());
         existingCharacter.setPersonalityTraits(characterDTO.getPersonalityTraits());
