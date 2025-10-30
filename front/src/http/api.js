@@ -35,7 +35,7 @@ export const projectApi = {
 // ==================== 角色相关API ====================
 export const characterApi = {
   // 获取角色列表
-  getCharacters: (params) => axiosInstance.get('/api/characters', { params }),
+  getCharacters: (projectId) => axiosInstance.get(`/api/characters/project/${projectId}`),
 
   // 获取单个角色
   getCharacter: (id) => axiosInstance.get(`/api/characters/${id}`),

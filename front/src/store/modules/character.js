@@ -41,7 +41,7 @@ export default {
       
       try {
         commit('SET_LOADING', true);
-        const response = await characterApi.getCharacters({ projectId });
+        const response = await characterApi.getCharacters(projectId);
         // 后端返回格式：{ code: 200, message: "success", data: [...] }
         commit('SET_CHARACTERS', response.data.data || []);
       } catch (error) {

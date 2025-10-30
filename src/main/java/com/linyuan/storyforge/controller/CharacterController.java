@@ -98,7 +98,7 @@ public class CharacterController {
             @RequestParam String keywords) {
         log.info("POST /api/characters/generate - Generating character with AI for project: {}, keywords: {}",
                 projectId, keywords);
-
+        // todo 基于已经填入的角色信息，自动补全其他信息
         try {
             CharacterDTO generatedCharacter = characterService.generateCharacterWithAI(projectId, keywords);
             return ApiResponse.success(generatedCharacter, "Character generated successfully using AI");
