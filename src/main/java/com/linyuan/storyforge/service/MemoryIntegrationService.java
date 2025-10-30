@@ -3,6 +3,7 @@ package com.linyuan.storyforge.service;
 import com.linyuan.storyforge.dto.GenerationContext;
 import com.linyuan.storyforge.dto.GenerationRequest;
 import com.linyuan.storyforge.entity.*;
+import com.linyuan.storyforge.entity.Character;
 import com.linyuan.storyforge.exception.ResourceNotFoundException;
 import com.linyuan.storyforge.repository.*;
 import lombok.RequiredArgsConstructor;

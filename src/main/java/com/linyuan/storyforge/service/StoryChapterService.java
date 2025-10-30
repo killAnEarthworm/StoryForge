@@ -145,7 +145,7 @@ public class StoryChapterService {
     }
 
     // Conversion methods
-    private StoryChapterDTO convertToDTO(StoryChapter chapter) {
+    StoryChapterDTO convertToDTO(StoryChapter chapter) {
         return StoryChapterDTO.builder()
                 .id(chapter.getId())
                 .projectId(chapter.getProject().getId())

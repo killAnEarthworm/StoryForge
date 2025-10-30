@@ -54,4 +54,10 @@ public class StoryChapterDTO {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    /**
+     * 生成结果信息（仅在生成时返回，不存储到数据库）
+     * Lombok @Data 注解会自动生成 getter/setter
+     */
+    private GenerationResult generationResult;
 }

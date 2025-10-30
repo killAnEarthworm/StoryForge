@@ -1,4 +1,4 @@
-# Phase 3: 记忆和一致性系统 - 使用指南
+# 记忆和一致性系统 - 使用指南
 
 ## 📋 概述
 
@@ -476,9 +476,9 @@ GET /api/character-memories/important/{characterId}?limit=10
 ## 📚 相关文档
 
 - [API_STRUCTURE.md](./API_STRUCTURE.md) - API详细说明
-- [enhanced_feature_modules.md](./enhanced_feature_modules.md) - 功能模块设计
-- [spring_ai_prompt_engineering.md](./spring_ai_prompt_engineering.md) - AI集成指南
-- [CLAUDE.md](../CLAUDE.md) - 项目总体说明
+- [enhanced_feature_modules.md](../enhanced_feature_modules.md) - 功能模块设计
+- [spring_ai_prompt_engineering.md](../spring_ai_prompt_engineering.md) - AI集成指南
+- [CLAUDE.md](../../CLAUDE.md) - 项目总体说明
 
 ---
 
