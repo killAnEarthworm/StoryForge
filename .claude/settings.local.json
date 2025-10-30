@@ -22,7 +22,8 @@
       "Bash(mvnw.cmd clean compile:*)",
       "Bash(cmd /c mvnw.cmd:*)",
       "Bash(powershell:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(npm run dev --help:*)"
     ],
     "deny": [],
     "ask": []
